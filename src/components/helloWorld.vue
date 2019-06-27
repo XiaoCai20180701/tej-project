@@ -5,20 +5,20 @@
 </template>
 
 <script>
-export default {
-  name: 'HelloWorld',
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
+  export default {
+    name: 'helloWorld',
+    data () {
+      return {
+        msg: 'Welcome to Your Vue.js App'
+      }
     }
   }
-}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.txt {
-  margin-top: 50px;
-  font-size: 46px;
-}
+  .txt {
+    margin-top: 50px;
+    font-size: 46px;
+  }
 </style>
