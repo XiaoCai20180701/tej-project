@@ -6,7 +6,12 @@
 
 <script>
 export default {
-  name: 'Unshipped'
+  name: 'Unshipped',
+  data(){
+    return {
+
+    }
+  }
 }
 </script>
 
