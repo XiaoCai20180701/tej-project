@@ -6,7 +6,12 @@
 
 <script>
   export default {
-    name: 'AllOrder'
+    name: 'AllOrder',
+    data(){
+      return {
+
+      }
+    }
   }
 </script>
 
