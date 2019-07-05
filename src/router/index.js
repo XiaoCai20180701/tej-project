@@ -1,52 +1,65 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-const login = r => require.ensure([], () => r(require('@/pages/login')), 'login')
-const layout = r => require.ensure([], () => r(require('@/components/layout/layout')), 'layout')
-const hello = r => require.ensure([], () => r(require('@/components/helloWorld')), 'helloWorld')
-const index = r => require.ensure([], () => r(require('@/pages/index')), 'index')
-
 Vue.use(Router)
 
-const routes = [
+const commonRoutes = [
   {
-    path: '/',
-    component: login
+    path: '/login',
+    name: 'login',
+    component: () => import('../components/Login.vue')
   },
-  {
-    path: '/manage',
-    component: layout,
-    name: '',
-    children: [
-      {
-        path: '/hello',
-        component: hello,
-        meta: ['订单管理','hello']
-      },
-      {
-        path: '/index',
-        component: index,
-        meta: ['订单管理','index']
-      }
-    ]
-  },
+  {path: '/', redirect: '/home'},
 ]
 
-// router.beforeEach((to, from, next) => {
-//   if (to.path === '/login') {
-//     next()
-//   } else {
-//     let token = localStorage.getItem('token');
-//
-//     if (token === 'null' || token === '') {
-//       next('/login')
-//     } else {
-//       next()
-//     }
-//   }
-// })
+// 需要通过后台数据来生成的组件(与前端路由映射)
+export const asyncRoutes = {
+  'CommodityManagement': {
+    path: 'CommodityManagement',
+    name: 'CommodityManagement',
+    component: () => import('@/pages/CommodityManagement.vue')
+  },
+  'NonPayment': {
+    path: 'NonPayment',
+    name: 'NonPayment',
+    component: () => import('@/pages/OrderManagement/NonPayment.vue')
+  },
+  'Unshipped': {
+    path: 'Unshipped',
+    name: 'Unshipped',
+    component: () => import('@/pages/OrderManagement/Unshipped.vue')
+  },
+  'Shipped': {
+    path: 'Shipped',
+    name: 'Shipped',
+    component: () => import('@/pages/OrderManagement/Shipped.vue')
+  },
+  'AfterProcessing': {
+    path: 'AfterProcessing',
+    name: 'AfterProcessing',
+    component: () => import('@/pages/OrderManagement/AfterProcessing.vue')
+  },
+  'AllOrder': {
+  path: 'AllOrder',
+    name: 'AllOrder',
+    component: () => import('@/pages/OrderManagement/AllOrder.vue')
+},
+  'password': {
+    path: 'password',
+    name: 'password',
+    component: () => import('../pages/Password.vue')
+  }
+}
 
-export default new Router({
-  routes,
-  strict: process.env.NODE_ENV !== 'production',
+const createRouter = () => new Router({
+  routes: commonRoutes
 })
+
+const router = createRouter()
+
+export function resetRouter() {
+  const newRouter = createRouter()
+  router.matcher = newRouter.matcher
+}
+
+export default router
