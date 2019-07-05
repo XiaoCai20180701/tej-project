@@ -6,7 +6,12 @@
 
 <script>
 export default {
-  name: 'NonPayment'
+  name: 'NonPayment',
+  data(){
+    return {
+
+    }
+  }
 }
 </script>
 
