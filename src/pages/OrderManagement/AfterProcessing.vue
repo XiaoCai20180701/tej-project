@@ -6,7 +6,12 @@
 
 <script>
   export default {
-    name: 'AfterProcessing'
+    name: 'AfterProcessing',
+    data(){
+      return {
+
+      }
+    }
   }
 </script>
 
