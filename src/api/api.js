@@ -1,10 +1,14 @@
 /**
  * api接口统一管理
  */
-import { get, post } from './http'
+import {get,post} from '@/utils/http'
 
 /**
- * 登录
+ * 登录接口
  */
-export const getLogin = (username,password) => post('/getLogin', {username,password})
+export const login = (username,password) => post('/login',{username,password})
 
+/**
+ * 获取页面菜单权限接口
+ */
+export const getRes = (role) => get('/loginResource/menu',role)
