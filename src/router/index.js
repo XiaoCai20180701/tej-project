@@ -14,10 +14,20 @@ const commonRoutes = [
 
 // 需要通过后台数据来生成的组件(与前端路由映射)
 export const asyncRoutes = {
-  'CommodityManagement': {
-    path: 'CommodityManagement',
-    name: 'CommodityManagement',
-    component: () => import('@/pages/CommodityManagement.vue')
+  'ProductManagementPage': {
+    path: 'ProductManagementPage',
+    name: 'ProductManagementPage',
+    component: () => import('@/pages/ProductManagement/ProductManagementPage.vue')
+  },
+  'AddClassificationPage': {
+    path: 'AddClassificationPage',
+    name: 'AddClassificationPage',
+    component: () => import('@/pages/ProductManagement/AddClassificationPage.vue')
+  },
+  'AddProductPage': {
+    path: 'AddProductPage',
+    name: 'AddProductPage',
+    component: () => import('@/pages/ProductManagement/AddProductPage.vue')
   },
   'NonPayment': {
     path: 'NonPayment',
