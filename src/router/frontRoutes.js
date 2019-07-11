@@ -1,11 +1,27 @@
 const frontRoutes = [
   {
-    name: 'CommodityManagement', // 要跳转的路由名称 不是路径
+    name: 'ProductManagementPage', // 要跳转的路由名称 不是路径
     // size: 18, // icon大小
     type: 'md-home', // icon类型
     text: '商品管理', // 文本内容,
     meta: {
       requireAuth: true
+    }
+  },
+  {
+    name: 'AddClassificationPage',
+    type: 'md-home', // icon类型
+    text: '新增商品分类', // 文本内容,
+    meta: {
+      requireAuth: false
+    }
+  },
+  {
+    name: 'AddProductPage',
+    type: 'md-home', // icon类型
+    text: '新增商品', // 文本内容,
+    meta: {
+      requireAuth: false
     }
   },
   {
