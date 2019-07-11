@@ -9,7 +9,7 @@ const commonRoutes = [
     name: 'login',
     component: () => import('../components/Login.vue')
   },
-  {path: '/', redirect: '/login'},
+  {path: '/', redirect: '/ProductManagementPage'},
 ]
 
 // 需要通过后台数据来生成的组件(与前端路由映射)
