@@ -371,7 +371,7 @@ aside {
     margin-right: 10px;
 }
 .aside-big {
-    min-width: 220px;
+    min-width: 256px;
 }
 /* 主体页面 */
 .sec-right {
@@ -477,12 +477,13 @@ a {
     height: 100%;
     width: 100%;
     background: #eee;
-    padding: 10px 18px;
+    padding: 18px;
 }
 .view-c {
     position: relative;
-    background: #fff;
-    padding: 15px;
+    /*background: #fff;*/
+    /*padding: 15px;*/
+    min-height: 85vh;
 }
 .pointer {
     cursor: pointer;
