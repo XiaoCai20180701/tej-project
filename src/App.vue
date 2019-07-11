@@ -17,4 +17,25 @@
     -moz-osx-font-smoothing: grayscale;
     color: #2c3e50;
   }
+  .tej-product-box {
+    margin-bottom: 20px;
+  }
+  .tej-product-box p {
+    margin-bottom: 5px;
+  }
+  .tej-delete-txt {
+    float: right;
+    margin-left: 20px;
+    font-weight: normal;
+    color: #ef2a2a;
+    opacity: 0.65;
+  }
+  .tej-add-txt,.tej-edit-txt {
+    float: right;
+    font-weight: normal;
+    color: #1890ff;
+  }
+  .tej-delete-txt:hover,.tej-add-txt:hover,.tej-edit-txt:hover {
+    cursor: pointer;
+  }
 </style>
