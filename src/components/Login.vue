@@ -68,12 +68,11 @@
           localStorage.setItem('token', data.token)
           this.$store.dispatch('getRole')
           this.$store.dispatch('getAnyscMenu',this.$store.state.role)
-          this.$router.push({path: this.redirect || '/CommodityManagement'})
+          this.$router.push({path: this.redirect || '/ProductManagementPage'})
           this.$Message.success("登录成功")
         }).catch(err => {
           this.$Message.info("登录失败", err)
         })
-
       }
     }
   }
