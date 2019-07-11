@@ -26,7 +26,7 @@
   export default {
     name: 'Classification',
     props: {
-      list: Array,
+      list: Array
     },
     data() {
       return {
