@@ -34,15 +34,15 @@ axios.interceptors.request.use(
  */
 axios.interceptors.response.use(
   response => {
-    if (response.status === 200) {
+    if (response.code === 200) {
       return Promise.resolve(response)
     }else {
       return Promise.reject(response)
     }
   },
   err => {
-    if (err.response.status) {
-      switch (err.response.status) {
+    if (err.response.code) {
+      switch (err.response.code) {
         case 401:
           localStorage.removeItem('token')
           this.$router.push('/login')
@@ -92,6 +92,40 @@ export function get (url, params) {
 export function post (url, params) {
   return new Promise((resolve, reject) => {
     axios.post(url, QS.stringify(params))
+      .then(res => {
+        resolve(res.data)
+      })
+      .catch(err => {
+        reject(err.data)
+      })
+  })
+}
+
+/**
+ * put方法，对应put请求
+ * @param {String} url [请求的url地址]
+ * @param {Object} params [请求时携带的参数]
+ */
+export function put (url, params) {
+  return new Promise((resolve, reject) => {
+    axios.put(url, QS.stringify(params))
+      .then(res => {
+        resolve(res.data)
+      })
+      .catch(err => {
+        reject(err.data)
+      })
+  })
+}
+
+/**
+ * delete方法，对应delete请求
+ * @param {String} url [请求的url地址]
+ * @param {Object} params [请求时携带的参数]
+ */
+export function deleteAxios (url, params) {
+  return new Promise((resolve, reject) => {
+    axios.delete(url, QS.stringify(params))
       .then(res => {
         resolve(res.data)
       })
