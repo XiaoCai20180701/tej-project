@@ -34,15 +34,15 @@ axios.interceptors.request.use(
  */
 axios.interceptors.response.use(
   response => {
-    if (response.code === 200) {
+    if (response.status === 200) {
       return Promise.resolve(response)
     }else {
       return Promise.reject(response)
     }
   },
   err => {
-    if (err.response.code) {
-      switch (err.response.code) {
+    if (err.response.status) {
+      switch (err.response.data.code) {
         case 401:
           localStorage.removeItem('token')
           this.$router.push('/login')
