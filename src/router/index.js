@@ -54,6 +54,56 @@ export const asyncRoutes = {
     name: 'AllOrder',
     component: () => import('@/pages/OrderManagement/AllOrder.vue')
 },
+  'VendorManagementPage': {
+    path: 'VendorManagementPage',
+    name: 'VendorManagementPage',
+    component: () => import('@/pages/VendorManagement/VendorManagementPage.vue')
+  },
+  'UnCheckedVendorPage': {
+    path: 'UnCheckedVendorPage',
+    name: 'UnCheckedVendorPage',
+    component: () => import('@/pages/VendorManagement/UnCheckedVendorPage.vue')
+  },
+  'NotPassVendorPage': {
+    path: 'NotPassVendorPage',
+    name: 'NotPassVendorPage',
+    component: () => import('@/pages/VendorManagement/NotPassVendorPage.vue')
+  },
+  'CheckedVendorPage': {
+    path: 'CheckedVendorPage',
+    name: 'CheckedVendorPage',
+    component: () => import('@/pages/VendorManagement/CheckedVendorPage.vue')
+  },
+  'DataManagementPage': {
+    path: 'DataManagementPage',
+    name: 'DataManagementPage',
+    component: () => import('@/pages/DataManagement/DataManagementPage.vue')
+  },
+  'AccountManagementPage': {
+    path: 'AccountManagementPage',
+    name: 'AccountManagementPage',
+    component: () => import('@/pages/AccountManagement/AccountManagementPage.vue')
+  },
+  'RetailManagementPage': {
+    path: 'RetailManagementPage',
+    name: 'RetailManagementPage',
+    component: () => import('@/pages/RetailManagement/RetailManagementPage.vue')
+  },
+  'CheckedPage': {
+    path: 'CheckedPage',
+    name: 'CheckedPage',
+    component: () => import('@/pages/RetailManagement/CheckedPage.vue')
+  },
+  'UnCheckedPage': {
+    path: 'UnCheckedPage',
+    name: 'UnCheckedPage',
+    component: () => import('@/pages/RetailManagement/UnCheckedPage.vue')
+  },
+  'NotPassPage': {
+    path: 'NotPassPage',
+    name: 'NotPassPage',
+    component: () => import('@/pages/RetailManagement/NotPassPage.vue')
+  },
   'password': {
     path: 'password',
     name: 'password',
