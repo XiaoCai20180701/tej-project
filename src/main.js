@@ -10,6 +10,7 @@ import store from './store'
 import axios from 'axios'
 import './utils/permission'
 import md5 from 'js-md5'
+import filter from '@/utils/filter'
 
 Vue.config.productionTip = false
 Vue.use(VueRouter)
@@ -19,6 +20,15 @@ Vue.use(iview)
 Vue.prototype.$axios = axios
 Vue.prototype.$md5 = md5
 Vue.prototype.$Message = Message
+
+//注册过滤器
+for (const key in filter) {
+  if (filter.hasOwnProperty(key)) {
+    const element = filter[key]
+    Vue.filter(key, element)
+  }
+}
+
 
 new Vue({
   router,
