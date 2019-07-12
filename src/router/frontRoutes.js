@@ -25,6 +25,62 @@ const frontRoutes = [
     }
   },
   {
+    text: '零售商管理',
+    type: 'ios-paper',
+    meta: {
+      requireAuth: false
+    },
+    children: [{
+      type: 'ios-grid',
+      name: 'CheckedPage',
+      text: '已审核'
+    },
+      {
+        type: 'ios-grid',
+        name: 'UnCheckedPage',
+        text: '未审核'
+      },
+      {
+        type: 'ios-grid',
+        name: 'NotPassPage',
+        text: '未通过'
+      },
+      {
+        type: 'ios-grid',
+        name: 'RetailManagementPage',
+        text: '全部零售商'
+      }
+    ]
+  },
+  {
+    text: '厂商管理',
+    type: 'ios-paper',
+    meta: {
+      requireAuth: false
+    },
+    children: [{
+      type: 'ios-grid',
+      name: 'CheckedVendorPage',
+      text: '已审核'
+    },
+      {
+        type: 'ios-grid',
+        name: 'UnCheckedVendorPage',
+        text: '未审核'
+      },
+      {
+        type: 'ios-grid',
+        name: 'NotPassVendorPage',
+        text: '未通过'
+      },
+      {
+        type: 'ios-grid',
+        name: 'VendorManagementPage',
+        text: '全部厂商'
+      }
+    ]
+  },
+  {
     text: '订单管理',
     type: 'ios-paper',
     meta: {
@@ -57,6 +113,22 @@ const frontRoutes = [
         name: 'AllOrder'
       }
     ]
+  },
+  {
+    name: 'DataManagementPage',
+    type: 'md-home',
+    text: '数据管理',
+    meta: {
+      requireAuth: true
+    }
+  },
+  {
+    name: 'AccountManagementPage',
+    type: 'md-home',
+    text: '账户管理',
+    meta: {
+      requireAuth: true
+    }
   }
 ]
 
