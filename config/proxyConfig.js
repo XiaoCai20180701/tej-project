@@ -7,6 +7,14 @@ module.exports = {
       pathRewrite: {
         '^/api':'/'
       }
+    },
+    '/yz': {
+      target: 'http://192.168.1.101:8080/tej/rest',
+      secure: false,
+      changeOrigin: true,
+      pathRewrite: {
+        '^/yz':'/'
+      }
     }
   }
 }
