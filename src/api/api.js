@@ -4,16 +4,22 @@
 import {get,post,put,deleteAxios} from '@/utils/http'
 const COMMON_URL = '/commonResource/'
 const PRODUCT_URL = '/productResource/'
+const RETAIL_URL = '/retailResource/'
 
 /**
  * 登录接口
  */
-export const login = (username,password) => post('/loginResource/login',{username,password})
+export const login = (userName,passWord) => post('/loginResource/login',userName,passWord)
 
 /**
  * 获取页面菜单权限接口
  */
 export const getRes = (role) => get('/loginResource/menu',role)
+
+/**
+ * 上传图片接口
+ */
+export const uploadFile = (params) => get('/fileResource/uploadimg',params)
 
 /**
  * 获取厂商列表接口
@@ -37,4 +43,34 @@ export const modifyProductDetail = (id) => put(PRODUCT_URL + 'modifyProductDetai
 
 export const getProductDetail = (id) => post(PRODUCT_URL + 'getProductDetail',id)
 
-export const isShow = (id,isShow) => put(PRODUCT_URL + 'isShow',{id,isShow})
+export const isShow = (id,isShow) => put(PRODUCT_URL + 'isShow',id,isShow)
+
+export const getProductFilter = () => get(PRODUCT_URL + 'screendata','')
+
+/**
+ * 零售商管理相关的接口
+ */
+export const saveAudit = (id,isUsed) => put(RETAIL_URL + 'saveaudit',id,isUsed)
+
+export const getAuditInfo = (id) => post(RETAIL_URL + 'auditinfo',id)
+
+export const getApplylist = (params)=> post(RETAIL_URL + 'applylist',params)
+
+export const getAuditedlist = (params)=> post(RETAIL_URL + 'auditedlist',params)
+
+export const getRetaildetail = (params)=> post(RETAIL_URL + 'retaildetail',params)
+
+/**
+ * 数据管理相关的接口
+ */
+export const getStationdata = ()=>get('/statisticsResource/stationdata','')
+
+export const postProductsaletop = (paramas)=>post('/statisticsResource/productsaletop',paramas)
+
+export const postProductaccesstop = (paramas)=>post('/statisticsResource/productaccesstop',paramas)
+
+export const postVendorsaletop = (paramas)=>post('/statisticsResource/vendorsaletop',paramas)
+
+export const postCooperationtop = (paramas)=>post('/statisticsResource/cooperationtop',paramas)
+
+
