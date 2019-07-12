@@ -38,4 +38,8 @@
   .tej-delete-txt:hover,.tej-add-txt:hover,.tej-edit-txt:hover {
     cursor: pointer;
   }
+  .tej-main {
+    padding: 15px;
+    background: #fff;
+  }
 </style>
