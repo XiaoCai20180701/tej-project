@@ -60,7 +60,7 @@
         this.loading = true
         let username = this.formInline.user
         let password = this.$md5(this.formInline.password)
-        login({username: username, password: password}).then(res => {
+        login({userName: username, passWord: password}).then(res => {
           let data = res.data
           // 登陆成功 设置用户信息
           localStorage.setItem('userImg', data.avatar)
