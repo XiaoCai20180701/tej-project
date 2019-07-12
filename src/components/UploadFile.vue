@@ -19,12 +19,13 @@
     :on-success="handleSuccess"
     :format="['jpg','jpeg','png']"
     :max-size="2048"
+    :headers="fileHeaders"
     :on-format-error="handleFormatError"
     :on-exceeded-size="handleMaxSize"
     :before-upload="handleBeforeUpload"
     multiple
     type="drag"
-    action="actionUrl"
+    action="yz/fileResource/uploadimg"
     style="display: inline-block;width:104px;">
     <div class="tej-upload-txt">
       <Icon type="md-add" size="20"></Icon>
@@ -32,9 +33,9 @@
       <small>注：800x800</small>
     </div>
   </Upload>
-  <Modal title="查看原图" v-model="visible">
-    <img :src="'https://o5wwk8baw.qnssl.com/' + imgName + '/large'" v-if="visible" style="width: 100%">
-  </Modal>
+  <!--<Modal title="查看原图" v-model="visible">-->
+    <!--<img :src="'https://o5wwk8baw.qnssl.com/' + imgName + '/large'" v-if="visible" style="width: 100%">-->
+  <!--</Modal>-->
   </div>
 </template>
 <script>
@@ -45,6 +46,9 @@
     },
     data () {
       return {
+        fileHeaders: {
+          'token': localStorage.getItem('token')
+        },
         defaultList: [
 //          {
 //            'name': 'a42bdcc1178e62b4694c830f028db5c0',
@@ -70,9 +74,11 @@
         this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
       },
       handleSuccess (res, file) {
-        console.log('图片上传',res,file)
-        file.url = 'https://o5wwk8baw.qnssl.com/7eb99afb9d5f317c912f08b5212fd69a/avatar';
+        console.log('图片上传',res)
+      //  file.url = 'https://o5wwk8baw.qnssl.com/7eb99afb9d5f317c912f08b5212fd69a/avatar';
+        file.url= this.$axios.defaults.baseURL + file.response.data
         file.name = '7eb99afb9d5f317c912f08b5212fd69a';
+        console.log('图片上传 file',file)
       },
       handleFormatError (file) {
         this.$Notice.warning({
