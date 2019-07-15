@@ -39,7 +39,7 @@
     cursor: pointer;
   }
   .tej-main {
-    padding: 15px;
-    background: #fff;
+    /*padding: 15px;*/
+    /*background: #fff;*/
   }
 </style>
