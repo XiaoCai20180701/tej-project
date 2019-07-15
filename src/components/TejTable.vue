@@ -1,85 +1,136 @@
 <template>
   <div>
-    <Form :label-width="56" >
+    <Form :label-width="56" class="tej-form">
       <FormItem label="筛选：" class="tej-label">
         <div>
-          <RadioGroup v-model="checkedArea" @on-change="areaChange">
-            <Radio v-for="(item, index) in area"
-                   :key="index"
-                   :label="item.id"
-                   class="tej-radio"
-            >{{item.name}}
-            </Radio>
-          </RadioGroup>
+          <slot name="area">
+            <RadioGroup v-model="checkedArea" @on-change="areaChange">
+              <Radio v-for="(item, index) in area"
+                     :key="index"
+                     :label="item.id"
+                     class="tej-radio"
+              >{{item.name}}
+              </Radio>
+            </RadioGroup>
+          </slot>
         </div>
         <div>
-          <RadioGroup v-model="checkedAge" @on-change="ageChange">
-            <Radio v-for="(item, index) in age"
-                   :key="index"
-                   :label="item.id"
-                   class="tej-radio"
-            >{{item.name}}
-            </Radio>
-          </RadioGroup>
+          <slot name="age">
+            <RadioGroup v-model="checkedAge" @on-change="ageChange">
+              <Radio v-for="(item, index) in age"
+                     :key="index"
+                     :label="item.id"
+                     class="tej-radio"
+              >{{item.name}}
+              </Radio>
+            </RadioGroup>
+          </slot>
         </div>
       </FormItem>
+      <Divider/>
+      <div class="tej-table-extra">
+        <Row>
+          <Col span="19">
+          <div class="tej-table-search-box">
+            <Input v-model="keywords" :placeholder="inputText" class="tej-search-input" clearable @on-change="inputChange"/>
+            <Button type="primary" class="tej-search-btn" @click="searchClick(keywords)">搜索</Button>
+          </div>
+          </Col>
+          <Col span="5">
+          <div class="tej-table-btngroup">
+            <slot name="btn"></slot>
+          </div>
+          </Col>
+        </Row>
+      </div>
     </Form>
-    <Table border :columns="columnsData" :data="tableData" v-if="tableData.length > 0">
-      <template slot-scope="{ row, index }" slot="action">
-        <a style="margin-right: 5px" @click="show(index)">查看详情</a>
-      </template>
-    </Table>
-    <div class="tej-page-box">
-        <Page :total="total" show-sizer show-total class="tej-page" @on-change="pageChange"  @on-page-size-change="pageSizeChange"/>
+    <div class="tej-table">
+      <Table
+        :columns="columnsData"
+        :data="tableData"
+        v-if="tableData.length > 0"
+      >
+        <template slot-scope="{ row, index }" slot="action">
+          <a style="margin-right: 5px" @click="show(row.id)">查看详情</a>
+        </template>
+      </Table>
+      <slot name="page">
+        <div class="tej-page-box">
+          <Page
+            :total="page.total"
+            show-sizer
+            show-total
+            class="tej-page"
+            @on-change="pageChange"
+            @on-page-size-change="pageSizeChange"/>
+        </div>
+      </slot>
     </div>
   </div>
 </template>
 
 <script>
-  import { getProductList, getAuditedlist, getApplylist, getProductFilter } from '@/api/api'
-  import { productManagementTable, checkedRetailTable, unCheckedRetailTable } from '@/api/tableData'
+  import {getProductFilter} from '@/api/api'
+
   export default {
+    props: {
+      inputText: {
+        type: String,
+        require: false,
+        default: '请输入搜索关键词'
+      },
+      columnsData: {
+        type: Array,
+        required: true
+      },
+      tableData: {
+        type: Array,
+        required: true
+      },
+      page: {
+        type: Object
+      }
+    },
     data() {
       return {
-        columnsData: [],
-        tableData: [],
-        page: 1,
-        pageSize: 10,
-        total: 1,
         area: [],
         age: [],
         checkedArea: 0,
-        checkedAge: 0
+        checkedAge: 0,
+        keywords: ''
       }
     },
-    created(){
+    created() {
     },
-    mounted(){
+    mounted() {
       this.getProductFilterFun()
-      console.log('路由',this.$route.name)
-      switch(this.$route.name){
-        case 'ProductManagementPage':
-          this.columnsData = productManagementTable
-          this.getProductListFun(this.page, this.pageSize)
-          break
-        case 'CheckedPage':
-          this.columnsData = checkedRetailTable
-          this.getAuditedlistFun(this.page, this.pageSize)
-          break
-        case 'UnCheckedPage':
-          this.columnsData = unCheckedRetailTable
-          this.getApplylistFun(this.page, this.pageSize)
-          break
-      }
+      // console.log('路由',this.$route.name)
     },
     methods: {
-      areaChange(e){
+      show(id){
+        console.log('查看详情', id)
+        this.$router.push({
+          name: 'AddProductPage',
+          query: {id: id },
+          params: {isEdit: true}
+        })
+      },
+      searchClick(){
+        this.$emit('keywords-change-callback',this.keywords)
+      },
+      inputChange(e){
+        console.log('输入框内容', e.target.value)
+        this.keywords = e.target.value
+      },
+      areaChange(e) {
         console.log('radio area', e)
+        this.$emit('area-change-callback', e)
       },
-      ageChange(e){
+      ageChange(e) {
         console.log('radio age', e)
+        this.$emit('age-change-callback', e)
       },
-      getProductFilterFun(){
+      getProductFilterFun() {
         getProductFilter()
           .then(res => {
             this.area = res.data.area
@@ -89,102 +140,79 @@
             console.log('filter', res.data)
           })
           .catch(err => {
-          this.$Message.error('获取筛选条件失败', err)
-        })
-      },
-      getProductListFun(page,pageSize) {
-        getProductList({page:page,pageSize: pageSize}).then(res => {
-          this.tableData = res.data.list
-          this.total = res.data.total
-          this.page = res.data.page
-          this.pageSize = res.data.pageSize
-          res.data.list.map((item) => {
-//            console.log('key Object---------',Object.keys(item))
-            this.columnsData.map((col,c) => {
-              col['key'] = Object.keys(item)[c]
-            })
-          })
-        })
-          .catch(err => {
-            this.$Message.error('获取商品列表失败',err)
+            this.$Message.error('获取筛选条件失败', err)
           })
       },
-      getAuditedlistFun(page,pageSize){
-        getAuditedlist({page:page,pageSize: pageSize}).then(res => {
-          this.tableData = res.data.list
-          this.total = res.data.total
-          this.page = res.data.page
-          this.pageSize = res.data.pageSize
-          res.data.list.map((item) => {
-//            console.log('key Object---------',Object.keys(item))
-            this.columnsData.map((col,c) => {
-              col['key'] = Object.keys(item)[c]
-            })
-          })
-        })
-          .catch(err => {
-            this.$Message.error('获取零售商已审核列表失败',err)
-          })
+      pageChange(i) {
+        console.log('page', i)
+        this.page.index = i
+        this.$emit('page-change-callback', this.page)
       },
-      getApplylistFun(page,pageSize){
-        getApplylist({page:page,pageSize: pageSize}).then(res => {
-          this.tableData = res.data.list
-          this.total = res.data.total
-          this.page = res.data.page
-          this.pageSize = res.data.pageSize
-          res.data.list.map((item) => {
-            this.columnsData.map((col,c) => {
-              col['key'] = Object.keys(item)[c]
-            })
-          })
-        })
-          .catch(err => {
-            this.$Message.error('获取零售商待审核列表失败',err)
-          })
-      },
-      pageChange(page) {
-        switch(this.$route.name){
-          case 'CheckedPage':
-            this.getAuditedlistFun(page)
-            break
-          case 'UnCheckedPage':
-            this.getApplylistFun(page)
-            break
-        }
-      },
-      pageSizeChange(pageSize){
-        switch(this.$route.name){
-          case 'CheckedPage':
-            this.getAuditedlistFun(pageSize)
-            break
-          case 'UnCheckedPage':
-            this.getApplylistFun(pageSize)
-            break
-        }
+      pageSizeChange(s) {
+        console.log('pageSize', s)
+        this.page.size = s
+        this.$emit('pageSize-change-callback', this.page)
       }
     }
   }
 </script>
 
 <style>
+  .tej-form {
+    padding: 15px;
+    padding-bottom: 0;
+    margin-bottom: 20px;
+    background: #fff;
+  }
+
+  .tej-table {
+    min-height: 60vh;
+    padding-bottom: 15px;
+    background: #fff;
+  }
+
   .tej-page-box {
     display: flex;
     flex-direction: row;
     margin-top: 15px;
   }
+
   .tej-page {
     flex: 1;
     text-align: right;
     align-self: center;
   }
+
   .tej-label > :first-child {
     font-size: 14px;
   }
-  .ivu-radio-inner,.ivu-radio-inner:after {
+
+  .ivu-radio-inner, .ivu-radio-inner:after {
     border-radius: 0 !important;
   }
+
   .tej-radio {
     min-width: 70px;
+  }
+
+  .tej-table-search-box {
+    display: flex;
+    flex-direction: row;
+    width: 360px;
+    margin-bottom: 20px;
+  }
+
+  .tej-search-input {
+    flex: 5;
+  }
+
+  .tej-search-btn {
+    flex: 1;
+    margin-left: 10px;
+  }
+
+  .tej-table-btngroup {
+    text-align: right;
   }
 </style>
 
