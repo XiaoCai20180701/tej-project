@@ -2,7 +2,12 @@
     <Card>
       <div class="tej-product-box">
         <p>商品分类选择</p>
-        <Cascader :data="list" change-on-select size="large"></Cascader>
+        <Cascader
+          :data="list"
+          change-on-select
+          @on-change="classificationChange"
+          size="large"
+        ></Cascader>
       </div>
       <div class="tej-product-box">
         <p>商品名称</p>
@@ -10,9 +15,15 @@
       </div>
       <div class="tej-product-box">
         <p>所属厂商</p>
-        <Select v-model="model1">
-          <OptionGroup v-for="(item, index) in vendorList" :key="index" :label="item.area">
-            <Option v-for="(child, c) in item.children" :value="child.vendorName" :key="child.vendorId">
+        <Select v-model="vendor"
+                @on-change="vendorChange"
+                filterable>
+          <OptionGroup
+            v-for="(item, index) in vendorList"
+            :key="index"
+            :label="item.area"
+          >
+            <Option v-for="(child, c) in item.children" :value="child.vendorId" :key="child.vendorId">
               {{ child.vendorName }} ({{child.vendorId}})
             </Option>
           </OptionGroup>
@@ -32,14 +43,33 @@
       return {
         productName: '',
         vendorList:[],
-        model1: 3,
-//        vendorId: 1
+        vendor: 3,
+        typeChildId: 1,
+        productVendorId: 1
       }
     },
     mounted() {
       this.getVendorList()
     },
     methods: {
+      vendorChange(value){
+       // console.log('选择的厂商 productVendorId',value)
+        this.productVendorId = value
+        this.$emit('classification-callback',{
+          productVendorId: value,
+          typeChildId: this.typeChildId,
+          productName: this.productName
+        })
+      },
+      classificationChange(value){
+        this.typeChildId = value[1]
+      //  console.log('选择商品分类 typeChildId', this.typeChildId)
+//        this.$emit('classification-callback',{
+//          productVendorId: this.productVendorId,
+//          typeChildId: value[1],
+//          productName: this.productName
+//        })
+      },
       //获取厂商列表
       getVendorList() {
         getVendorList('').then(res => {
