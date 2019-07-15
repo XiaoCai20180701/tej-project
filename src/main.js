@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import App from './App.vue'
 import iview from 'iview'
-import { Message } from 'iview'
+import { Message, Modal } from 'iview'
 import VueRouter from 'vue-router'
 import router from '@/router/index'
 import 'iview/dist/styles/iview.css'
@@ -20,6 +20,7 @@ Vue.use(iview)
 Vue.prototype.$axios = axios
 Vue.prototype.$md5 = md5
 Vue.prototype.$Message = Message
+Vue.prototype.$Modal = Modal
 
 //注册过滤器
 for (const key in filter) {
