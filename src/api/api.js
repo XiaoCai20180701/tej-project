@@ -29,11 +29,27 @@ export const getVendorList = () => get(COMMON_URL + 'vendorlist','')
 /**
  * 商品管理相关的接口
  */
-export const editClassification = (params)=> post(PRODUCT_URL + 'editclassification',params)
+export const addParentType = (params) => post(PRODUCT_URL + 'addParentType',params)
+
+export const deleteType = (typeParentId) => deleteAxios(PRODUCT_URL + 'deleteType',typeParentId)
+
+// export const editClassification = (params)=> post(PRODUCT_URL + 'editclassification',params)
 
 export const getClassificationlist = ()=> get(PRODUCT_URL + 'classificationlist','')
 
 export const getProductList = (params) => post(PRODUCT_URL + 'productList',params)
+
+export const addColor = (productColor) => post(PRODUCT_URL + 'addColor',productColor)
+
+export const deleteColor = (colorId) => deleteAxios(PRODUCT_URL + 'deleteColor',colorId)
+
+export const addSize = (productId) => post(PRODUCT_URL + 'addSize',productId)
+
+export const deleteSize = (sizeId) => deleteAxios(PRODUCT_URL + 'deleteSize',sizeId)
+
+export const addProductWholesale = (params) => post(PRODUCT_URL + 'addProductWholesale',params)
+
+export const deleteProductWholesale = (id) => deleteAxios(PRODUCT_URL + 'deleteProductWholesale',id)
 
 export const addProduct = (params) => post(PRODUCT_URL + 'addproduct',params)
 
