@@ -2,7 +2,7 @@
   <Row>
     <i-col span="8">
       <!--商品分类选择-->
-      <Classification :list="list"></Classification>
+      <Classification :list="list" @classification-callback="classificationCallback"></Classification>
       <!--商品尺码、颜色-->
       <Feature></Feature>
       <!--商品库存、零售价、批发价-->
@@ -19,6 +19,10 @@
           <Radio label="未启用"></Radio>
         </RadioGroup>
       </Card>
+      <div>
+        <Button>取消</Button>
+        <Button type="primary">确定</Button>
+      </div>
     </i-col>
   </Row>
 </template>
@@ -45,8 +49,13 @@
     },
     mounted(){
       this.getClassificationlist()
+//      console.log('query id',this.$route.query)
+//      console.log('params',this.$route.params)
     },
     methods: {
+      classificationCallback(data){
+        console.log('商品选择分类返回 data',data)
+      },
       getClassificationlist() {
         getClassificationlist('').then(res => {
           console.log('parentList before',res.data.list)
