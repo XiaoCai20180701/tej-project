@@ -12,16 +12,20 @@ export const productManagementTable = [
     'title': '商品名称'
   },
   {
-    'title': '零售价'
+    'title': '零售价',
+    'sortable': true
   },
   {
-    'title': '库存'
+    'title': '库存',
+    'sortable': true
   },
   {
-    'title': '访问量'
+    'title': '访问量',
+    'sortable': true
   },
   {
-    'title': '销量'
+    'title': '销量',
+    'sortable': true
   },
   {
     'title': '厂商'
