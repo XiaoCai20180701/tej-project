@@ -2,7 +2,7 @@
   <Card>
     <div class="tej-product-box">
       <p>商品主图</p>
-      <UploadFile :picture-num="pictureNumber" :action-url="actionUrl"></UploadFile>
+      <UploadFile :picture-num="pictureNumber" @main-callback="mainCallback"></UploadFile>
     </div>
     <div class="tej-product-box">
       <p>商品详情图</p>
@@ -23,12 +23,25 @@
     data() {
       return {
         pictureNumber: 6,
-        actionUrl: '//jsonplaceholder.typicode.com/posts/',
+        actionUrl: 'http://192.168.112.1:5354/fileResource/uploadimg',
+        mainPicture:[],
+        imgContent: ''
       }
     },
     methods: {
+      mainCallback(data){
+        this.mainPicture = data
+        this.$emit('photograph-callback',{
+          mainPicture: this.mainPicture,
+          imgContent: this.imgContent
+        })
+      },
       getEditorContent(content){
-        console.log('获取富文本编辑器中的内容',content)
+        this.imgContent = content
+        this.$emit('photograph-callback',{
+          mainPicture: this.mainPicture,
+          imgContent: this.imgContent
+        })
       }
     }
   }
