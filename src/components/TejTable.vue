@@ -51,7 +51,7 @@
         v-if="tableData.length > 0"
       >
         <template slot-scope="{ row, index }" slot="action">
-          <a style="margin-right: 5px" @click="show(row.id)">查看详情</a>
+          <a style="margin-right: 5px" @click="showDetail(row.id)">查看详情</a>
         </template>
       </Table>
       <slot name="page">
@@ -107,11 +107,11 @@
       // console.log('路由',this.$route.name)
     },
     methods: {
-      show(id){
+      showDetail(id){
         console.log('查看详情', id)
         this.$router.push({
-          name: 'AddProductPage',
-          query: {id: id },
+          name: 'EditProductPage',
+          query: {productId: id },
           params: {isEdit: true}
         })
       },
