@@ -1,11 +1,48 @@
 <template>
   <div style="margin-bottom: 20px">
-    <div style="height: 40px; background: white;">
-      <span class="spanHeadClass">{{listName}}</span>
-      <span  style="margin-right: 0px;float: right;height: 40px;" :id= tag ref ="dev">
-			<DatePicker type="daterange" :options="options" @on-change="dateChange" placeholder="Select date"
-                  style="width: 200px;margin-top: 3.5px;margin-right:5px;" ></DatePicker>
-		</span>
+    <div class="tej-top-date-title">
+      <p class="tej-top-date-txt">{{listName}}</p>
+      <p  class="tej-top-date" :id= tag ref ="dev">
+        <DatePicker
+          :open="isMonthShow"
+          :value="monthValue"
+          confirm
+          type="month"
+          @on-change="handleMonthChange"
+          @on-clear="handleClear('month')"
+          @on-ok="handleOk('month')"
+        >
+          <a href="javascript:void(0)" @click="handleClick('month')">
+            月 /
+          </a>
+        </DatePicker>
+        <DatePicker
+          :open="isWeekShow"
+          :value="weekValue"
+          confirm
+          type="month"
+          @on-change="handleWeekChange"
+          @on-clear="handleClear('week')"
+          @on-ok="handleOk('week')"
+        >
+          <a href="javascript:void(0)" @click="handleClick('week')">
+            周 /
+          </a>
+        </DatePicker>
+        <DatePicker
+          :open="isDateShow"
+          :value="dateValue"
+          confirm
+          type="date"
+          @on-change="handleDateChange"
+          @on-clear="handleClear('date')"
+          @on-ok="handleOk('date')"
+        >
+          <a href="javascript:void(0)" @click="handleClick('date')">
+            日
+          </a>
+        </DatePicker>
+		</p>
     </div>
     <Table  :columns="columnsData" :data="tableData" v-if="tableData.length > 0"></Table>
   </div>
@@ -22,6 +59,12 @@
     },
     data(){
       return{
+        isMonthShow: false,
+        isDateShow: false,
+        isWeekShow: false,
+        monthValue: '',
+        weekValue: '',
+        dateValue: '',
         page: {
           index: 1,
           size: 10,
@@ -74,6 +117,60 @@
 
     },
     methods:{
+      handleClick(name){
+        switch (name){
+          case 'month':
+            this.isMonthShow = !this.isMonthShow
+            break
+          case 'week':
+            this.isWeekShow = !this.isWeekShow
+            break
+          case 'date':
+            this.isDateShow = !this.isDateShow
+            break
+        }
+      },
+      handleMonthChange (date) {
+        this.monthValue = date
+        console.log('monthValue', date)
+        let index = date.lastIndexOf("\-")
+        let str  = date .substring(index + 1, date.length)
+        console.log('monthValue', str)
+      },
+      handleWeekChange (date) {
+        this.weekValue = date
+        console.log('weekValue', date)
+      },
+      handleDateChange (date) {
+        this.dateValue = date
+        console.log('dateValue', date)
+      },
+      handleClear (name) {
+        switch (name){
+          case 'month':
+            this.isMonthShow = false
+            break
+          case 'week':
+            this.isWeekShow = false
+            break
+          case 'date':
+            this.isDateShow = false
+            break
+        }
+      },
+      handleOk (name) {
+        switch (name){
+          case 'month':
+            this.isMonthShow = false
+            break
+          case 'week':
+            this.isWeekShow = false
+            break
+          case 'date':
+            this.isDateShow = false
+            break
+        }
+      },
       dateChange(objc,a) {
         console.log(objc,a);
         this.$emit('dateChange',this.$refs.dev.id,objc);
@@ -85,13 +182,26 @@
 </script>
 
 <style scoped>
-  .spanHeadClass {
-    color: #000000;
-    font-size: 14px;
+  .tej-top-date-title {
+    display: flex;
     height: 40px;
-    display: inline-block;
     line-height: 40px;
-    margin-left: 10px;
+    background: #fff;
   }
+  .tej-top-date-txt {
+    flex: 5;
+    margin-left: 15px;
+    font-size: 14px;
+  }
+  .tej-top-date {
+    flex: 1;
+  }
+  .tej-top-date .active {
+    color: red
+  }
+  .tej-top-date:hover {
+    cursor: pointer;
+  }
+
 </style>
 
