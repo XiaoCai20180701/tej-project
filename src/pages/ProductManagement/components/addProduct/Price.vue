@@ -2,34 +2,34 @@
   <Card>
     <div class="tej-product-box">
       <p>商品库存</p>
-      <Input v-model="inventory" placeholder="请输入库存数量" clearable />
+      <Input v-model="inventory" type="number" placeholder="请输入库存数量" clearable @on-change="inventoryChange"/>
     </div>
     <div class="tej-product-box">
       <p>商品零售价</p>
-      <Input v-model="inventory" placeholder="请输入商品零售价" clearable />
+      <Input v-model="priceSale" type="number" placeholder="请输入商品零售价" clearable @on-change="priceSaleChange"/>
     </div>
     <div class="tej-product-box">
       <p>商品批发价</p>
-      <CheckboxGroup v-model="priceWholesaleCheckboxGroup">
+      <CheckboxGroup v-model="priceWholesaleCheckboxGroup" @on-change="priceWholesaleChange">
         <div v-for="(item, index) in priceWholesaleList" :key="index">
           <Checkbox :label="item.start">
             <slot v-if="item.isEdit">
               <span>
-                <Input v-model="priceWholesaleEdit.start"  style="width: 50px" @on-change="getStartEditValue"/>
+                <Input v-model="priceWholesaleEdit.start"  type="number" style="width: 50px" @on-change="getStartEditValue"/>
                 -
-                <Input v-model="priceWholesaleEdit.end"  style="width: 50px" @on-change="getEndEditValue"/>
+                <Input v-model="priceWholesaleEdit.end" type="number"  style="width: 50px" @on-change="getEndEditValue"/>
                 (件)
               </span>
               <span class="tej-price-dis">
-                <Input v-model="priceWholesaleEdit.price"  style="width: 40px" @on-change="getPriceEditValue"/>(元)
+                <Input v-model="priceWholesaleEdit.priceWholesale"  type="number" style="width: 40px" @on-change="getPriceEditValue"/>(元)
               </span>
             </slot>
             <slot v-else>
               <span>{{item.start}} - {{item.end}} (件)</span>
-              <span>{{item.price}}(元)</span>
+              <span>{{item.priceWholesale}}(元)</span>
             </slot>
           </Checkbox>
-          <b class="tej-delete-txt" @click="deletePriceWholesale(item)">删除</b>
+          <b class="tej-delete-txt" @click="deletePriceWholesale(item,index)">删除</b>
           <b class="tej-edit-txt" @click="savePriceWholesale(item)" v-if="item.isEdit">确定</b>
           <b class="tej-edit-txt" @click="editPriceWholesale(item)" v-else>修改</b>
         </div>
@@ -37,13 +37,13 @@
           <Checkbox>
             <slot>
               <span>
-                <Input v-model="priceWholesale.start"  style="width: 50px" @on-change="getStartValue"/>
+                <Input v-model="priceWholesale.start"  type="number" style="width: 50px" @on-change="getStartValue"/>
                 -
-                <Input v-model="priceWholesale.end"  style="width: 50px" @on-change="getEndValue"/>
+                <Input v-model="priceWholesale.end"  type="number" style="width: 50px" @on-change="getEndValue"/>
                 (件)
               </span>
               <span class="tej-price-dis">
-                <Input v-model="priceWholesale.price"  style="width: 40px" @on-change="getPriceValue"/>(元)
+                <Input v-model="priceWholesale.priceWholesale"  type="number" style="width: 40px" @on-change="getPriceValue"/>(元)
               </span>
             </slot>
           </Checkbox>
@@ -57,76 +57,131 @@
 <script>
   export default {
     name: 'Price',
+    props: {
+      price: {
+        type: Object,
+        required: false
+      }
+    },
     data() {
       return {
         inventory: null,
+        priceSale: null,
         priceWholesaleCheckboxGroup:[],
         priceWholesale: {
           start: null,
           end: null,
-          price: null,
+          priceWholesale: null,
         },
         priceWholesaleEdit: {
           start: null,
           end: null,
-          price: null,
+          priceWholesale: null,
         },
         priceWholesaleList: [],
-        isEdit: false
+        isEdit: false,
+        index: 0
+      }
+    },
+    mounted(){
+      console.log('price props', this.price)
+      let checked = this.$route.params.isEdit
+      if (checked) {
+        this.editInitData()
       }
     },
     methods: {
-      deletePriceWholesale(item){
+      editInitData(){
+        this.inventory = this.price.inventory
+        this.priceSale = this.price.priceSale
+        this.priceWholesaleList = this.price.priceWholesaleList
+        this.priceWholesaleList.map(item => {
+          if(item.show == 1){
+            this.priceWholesaleCheckboxGroup.push(item.start)
+          }
+        })
+      },
+      callback(){
+        this.$emit('price-callback',{
+          priceSale: this.priceSale,
+          inventory: this.inventory,
+          productWholesaleList: this.priceWholesaleList
+        })
+      },
+      priceWholesaleChange(data){
+        this.priceWholesaleList.map(item => {
+          if(data.indexOf(item.start) == -1){
+            item.isShow = 0
+          }else {
+            item.isShow = 1
+          }
+        })
+        this.callback()
+        console.log('修改勾选', this.priceWholesaleList)
+      },
+      deletePriceWholesale(item,index){
+        this.priceWholesaleList =this.priceWholesaleList.filter(item => {
+            return item.index != index
+        })
+        this.callback()
         this.$Message.info('删除批发价')
       },
       savePriceWholesale(item) {
         item.isEdit = false
         item.start = this.priceWholesaleEdit.start
         item.end = this.priceWholesaleEdit.end
-        item.price = this.priceWholesaleEdit.price
+        item.priceWholesale = this.priceWholesaleEdit.priceWholesale
+        this.callback()
+        console.log('this.priceWholesaleList 修改后',this.priceWholesaleList)
       },
       editPriceWholesale(item){
         item.isEdit = true
-        this.priceWholesaleEdit = {
-          start: item.start,
-          end: item.end,
-          price: item.price
-        }
+        this.callback()
       },
       addPriceWholesale(){
         //TODO 不可重复添加
         this.priceWholesaleList.push({
+          index: this.index++,
           start: this.priceWholesale.start,
           end: this.priceWholesale.end,
-          price: this.priceWholesale.price,
-          show: true,
+          priceWholesale: this.priceWholesale.priceWholesale,
+          isShow: 1,
           isEdit: false
         })
         this.priceWholesaleCheckboxGroup.push(this.priceWholesale.start)
+        this.callback()
         this.priceWholesale = {
           start: null,
           end: null,
-          price: null
+          priceWholesale: null
         }
       },
       //TODO 需优化
       getPriceEditValue(e){
-        this.priceWholesaleEdit.price = e.target.value
+        this.priceWholesaleEdit.price = e.target.valueAsNumber
       },
       getEndEditValue(e){
-        this.priceWholesaleEdit.end = e.target.value
+        this.priceWholesaleEdit.end = e.target.valueAsNumber
       },
       getStartEditValue(e){
-        this.priceWholesaleEdit.start = e.target.value
+        this.priceWholesaleEdit.start = e.target.valueAsNumber
       },
       getPriceValue(e){
-        this.priceWholesale.price = e.target.value
+        this.priceWholesale.price = e.target.valueAsNumber
       },
       getEndValue(e){
-        this.priceWholesale.end = e.target.value
+        this.priceWholesale.end = e.target.valueAsNumber
       },
       getStartValue(e){
-        this.priceWholesale.start = e.target.value
+        this.priceWholesale.start = e.target.valueAsNumber
+      },
+      priceSaleChange(e){
+        this.priceSale = e.target.valueAsNumber
+        this.callback()
+      },
+      inventoryChange(e){
+        this.inventory = e.target.valueAsNumber
+        this.callback()
       }
     }
   }
