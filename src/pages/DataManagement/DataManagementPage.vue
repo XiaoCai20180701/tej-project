@@ -191,8 +191,8 @@
       dateChange(tag, objc) {
         console.log('objc', objc);
 
-        this.timeArray[tag].startTime = Moment(objc[0]).valueOf();
-        this.timeArray[tag].endTime = Moment(objc[1]).valueOf();
+        this.timeArray[tag].startTime = this.$Moment(objc[0]).valueOf();
+        this.timeArray[tag].endTime = this.$Moment(objc[1]).valueOf();
         console.log('timeArray', this.timeArray);
         switch (Number(tag)) {
           case 0:
