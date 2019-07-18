@@ -25,8 +25,12 @@
         this.editorContent = html
         this.catchData(this.editorContent)  // 把这个html通过catchData的方法传入父组件
       }
-      this.editor.customConfig.uploadImgServer = '你的上传图片的接口'
-      this.editor.customConfig.uploadFileName = '你自定义的文件名'
+      this.editor.customConfig.uploadImgHeaders = {
+        'token': localStorage.getItem('token')
+      }
+      this.editor.customConfig.zIndex = 2
+      this.editor.customConfig.uploadImgServer = this.$axios.defaults.baseURL + '/fileResource/uploadimg'
+      this.editor.customConfig.uploadFileName = 'file'
       this.editor.customConfig.menus = [          // 菜单配置
         'head',  // 标题
         'bold',  // 粗体
@@ -63,19 +67,23 @@
         success: function (xhr, editor, result) {
           // 图片上传并返回结果，图片插入成功之后触发
           // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象，result 是服务器端返回的结果
+          console.log('图片 success',xhr, editor, result)
           this.imgUrl = Object.values(result.data).toString()
         },
         fail: function (xhr, editor, result) {
           // 图片上传并返回结果，但图片插入错误时触发
           // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象，result 是服务器端返回的结果
+          console.log('图片 fail',xhr, editor, result)
         },
         error: function (xhr, editor) {
           // 图片上传出错时触发
           // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象
+          console.log('图片 error',xhr, editor)
         },
         timeout: function (xhr, editor) {
           // 图片上传超时时触发
           // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象
+          console.log('图片 timeout',xhr, editor)
         },
 
         // 如果服务器端返回的不是 {errno:0, data: [...]} 这种格式，可使用该配置
@@ -86,9 +94,10 @@
 
           // 举例：假如上传图片成功后，服务器端返回的是 {url:'....'} 这种格式，即可这样插入图片：
           let url = Object.values(result.data)      // result.data就是服务器返回的图片名字和链接
-          JSON.stringify(url)    // 在这里转成JSON格式
+       //   JSON.stringify(url)    // 在这里转成JSON格式
           insertImg(url)
           // result 必须是一个 JSON 格式字符串！！！否则报错
+          console.log('图片 customInsert',result)
         }
       }
 
