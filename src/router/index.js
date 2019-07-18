@@ -29,6 +29,11 @@ export const asyncRoutes = {
     name: 'AddProductPage',
     component: () => import('@/pages/ProductManagement/AddProductPage.vue')
   },
+  'EditProductPage': {
+    path: 'EditProductPage',
+    name: 'EditProductPage',
+    component: () => import('@/pages/ProductManagement/EditProductPage.vue')
+  },
   'NonPayment': {
     path: 'NonPayment',
     name: 'NonPayment',

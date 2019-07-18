@@ -25,6 +25,14 @@ const frontRoutes = [
     }
   },
   {
+    name: 'EditProductPage',
+    type: 'md-home', // icon类型
+    text: '编辑商品', // 文本内容,
+    meta: {
+      requireAuth: false
+    }
+  },
+  {
     text: '零售商管理',
     type: 'ios-paper',
     meta: {
