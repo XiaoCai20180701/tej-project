@@ -11,7 +11,7 @@ import axios from 'axios'
 import './utils/permission'
 import md5 from 'js-md5'
 import filter from '@/utils/filter'
-
+import Moment from 'moment'
 Vue.config.productionTip = false
 Vue.use(VueRouter)
 Vue.use(Vuex)
@@ -21,6 +21,7 @@ Vue.prototype.$axios = axios
 Vue.prototype.$md5 = md5
 Vue.prototype.$Message = Message
 Vue.prototype.$Modal = Modal
+Vue.prototype.$Moment = Moment
 
 //注册过滤器
 for (const key in filter) {
