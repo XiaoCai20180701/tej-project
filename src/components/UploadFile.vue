@@ -4,7 +4,7 @@
     <template v-if="item.status === 'finished'">
       <img :src="item.url">
       <div class="demo-upload-list-cover">
-        <Icon type="ios-eye-outline" @click.native="handleView(item.name)"></Icon>
+        <Icon type="ios-eye-outline" @click.native="handleView(item.url)"></Icon>
         <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
       </div>
     </template>
@@ -25,48 +25,42 @@
     :before-upload="handleBeforeUpload"
     multiple
     type="drag"
-    action="yz/fileResource/uploadimg"
+    :action="actionUrl"
     style="display: inline-block;width:104px;">
-    <div class="tej-upload-txt">
+    <div class="tej-upload-txt" ref="uploadTxt">
       <Icon type="md-add" size="20"></Icon>
       <div>上传主图</div>
       <small>注：800x800</small>
     </div>
   </Upload>
-  <!--<Modal title="查看原图" v-model="visible">-->
-    <!--<img :src="'https://o5wwk8baw.qnssl.com/' + imgName + '/large'" v-if="visible" style="width: 100%">-->
-  <!--</Modal>-->
+  <Modal title="查看原图" v-model="visible">
+    <img :src="imgUrl" v-if="visible" style="width: 100%">
+  </Modal>
   </div>
 </template>
 <script>
   export default {
     props: {
-      pictureNum: Number,
-      actionUrl: String
+      pictureNum: Number
     },
     data () {
       return {
+        actionUrl: this.$axios.defaults.baseURL + '/fileResource/uploadimg',
         fileHeaders: {
-          'token': localStorage.getItem('token')
+          'token': localStorage.getItem('token'),
+          'Access-Control-Allow-Origin': '*'
         },
         defaultList: [
-//          {
-//            'name': 'a42bdcc1178e62b4694c830f028db5c0',
-//            'url': 'https://o5wwk8baw.qnssl.com/a42bdcc1178e62b4694c830f028db5c0/avatar'
-//          },
-//          {
-//            'name': 'bc7521e033abdd1e92222d733590f104',
-//            'url': 'https://o5wwk8baw.qnssl.com/bc7521e033abdd1e92222d733590f104/avatar'
-//          }
         ],
-        imgName: '',
+        imgUrl: '',
         visible: false,
-        uploadList: []
+        uploadList: [],
+        list: []
       }
     },
     methods: {
-      handleView (name) {
-        this.imgName = name;
+      handleView (url) {
+        this.imgUrl = url[0];
         this.visible = true;
       },
       handleRemove (file) {
@@ -74,11 +68,12 @@
         this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
       },
       handleSuccess (res, file) {
-        console.log('图片上传',res)
-      //  file.url = 'https://o5wwk8baw.qnssl.com/7eb99afb9d5f317c912f08b5212fd69a/avatar';
-        file.url= this.$axios.defaults.baseURL + file.response.data
-        file.name = '7eb99afb9d5f317c912f08b5212fd69a';
-        console.log('图片上传 file',file)
+        file.url= file.response.data
+        file.name = '7eb99afb9d5f317c912f08b5212fd69a'
+        this.$refs.upload.fileList.map(item => {
+          this.list.push(item.url[0])
+        })
+        this.$emit('main-callback',[...new Set(this.list )])
       },
       handleFormatError (file) {
         this.$Notice.warning({
@@ -96,7 +91,7 @@
         const check = this.uploadList.length < this.pictureNum;
         if (!check) {
           this.$Notice.warning({
-            title: `最多可以上传${this.pictureNumber}张图片`
+            title: `最多可以上传${this.pictureNum}张图片`
           });
         }
         return check;
