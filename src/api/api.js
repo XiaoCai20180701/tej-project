@@ -51,11 +51,11 @@ export const addProductWholesale = (params) => post(PRODUCT_URL + 'addProductWho
 
 export const deleteProductWholesale = (id) => deleteAxios(PRODUCT_URL + 'deleteProductWholesale',id)
 
-export const addProduct = (params) => post(PRODUCT_URL + 'addproduct',params)
+export const postAddProduct = (params) => post(PRODUCT_URL + 'addProduct',params)
 
 export const deleteProduct = (productId) => deleteAxios(PRODUCT_URL + 'deleteproduct',productId)
 
-export const modifyProductDetail = (id) => put(PRODUCT_URL + 'modifyProductDetail',id)
+export const putProductDetail = (id) => put(PRODUCT_URL + 'modifyProductDetail',id)
 
 export const getProductDetail = (id) => post(PRODUCT_URL + 'getProductDetail',id)
 
