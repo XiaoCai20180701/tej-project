@@ -1,69 +1,86 @@
 <template>
-    <Card>
-      <div class="tej-product-box">
-        <p>商品分类选择</p>
-        <Cascader
-          :data="list"
-          change-on-select
-          @on-change="classificationChange"
-          size="large"
-        ></Cascader>
-      </div>
-      <div class="tej-product-box">
-        <p>商品名称</p>
-        <Input v-model="productName" placeholder="请输入商品名称" clearable />
-      </div>
-      <div class="tej-product-box">
-        <p>所属厂商</p>
-        <Select v-model="vendor"
-                @on-change="vendorChange"
-                filterable>
-          <OptionGroup
-            v-for="(item, index) in vendorList"
-            :key="index"
-            :label="item.area"
-          >
-            <Option v-for="(child, c) in item.children" :value="child.vendorId" :key="child.vendorId">
-              {{ child.vendorName }} ({{child.vendorId}})
-            </Option>
-          </OptionGroup>
-        </Select>
-      </div>
-    </Card>
+  <Card>
+    <div class="tej-product-box">
+      <p>商品分类选择</p>
+      <Cascader
+        :data="list"
+        v-model="cascader"
+        change-on-select
+        @on-change="classificationChange"
+        size="large"
+      ></Cascader>
+    </div>
+    <div class="tej-product-box">
+      <p>商品名称</p>
+      <Input v-model="productName" placeholder="请输入商品名称" clearable/>
+    </div>
+    <div class="tej-product-box">
+      <p>所属厂商</p>
+      <Select v-model="vendor"
+              @on-change="vendorChange"
+              filterable>
+        <OptionGroup
+          v-for="(item, index) in vendorList"
+          :key="index"
+          :label="item.area"
+        >
+          <Option v-for="(child, c) in item.children" :value="child.vendorId" :key="child.vendorId">
+            {{ child.vendorName }} ({{child.vendorId}})
+          </Option>
+        </OptionGroup>
+      </Select>
+    </div>
+  </Card>
 </template>
 
 <script>
-  import { getVendorList }  from '@/api/api'
+  import {getVendorList} from '@/api/api'
+
   export default {
     name: 'Classification',
     props: {
-      list: Array
+      list: Array,
+      classification: {
+        type: Object,
+        required: false
+      },
     },
     data() {
       return {
         productName: '',
-        vendorList:[],
-        vendor: 3,
-        typeChildId: 1,
-        productVendorId: 1
+        cascader: [],
+        vendorList: [],
+        vendor: null,
+        typeChildId: null,
+        productVendorId: null
       }
     },
     mounted() {
       this.getVendorList()
+      console.log('classification props', this.classification)
+      let checked = this.$route.params.isEdit
+      if (checked) {
+        this.editInitData()
+      }
     },
     methods: {
-      vendorChange(value){
-       // console.log('选择的厂商 productVendorId',value)
+      editInitData() {
+        this.productName = this.classification.productName
+        this.vendor = this.classification.vendorId
+        this.cascader = [this.classification.typeParentId,this.classification.childrenCatalogId]
+      },
+      vendorChange(value) {
+        // console.log('选择的厂商 productVendorId',value)
         this.productVendorId = value
-        this.$emit('classification-callback',{
+        this.$emit('classification-callback', {
           productVendorId: value,
           typeChildId: this.typeChildId,
           productName: this.productName
         })
       },
-      classificationChange(value){
+      classificationChange(value) {
         this.typeChildId = value[1]
-      //  console.log('选择商品分类 typeChildId', this.typeChildId)
+        //  console.log('选择商品分类 typeChildId', this.typeChildId)
 //        this.$emit('classification-callback',{
 //          productVendorId: this.productVendorId,
 //          typeChildId: value[1],
@@ -77,8 +94,8 @@
           console.log('vendorList', this.vendorList)
         })
           .catch(err => {
-          this.$Message.error('获取厂商列表失败',err)
-        })
+            this.$Message.error('获取厂商列表失败', err)
+          })
       }
     }
   }
