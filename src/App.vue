@@ -42,4 +42,11 @@
     /*padding: 15px;*/
     /*background: #fff;*/
   }
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
+  input[type="number"]{
+    -moz-appearance: textfield;
+  }
 </style>
