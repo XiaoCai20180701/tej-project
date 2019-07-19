@@ -31,6 +31,9 @@
       this.editor.customConfig.zIndex = 2
       this.editor.customConfig.uploadImgServer = this.$axios.defaults.baseURL + '/fileResource/uploadimg'
       this.editor.customConfig.uploadFileName = 'file'
+     this.editor.customConfig.uploadImgParams = {
+       isEditor: 1 //1表示是编辑器，0表示普通的图片上传
+      }
       this.editor.customConfig.menus = [          // 菜单配置
         'head',  // 标题
         'bold',  // 粗体
