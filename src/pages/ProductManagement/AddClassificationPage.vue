@@ -69,7 +69,8 @@
         newValue: '',
         newChildrenValue: '',
         checkParent: 1,
-        checkChildren: 9
+        checkChildren: 9,
+        typeParentId: null
       }
     },
     mounted() {
@@ -101,38 +102,43 @@
               this.$Message.success('删除成功')
             },
             onCancel: () => {
-              this.$Message.success('取消删除')
+              this.$Message.info('取消删除')
             }
           })
         }else {
           //直接删除二级目录
+          this.deleteTypeFun(item.id)
           this.$Message.success('删除成功')
         }
       },
       deleteTypeFun(id){
-        deleteType(id).catch(err => {
+        deleteType(id).then(res => {
+          this.getClassificationlist()
+        })
+          .catch(err => {
           this.$Message.error('删除目录失败',err)
         })
       },
       //新增目录
       addParent(){
         this.isParent = true
-        this.add(this.isParent)
+        this.newValue === '' ? this.$Message.error('一级分类名称不能为空') : this.add(this.isParent)
       },
       addChildren(){
         this.isParent = false
-        this.add(this.isParent)
+        this.newChildrenValue === '' ? this.$Message.error('二级分类名称不能为空') : this.add(this.isParent)
       },
       add(isParent) {
         addParentType({
-          typeParentName: this.newValue,
-          typeParentId: isParent ? '': 3
+          typeParentName: isParent ? this.newValue : this.newChildrenValue,
+          typeParentId: isParent ? '': this.typeParentId
         })
           .then(res => {
             console.log('新增目录', res)
             //  this.parentList.push({title: this.newValue})
             if(isParent){
               this.list.push({title: this.newValue})
+              this.typeParentId = res.data.id
               this.newValue = ''
             }else {
               this.childrenList.push({title: this.newChildrenValue})
