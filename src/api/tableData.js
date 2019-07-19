@@ -99,6 +99,121 @@ export const unCheckedRetailTable = [
 ]
 
 /**
+ * 零售商管理 => 未通过列表
+ * */
+export const notPassRetailTable = [
+  {
+    'title': '商家名称'
+  },
+  {
+    'title': '所在省市'
+  },
+  {
+    'title': '联系人'
+  },
+  {
+    'title': '联系号码'
+  },
+  {
+    'title': '未通过理由'
+  },
+  {
+    title: '操作',
+    slot: 'action',
+  }
+]
+
+/**
+ * 厂商管理 => 已审核列表
+ * */
+export const checkedVendorTable = [
+  {
+    'title': '编号'
+  },
+  {
+    'title': '商家名称'
+  },
+  {
+    'title': '所在省市'
+  },
+  {
+    'title': '联系人'
+  },
+  {
+    'title': '联系号码'
+  },
+  {
+    'title': '总销售额'
+  },
+  {
+    'title': '总访问量'
+  },
+  {
+    'title': '总商品数'
+  },
+  {
+    title: '操作',
+    slot: 'action',
+  }
+]
+
+/**
+ * 厂商管理 => 待审核列表
+ * */
+export const unCheckedVendorTable = [
+  {
+    'title': '厂家名称'
+  },
+  {
+    'title': '所在省市'
+  },
+  {
+    'title': '联系人'
+  },
+  {
+    'title': '联系号码'
+  },
+  {
+    'title': '生产许可证'
+  },
+  {
+    'title': '生产环境'
+  },
+  {
+    'title': '品牌商标'
+  },
+  {
+    title: '操作',
+    slot: 'action',
+  }
+]
+
+/**
+ * 厂商管理 => 未通过列表
+ * */
+export const notPassVendorTable = [
+  {
+    'title': '厂家名称'
+  },
+  {
+    'title': '所在省市'
+  },
+  {
+    'title': '联系人'
+  },
+  {
+    'title': '联系号码'
+  },
+  {
+    'title': '未通过理由'
+  },
+  {
+    title: '操作',
+    slot: 'action',
+  }
+]
+
+/**
  * 数据管理 => 全站销量前十商品排行榜
  * */
 export const  productSaleTable = [
