@@ -10,20 +10,32 @@
     </Row>
     <Row :gutter="20" style="margin-top: 10px;">
       <Col span="12">
-      <TopDate tag="0" list-name="全站销量前十商品排行" :table-data="productsaleArray" :columns-data="productsaleColumns"
-                   @dateChange="dateChange"></TopDate>
+        <TopDate list-name="全站销量前十商品排行"
+                 :table-data="productSaleList"
+                 :columns-data="productSaleColumns"
+                 @date-change="postProductSale"
+        ></TopDate>
       </Col>
       <Col span="12">
-      <TopDate tag="1" list-name="全站访问量前十商品排行" :table-data="productaccessArray" :columns-data="productaccessColumns"
-                   @dateChange="dateChange"></TopDate>
+        <TopDate list-name="全站访问量前十商品排行"
+                 :table-data="productAccessList"
+                 :columns-data="productAccessColumns"
+                 @date-change="postProductAccess"
+        ></TopDate>
       </Col>
       <Col span="12">
-      <TopDate tag="2" list-name="全站销量前十厂商" :table-data="vendorsaleArray" :columns-data="vendorsaleColumns"
-                   @dateChange="dateChange"></TopDate>
+      <TopDate list-name="全站销量前十厂商"
+               :table-data="vendorSaleList"
+               :columns-data="vendorsaleColumns"
+               @date-change="postVendorSale"
+      ></TopDate>
       </Col>
       <Col span="12">
-      <TopDate tag="3" list-name="全站前十厂商、商家合作次数" :table-data="cooperationArray" :columns-data="cooperationColumns"
-                   @dateChange="dateChange"></TopDate>
+      <TopDate list-name="全站前十厂商、商家合作次数"
+               :table-data="cooperationList"
+               :columns-data="cooperationColumns"
+               @date-change="postCooperation"
+      ></TopDate>
       </Col>
     </Row>
   </div>
@@ -49,43 +61,25 @@
     data() {
       return {
         allData: [],
-        timeArray: [
-          {
-            startTime: '',
-            endTime: ''
-          },
-          {
-            startTime: '',
-            endTime: ''
-          },
-          {
-            startTime: '',
-            endTime: ''
-          },
-          {
-            startTime: '',
-            endTime: ''
-          }
-        ],
-        productsaleArray: [],
-        productsaleColumns: [],
-        productaccessArray: [],
-        productaccessColumns: [],
-        vendorsaleArray: [],
+        productSaleList: [],
+        productSaleColumns: [],
+        productAccessList: [],
+        productAccessColumns: [],
+        vendorSaleList: [],
         vendorsaleColumns: [],
-        cooperationArray: [],
+        cooperationList: [],
         cooperationColumns: []
       }
     },
     mounted() {
-      this.productsaleColumns = productSaleTable
-      this.productaccessColumns = productAccessTable
+      this.productSaleColumns = productSaleTable
+      this.productAccessColumns = productAccessTable
       this.vendorsaleColumns = vendorSaleTable
       this.cooperationColumns = cooperationTable
       this.getStation()
-      this.postProductsale()
-      this.postProductaccess()
-      this.postVendorsale()
+      this.postProductSale()
+      this.postProductAccess()
+      this.postVendorSale()
       this.postCooperation()
     },
     methods: {
@@ -112,52 +106,53 @@
             this.$Message.error('获取全站数据失败', err)
           })
       },
-      postProductsale() {
-        console.log(this.timeArray[0].startTime, this.timeArray[0].endTime);
+      //全站销量前十商品排行
+      postProductSale(startDate, endDate) {
         postProductsaletop({
-          startTime: this.timeArray[0].startTime,
-          endTime: this.timeArray[0].endTime
+          startTime: startDate,
+          endTime: endDate
         })
           .then(res => {
             console.log('postProductsaletopOk', res)
-            this.productsaleArray = res.data.list
+            this.productSaleList = res.data.list
             res.data.list.map(item => {
-              this.productsaleColumns.map((pro, index) => {
+              this.productSaleColumns.map((pro, index) => {
                 pro['key'] = Object.keys(item)[index]
               })
             })
           })
           .catch(err => {
-            this.$Message.error('获取全站销量前十排行榜失败',err)
+            this.$Message.error('全站销量前十排行榜获取失败',err)
           })
       },
-      postProductaccess() {
-        console.log(this.timeArray[1].startTime, this.timeArray[1].endTime);
+      //全站访问量前十商品排行
+      postProductAccess(startDate,endDate) {
+       // console.log(this.timeArray[1].startTime, this.timeArray[1].endTime);
         postProductaccesstop({
-          startTime: this.timeArray[1].startTime,
-          endTime: this.timeArray[1].endTime
+          startTime: startDate,
+          endTime: endDate
         })
           .then(res => {
-            console.log('postProductaccesstopOk', res)
-            this.productaccessArray = res.data.list
+            console.log('全站访问量Ok', res)
+            this.productAccessList = res.data.list
             res.data.list.map(item => {
-              this.productaccessColumns.map((pro, index) => {
+              this.productAccessColumns.map((pro, index) => {
                 pro['key'] = Object.keys(item)[index]
               })
             })
           })
           .catch(err => {
-            console.log('fail', err)
+            this.$Message.error('全站访问量 获取失败', err)
           })
       },
-      postVendorsale() {
+      //全站销量前十厂商
+      postVendorSale(startDate,endDate) {
         postVendorsaletop({
-          startTime: this.timeArray[2].startTime,
-          endTime: this.timeArray[2].endTime
+          startTime: startDate,
+          endTime: endDate
         })
           .then(res => {
-            console.log('postVendorsaletopOk', res);
-            this.vendorsaleArray = res.data.list
+            this.vendorSaleList = res.data.list
             res.data.list.map(item => {
               this.vendorsaleColumns.map((pro, index) => {
                 pro['key'] = Object.keys(item)[index]
@@ -165,64 +160,26 @@
             })
           })
           .catch(err => {
-            console.log('fail', err)
+            this.$Message.error('全站销量前十厂商 获取失败', err)
           })
       },
-      postCooperation() {
+      //全站前十厂商、商家合作次数
+      postCooperation(startDate, endDate) {
         postCooperationtop({
-          startTime: this.timeArray[3].startTime,
-          endTime: this.timeArray[3].endTime
+          startTime: startDate,
+          endTime: endDate
         })
           .then(res => {
-            console.log('postCooperationtopOk', res);
-            this.cooperationArray = res.data.list;
+            this.cooperationList = res.data.list;
             res.data.list.map(item => {
               this.cooperationColumns.map((pro, index) => {
                 pro['key'] = Object.keys(item)[index]
               })
             })
-            console.log('cooperationArray', this.cooperationArray);
           })
           .catch(err => {
-            console.log('fail', err)
+            this.$Message.error('全站前十厂商、商家合作次数 获取失败', err)
           })
-      },
-
-      dateChange(tag, objc) {
-        console.log('objc', objc);
-
-        this.timeArray[tag].startTime = this.$Moment(objc[0]).valueOf();
-        this.timeArray[tag].endTime = this.$Moment(objc[1]).valueOf();
-        console.log('timeArray', this.timeArray);
-        switch (Number(tag)) {
-          case 0:
-          {
-            console.log('tag', tag);
-            this.postProductsale();
-          }
-            break;
-          case 1:
-          {
-            console.log('tag', tag);
-            this.postProductaccess();
-          }
-            break;
-          case 2:
-          {
-            console.log('tag', tag);
-            this.postVendorsale();
-          }
-            break;
-          case 3:
-          {
-            console.log('tag', tag);
-            this.postCooperation();
-          }
-            break;
-          default:
-            break;
-        }
-
       }
     }
   }
