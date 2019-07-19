@@ -41,7 +41,7 @@
 </template>
 
 <script>
-  import {addSize, addColor} from '@/api/api'
+  import {addSize, addColor, getColorList} from '@/api/api'
   export default {
     name: 'Feature',
     props: {
@@ -62,6 +62,7 @@
     },
     mounted(){
       console.log('feature props', this.feature)
+      this.getDefaultColorList()
       let checked = this.$route.params.isEdit
       if (checked) {
         this.editInitData()
@@ -156,6 +157,18 @@
           list.push(item.sizeName)
         })
         this.sizeCheckboxGroup = [...new Set(list)]
+      },
+      getDefaultColorList(){
+        getColorList('').then(res => {
+           this.colorList = res.data.colorList
+          let list = []
+          this.colorList.map(item => {
+            list.push(item.colorName)
+          })
+           this.colorCheckboxGroup = [...new Set(list)]
+        }).catch(err =>{
+          this.$Message.error('获取颜色列表失败', err)
+        })
       },
       postAddSize(){
         addSize().catch(err => {
