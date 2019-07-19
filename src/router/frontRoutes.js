@@ -46,7 +46,7 @@ const frontRoutes = [
       {
         type: 'ios-grid',
         name: 'UnCheckedPage',
-        text: '未审核'
+        text: '待审核'
       },
       {
         type: 'ios-grid',
@@ -55,8 +55,8 @@ const frontRoutes = [
       },
       {
         type: 'ios-grid',
-        name: 'RetailManagementPage',
-        text: '全部零售商'
+        name: 'AuditStatusPage',
+        text: '审核详情'
       }
     ]
   },
@@ -74,7 +74,7 @@ const frontRoutes = [
       {
         type: 'ios-grid',
         name: 'UnCheckedVendorPage',
-        text: '未审核'
+        text: '待审核'
       },
       {
         type: 'ios-grid',

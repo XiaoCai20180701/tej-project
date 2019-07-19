@@ -109,6 +109,11 @@ export const asyncRoutes = {
     name: 'NotPassPage',
     component: () => import('@/pages/RetailManagement/NotPassPage.vue')
   },
+  'AuditStatusPage': {
+    path: 'AuditStatusPage',
+    name: 'AuditStatusPage',
+    component: () => import('@/pages/RetailManagement/AuditStatusPage.vue')
+  },
   'password': {
     path: 'password',
     name: 'password',
