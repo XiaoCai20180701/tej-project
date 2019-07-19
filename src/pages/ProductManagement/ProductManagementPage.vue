@@ -50,9 +50,9 @@
         this.keywords = keywords
         this.getList()
       },
-      areaChange(areaId) {
-        console.log('area 回调', areaId)
-        this.regionGroupID = areaId
+      areaChange(blockId) {
+        console.log('area 回调', blockId)
+        this.regionGroupID = blockId
         this.getList()
       },
       pageChange(page) {
@@ -67,7 +67,7 @@
         getProductList({
           page: this.page.index,
           pageSize: this.page.size,
-          area: this.regionGroupID,
+          blockId: this.regionGroupID,
           keywords: this.keywords
         }).then(res => {
           let data = res.data
