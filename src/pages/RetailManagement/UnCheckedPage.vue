@@ -4,8 +4,11 @@
       :columns-data="columnsData"
       :table-data="tableData"
       :page="page"
+      input-text="请输入零售商编号/名称/联系人"
       @page-change-callback="pageChange"
       @pageSize-change-callback="pageSizeChange"
+      @area-change-callback="areaChange"
+      @keywords-change-callback="keywordsChange"
     >
       <div slot="age"></div>
     </TejTable>
@@ -13,7 +16,7 @@
 </template>
 
 <script>
-  import { getApplylist } from '@/api/api'
+  import { postApplylist } from '@/api/api'
   import { unCheckedRetailTable } from '@/api/tableData'
   import  TejTable  from '@/components/TejTable'
   export default {
@@ -29,24 +32,43 @@
           index: 1,
           size: 10,
           total: 10
-        }
+        },
+        keywords: '',
+        blockId: null,
+        status: 2   //待审核
       }
     },
     mounted(){
       this.columnsData = unCheckedRetailTable
-      this.getApplylistFun()
+      this.getList()
     },
     methods: {
+      keywordsChange(keywords) {
+        console.log('keywords 回调', keywords)
+        this.keywords = keywords
+        this.getList()
+      },
+      areaChange(area){
+        console.log('area 回调',area)
+        this.blockId = area
+        this.getList()
+      },
       pageChange(page){
         this.page = page
-        this.getApplylistFun()
+        this.getList()
       },
       pageSizeChange(page){
         this.page = page
-        this.getApplylistFun()
+        this.getList()
       },
-      getApplylistFun(){
-        getApplylist({page:1,pageSize: 10}).then(res => {
+      getList(){
+        postApplylist({
+          page: this.page.index,
+          pageSize: this.page.size,
+          keywords: this.keywords,
+          blockId: this.blockId,
+          status: this.status
+        }).then(res => {
           let data = res.data
           this.tableData = data.list
           this.page = {
