@@ -5,6 +5,7 @@ import {get,post,put,deleteAxios} from '@/utils/http'
 const COMMON_URL = '/commonResource/'
 const PRODUCT_URL = '/productResource/'
 const RETAIL_URL = '/retailResource/'
+const VENDOR_URL = '/vendorResource/'
 
 /**
  * 登录接口
@@ -33,9 +34,9 @@ export const addParentType = (params) => post(PRODUCT_URL + 'addParentType',para
 
 export const deleteType = (typeParentId) => deleteAxios(PRODUCT_URL + 'deleteType',typeParentId)
 
-// export const editClassification = (params)=> post(PRODUCT_URL + 'editclassification',params)
+ export const getColorList = ()=> get(PRODUCT_URL + 'getColorList','')
 
-export const getClassificationlist = ()=> get(PRODUCT_URL + 'classificationlist','')
+export const getClassificationlist = ()=> get(PRODUCT_URL + 'classificationList','')
 
 export const getProductList = (params) => post(PRODUCT_URL + 'productList',params)
 
@@ -61,20 +62,23 @@ export const getProductDetail = (id) => post(PRODUCT_URL + 'getProductDetail',id
 
 export const isShow = (id,isShow) => put(PRODUCT_URL + 'isShow',id,isShow)
 
-export const getProductFilter = () => get(PRODUCT_URL + 'screendata','')
+export const getProductFilter = () => get(PRODUCT_URL + 'searchData','')
 
 /**
  * 零售商管理相关的接口
  */
-export const saveAudit = (id,isUsed) => put(RETAIL_URL + 'saveaudit',id,isUsed)
+export const putSaveAudit = (id,isUsed) => put(RETAIL_URL + 'saveaudit',id,isUsed)
 
-export const getAuditInfo = (id) => post(RETAIL_URL + 'auditinfo',id)
+export const postAuditInfo = (id) => post(RETAIL_URL + 'auditinfo',id)
 
-export const getApplylist = (params)=> post(RETAIL_URL + 'applylist',params)
+export const postApplylist = (params)=> post(RETAIL_URL + 'applylist',params)
 
-export const getAuditedlist = (params)=> post(RETAIL_URL + 'auditedlist',params)
+export const postAuditedlist = (params)=> post(RETAIL_URL + 'auditedlist',params)
 
-export const getRetaildetail = (params)=> post(RETAIL_URL + 'retaildetail',params)
+export const postRetaildetail = (params)=> post(RETAIL_URL + 'retaildetail',params)
+
+export const postFailedlist = (params) => post(RETAIL_URL + 'failedlist',params)
+
 
 /**
  * 数据管理相关的接口
