@@ -10,7 +10,7 @@
           type="month"
           @on-change="handleMonthChange"
           @on-clear="handleClear('month')"
-          @on-ok="handleOk('month')"
+          @on-ok="handleOk('month',startDate,endDate)"
         >
           <a href="javascript:void(0)" @click="handleClick('month')">
             月 /
@@ -20,10 +20,9 @@
           :open="isWeekShow"
           :value="weekValue"
           confirm
-          type="month"
+          type="date"
           @on-change="handleWeekChange"
-          @on-clear="handleClear('week')"
-          @on-ok="handleOk('week')"
+          @on-ok="handleOk('week',startDate,endDate)"
         >
           <a href="javascript:void(0)" @click="handleClick('week')">
             周 /
@@ -36,7 +35,7 @@
           type="date"
           @on-change="handleDateChange"
           @on-clear="handleClear('date')"
-          @on-ok="handleOk('date')"
+          @on-ok="handleOk('date',startDate,endDate)"
         >
           <a href="javascript:void(0)" @click="handleClick('date')">
             日
@@ -53,7 +52,6 @@
     name:'TopDateList',
     props:{
       listName:String,
-      tag:String,
       columnsData: Array,
       tableData: Array
     },
@@ -65,49 +63,14 @@
         monthValue: '',
         weekValue: '',
         dateValue: '',
+        weekEndDate: 6, //周六是一周的最后一天
+        startDate: null,
+        endDate: null,
         page: {
           index: 1,
           size: 10,
           total: 50
         },
-        options: {
-          shortcuts: [{
-            text: '日',
-            value() {
-              const end = new Date();
-              const start = new Date();
-              return [start, end];
-            },
-            onClick: (picker) => {
-              // this.$Message.info('Click today');
-            }
-          },
-            {
-              text: '周',
-              value() {
-                const end = new Date();
-                const start = new Date();
-                start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-                return [start, end];
-              },
-              onClick: (picker) => {
-                // this.$Message.info('Click a week ago');
-              }
-            },
-            {
-              text: '月',
-              value() {
-                const end = new Date();
-                const start = new Date();
-                start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-                return [start, end];
-              },
-              onClick: (picker) => {
-                // this.$Message.info('Click a week ago');
-              }
-            }
-          ]
-        }
       }
     },
     created(){
@@ -130,20 +93,48 @@
             break
         }
       },
+      handleOk (name,startDate,endDate) {
+        switch (name){
+          case 'month':
+            this.isMonthShow = false
+
+            break
+          case 'week':
+            this.isWeekShow = false
+            break
+          case 'date':
+            this.isDateShow = false
+            break
+        }
+        this.$emit('date-change',startDate,endDate)
+      },
       handleMonthChange (date) {
         this.monthValue = date
-        console.log('monthValue', date)
-        let index = date.lastIndexOf("\-")
-        let str  = date .substring(index + 1, date.length)
-        console.log('monthValue', str)
+        this.startDate = date + '-01 00:00:00'
+        this.endDate = date + '-31 23:59:59'
       },
       handleWeekChange (date) {
+        //TODO 样式可优化
         this.weekValue = date
-        console.log('weekValue', date)
+        this.getWeek(date)
       },
       handleDateChange (date) {
         this.dateValue = date
-        console.log('dateValue', date)
+        this.startDate = date + '00:00:00'
+        this.endDate = date + '23:59:59'
+      },
+      getWeek(checkedDate){
+        let day =  new Date(checkedDate).getDay()  //选中的日期是这周的第几天
+        let stepSunday = - day
+        if(day == 0) {
+          stepSunday = - this.weekEndDate
+        }
+        let stepMonday = this.weekEndDate - day
+        let time = this.$Moment(checkedDate).valueOf()
+        let monday = new Date(time +stepSunday *24*3600*1000 )
+        let sunday = new Date(time +stepMonday *24*3600*1000 )
+        this.startDate = this.$Moment(monday).format('YYYY-MM-DD HH:mm:ss')
+        this.endDate = this.$Moment(sunday).format('YYYY-MM-DD HH:mm:ss')
       },
       handleClear (name) {
         switch (name){
@@ -158,23 +149,6 @@
             break
         }
       },
-      handleOk (name) {
-        switch (name){
-          case 'month':
-            this.isMonthShow = false
-            break
-          case 'week':
-            this.isWeekShow = false
-            break
-          case 'date':
-            this.isDateShow = false
-            break
-        }
-      },
-      dateChange(objc,a) {
-        console.log(objc,a);
-        this.$emit('dateChange',this.$refs.dev.id,objc);
-      }
     }
 
 
