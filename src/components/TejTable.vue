@@ -104,16 +104,26 @@
     },
     mounted() {
       this.getProductFilterFun()
-      // console.log('路由',this.$route.name)
+       console.log('路由',this.$route.name)
     },
     methods: {
       showDetail(id){
         console.log('查看详情', id)
-        this.$router.push({
-          name: 'EditProductPage',
-          query: {productId: id },
-          params: {isEdit: true}
-        })
+        switch (this.$route.name){
+          case 'UnCheckedPage':
+            this.$router.push({
+              name: 'AuditStatusPage',
+              query: {retailId: id }
+            })
+            break
+          case 'ProductManagementPage':
+            this.$router.push({
+              name: 'EditProductPage',
+              query: {productId: id },
+              params: {isEdit: true}
+            })
+            break
+        }
       },
       searchClick(){
         this.$emit('keywords-change-callback',this.keywords)
