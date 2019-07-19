@@ -2,7 +2,7 @@
   <div style="margin-bottom: 20px">
     <div class="tej-top-date-title">
       <p class="tej-top-date-txt">{{listName}}</p>
-      <p  class="tej-top-date" :id= tag ref ="dev">
+      <p  class="tej-top-date">
         <DatePicker
           :open="isMonthShow"
           :value="monthValue"
