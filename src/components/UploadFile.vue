@@ -3,6 +3,7 @@
   <div class="demo-upload-list" v-for="item in uploadList">
     <template v-if="item.status === 'finished'">
       <img :src="item.url">
+      <p>{{item.name}}</p>
       <div class="demo-upload-list-cover">
         <Icon type="ios-eye-outline" @click.native="handleView(item.url)"></Icon>
         <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
@@ -26,6 +27,7 @@
     multiple
     type="drag"
     :action="actionUrl"
+    :data = "uploadData"
     style="display: inline-block;width:104px;">
     <div class="tej-upload-txt" ref="uploadTxt">
       <Icon type="md-add" size="20"></Icon>
@@ -55,7 +57,10 @@
         imgUrl: '',
         visible: false,
         uploadList: [],
-        list: []
+        list: [],
+        uploadData: {
+          isEditor: 0
+        }
       }
     },
     methods: {
@@ -68,10 +73,14 @@
         this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
       },
       handleSuccess (res, file) {
-        file.url= file.response.data
-        file.name = '7eb99afb9d5f317c912f08b5212fd69a'
+        file.url= file.response.data[0].path
+        file.name = file.response.data[0].name
         this.$refs.upload.fileList.map(item => {
-          this.list.push(item.url[0])
+          let data = item.response.data
+          this.list.push({
+            imgName:data[0].name,
+            imgAddress:data[0].path
+          })
         })
         this.$emit('main-callback',[...new Set(this.list )])
       },
@@ -98,7 +107,8 @@
       }
     },
     mounted () {
-      this.uploadList = this.$refs.upload.fileList;
+      this.uploadList = this.$refs.upload.fileList
+      console.log('this.uploadList',this.uploadList)
     }
   }
 </script>
