@@ -4,9 +4,11 @@
       :columns-data="columnsData"
       :table-data="tableData"
       :page="page"
+      input-text="请输入零售商编号/名称/联系人"
       @page-change-callback="pageChange"
       @pageSize-change-callback="pageSizeChange"
       @area-change-callback="areaChange"
+      @keywords-change-callback="keywordsChange"
     >
       <div slot="age"></div>
     </TejTable>
@@ -15,7 +17,7 @@
 
 <script>
   import  TejTable  from '@/components/TejTable'
-  import { getAuditedlist} from '@/api/api'
+  import { postAuditedlist} from '@/api/api'
   import { checkedRetailTable } from '@/api/tableData'
   export default {
     name: 'CheckedPage',
@@ -30,7 +32,10 @@
           index: 1,
           size: 10,
           total: 10
-        }
+        },
+        keywords: '',
+        blockId: null,
+        status: 1   //已审核
       }
     },
     mounted(){
@@ -38,8 +43,15 @@
       this.getList()
     },
     methods: {
+      keywordsChange(keywords) {
+        console.log('keywords 回调', keywords)
+        this.keywords = keywords
+        this.getList()
+      },
       areaChange(area){
         console.log('area 回调',area)
+        this.blockId = area
+        this.getList()
       },
       pageChange(page){
         this.page = page
@@ -50,7 +62,13 @@
         this.getList()
       },
       getList(){
-        getAuditedlist({page:1,pageSize: 10}).then(res => {
+        postAuditedlist({
+          page: this.page.index,
+          pageSize: this.page.size,
+          keywords: this.keywords,
+          blockId: this.blockId,
+          status: this.status
+        }).then(res => {
           let data = res.data
           this.tableData = data.list
           this.page = {
