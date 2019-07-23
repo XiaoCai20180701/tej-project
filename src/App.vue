@@ -49,4 +49,23 @@
   input[type="number"]{
     -moz-appearance: textfield;
   }
+  .clearfix {
+    zoom: 1;
+  }
+  .clearfix:after {
+    display: block;
+    content: '';
+    clear: both;
+  }
+  .tej-page-box {
+    display: flex;
+    flex-direction: row;
+    margin-top: 15px;
+  }
+
+  .tej-page {
+    flex: 1;
+    text-align: right;
+    align-self: center;
+  }
 </style>
