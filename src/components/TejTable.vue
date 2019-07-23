@@ -1,49 +1,52 @@
 <template>
   <div>
-    <Form :label-width="56" class="tej-form">
-      <FormItem label="筛选：" class="tej-label">
-        <div>
-          <slot name="area">
-            <RadioGroup v-model="checkedArea" @on-change="areaChange">
-              <Radio v-for="(item, index) in area"
-                     :key="index"
-                     :label="item.id"
-                     class="tej-radio"
-              >{{item.name}}
-              </Radio>
-            </RadioGroup>
-          </slot>
-        </div>
-        <div>
-          <slot name="age">
-            <RadioGroup v-model="checkedAge" @on-change="ageChange">
-              <Radio v-for="(item, index) in age"
-                     :key="index"
-                     :label="item.id"
-                     class="tej-radio"
-              >{{item.name}}
-              </Radio>
-            </RadioGroup>
-          </slot>
-        </div>
-      </FormItem>
-      <Divider/>
-      <div class="tej-table-extra">
-        <Row>
-          <Col span="19">
-          <div class="tej-table-search-box">
-            <Input v-model="keywords" :placeholder="inputText" class="tej-search-input" clearable @on-change="inputChange"/>
-            <Button type="primary" class="tej-search-btn" @click="searchClick(keywords)">搜索</Button>
+    <slot name="form">
+      <Form :label-width="56" class="tej-form">
+        <FormItem label="筛选：" class="tej-label">
+          <div>
+            <slot name="area">
+              <RadioGroup v-model="checkedArea" @on-change="areaChange">
+                <Radio v-for="(item, index) in area"
+                       :key="index"
+                       :label="item.id"
+                       class="tej-radio"
+                >{{item.name}}
+                </Radio>
+              </RadioGroup>
+            </slot>
           </div>
-          </Col>
-          <Col span="5">
-          <div class="tej-table-btngroup">
-            <slot name="btn"></slot>
+          <div>
+            <slot name="age">
+              <RadioGroup v-model="checkedAge" @on-change="ageChange">
+                <Radio v-for="(item, index) in age"
+                       :key="index"
+                       :label="item.id"
+                       class="tej-radio"
+                >{{item.name}}
+                </Radio>
+              </RadioGroup>
+            </slot>
           </div>
-          </Col>
-        </Row>
-      </div>
-    </Form>
+        </FormItem>
+        <Divider/>
+        <div class="tej-table-extra">
+          <Row>
+            <Col span="19">
+            <div class="tej-table-search-box">
+              <Input v-model="keywords" :placeholder="inputText" class="tej-search-input" clearable
+                     @on-change="inputChange"/>
+              <Button type="primary" class="tej-search-btn" @click="searchClick(keywords)">搜索</Button>
+            </div>
+            </Col>
+            <Col span="5">
+            <div class="tej-table-btngroup">
+              <slot name="btn"></slot>
+            </div>
+            </Col>
+          </Row>
+        </div>
+      </Form>
+    </slot>
     <div class="tej-table">
       <Table
         :columns="columnsData"
@@ -52,6 +55,7 @@
       >
         <template slot-scope="{ row, index }" slot="action">
           <a style="margin-right: 5px" @click="showDetail(row.id)">查看详情</a>
+          <slot name="action-btn"></slot>
         </template>
       </Table>
       <slot name="page">
@@ -104,31 +108,38 @@
     },
     mounted() {
       this.getProductFilterFun()
-       console.log('路由',this.$route.name)
+      console.log('路由', this.$route.name)
     },
     methods: {
-      showDetail(id){
+      showDetail(id) {
         console.log('查看详情', id)
-        switch (this.$route.name){
+        switch (this.$route.name) {
           case 'UnCheckedPage':
             this.$router.push({
               name: 'AuditStatusPage',
-              query: {retailId: id }
+              query: {retailId: id}
             })
             break
           case 'ProductManagementPage':
             this.$router.push({
               name: 'EditProductPage',
-              query: {productId: id },
+              query: {productId: id},
               params: {isEdit: true}
+            })
+            break
+          case 'CheckedVendorPage':
+            this.$router.push({
+              name: 'CheckedVendorDetailPage',
+              query: {vendorId: id},
+              params: {page: 1, pageSize: 10}
             })
             break
         }
       },
-      searchClick(){
-        this.$emit('keywords-change-callback',this.keywords)
+      searchClick() {
+        this.$emit('keywords-change-callback', this.keywords)
       },
-      inputChange(e){
+      inputChange(e) {
         console.log('输入框内容', e.target.value)
         this.keywords = e.target.value
       },
@@ -179,18 +190,6 @@
     min-height: 60vh;
     padding-bottom: 15px;
     background: #fff;
-  }
-
-  .tej-page-box {
-    display: flex;
-    flex-direction: row;
-    margin-top: 15px;
-  }
-
-  .tej-page {
-    flex: 1;
-    text-align: right;
-    align-self: center;
   }
 
   .tej-label > :first-child {
