@@ -1,0 +1,144 @@
+<template>
+  <Form :label-width="80" class="tej-order-search-form">
+    <FormItem label="厂商：">
+      <Input type="text"
+             class="tej-order-search-input"
+             placeholder="请输入厂商名称"
+             v-model="vendorName"
+             @on-change="vendorNameChange"
+             clearable
+      />
+      <span class="tej-order-tag"
+            v-for="(item, index) in vendorList"
+            :key="index"
+            @click="vendorClick(item)"
+      >{{item}}</span>
+    </FormItem>
+    <FormItem label="零售商：">
+      <Input type="text"
+             class="tej-order-search-input"
+             placeholder="请输入零售商名称"
+             v-model="retailName"
+             @on-change="retailNameChange"
+             clearable
+      />
+      <span class="tej-order-tag"
+            v-for="(item, index) in retailList"
+            :key="index"
+            @click="retailClick(item)"
+      >{{item}}
+       </span>
+    </FormItem>
+    <Divider/>
+    <FormItem label="订单时间：">
+      <DatePicker type="date"
+                  placeholder="请输入开始时间"
+                  :value="startTime"
+                  @on-change="startTimeChange"
+      ></DatePicker>
+      -
+      <DatePicker type="date"
+                  placeholder="请输入结束时间"
+                  :value="endTime"
+                  @on-change="endTimeChange"
+      ></DatePicker>
+      <Button type="primary" @click="search">确认</Button>
+    </FormItem>
+  </Form>
+</template>
+
+<script>
+  import {getHistoryList} from '@/api/api'
+  export default {
+    name: 'OrderSearchForm',
+    data(){
+      return {
+        vendorName: '',
+        retailName: '',
+        startTime: null,
+        endTime: null,
+        vendorList: [],
+        retailList: [],
+      }
+    },
+    mounted() {
+      this.getHistoryListFun()
+    },
+    methods: {
+      search() {
+        console.log('时间', this.startTime, this.endTime)
+        this.$emit('ok-callback',{
+          vendorName: this.vendorName,
+          retailName: this.retailName,
+          startTime: this.startTime,
+          endTime: this.endTime,
+        })
+      },
+      vendorClick(vendor) {
+        this.vendorName = vendor
+        console.log('vendorClick', this.vendorName)
+        this.$emit('vendor-callback',vendor)
+      },
+      retailClick(retail) {
+        this.retailName = retail
+        console.log('retailClick', this.retailName)
+        this.$emit('retail-callback',retail)
+      },
+      vendorNameChange(e) {
+        this.vendorName = e.target.value
+        console.log('厂商名称', e.target.value)
+      },
+      retailNameChange(e) {
+        this.retailName = e.target.value
+        console.log('零售商名称', e.target.value)
+      },
+      startTimeChange(startTime) {
+        this.startTime = startTime
+        console.log('开始时间', startTime)
+      },
+      endTimeChange(endTime) {
+        this.endTime = endTime
+        console.log('结束时间', endTime)
+      },
+      getHistoryListFun() {
+        getHistoryList().then(res => {
+          console.log('历史记录', res.data)
+          this.vendorList = res.data.vendorList
+          this.retailList = res.data.retailList
+        }).catch(err => {
+          this.$Message.error('获取历史记录失败', err)
+        })
+      },
+    }
+  }
+</script>
+
+<style scoped>
+  .tej-order-search-form {
+    padding: 18px;
+    background: #fff;
+  }
+
+  .tej-order-search-input {
+    width: 300px;
+    margin-right: 15px;
+  }
+
+  .tej-order-tag {
+    display: inline-block;
+    height: 22px;
+    line-height: 22px;
+    margin: 2px 4px 2px 0;
+    padding: 0 8px;
+    border: 1px solid #e8eaec;
+    border-radius: 3px;
+    background: #f7f7f7;
+    font-size: 12px;
+    vertical-align: middle;
+    opacity: 1;
+    overflow: hidden;
+    cursor: pointer;
+  }
+</style>
+
+
