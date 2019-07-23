@@ -73,6 +73,11 @@ const frontRoutes = [
     },
       {
         type: 'ios-grid',
+        name: 'CheckedVendorDetailPage',
+        text: '厂商详情'
+      },
+      {
+        type: 'ios-grid',
         name: 'UnCheckedVendorPage',
         text: '待审核'
       },
@@ -99,6 +104,11 @@ const frontRoutes = [
         type: 'ios-grid',
         name: 'NonPayment',
         text: '未付款'
+      },
+      {
+        type: 'ios-grid',
+        name: 'OrderDetailPage',
+        text: '订单详情'
       },
       {
         text: '未发货',

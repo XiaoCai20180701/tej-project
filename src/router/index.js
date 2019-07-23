@@ -34,6 +34,11 @@ export const asyncRoutes = {
     name: 'EditProductPage',
     component: () => import('@/pages/ProductManagement/EditProductPage.vue')
   },
+  'OrderDetailPage': {
+    path: 'OrderDetailPage',
+    name: 'OrderDetailPage',
+    component: () => import('@/pages/OrderManagement/OrderDetailPage.vue')
+  },
   'NonPayment': {
     path: 'NonPayment',
     name: 'NonPayment',
@@ -78,6 +83,11 @@ export const asyncRoutes = {
     path: 'CheckedVendorPage',
     name: 'CheckedVendorPage',
     component: () => import('@/pages/VendorManagement/CheckedVendorPage.vue')
+  },
+  'CheckedVendorDetailPage': {
+    path: 'CheckedVendorDetailPage',
+    name: 'CheckedVendorDetailPage',
+    component: () => import('@/pages/VendorManagement/CheckedVendorDetailPage.vue')
   },
   'DataManagementPage': {
     path: 'DataManagementPage',
