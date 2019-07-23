@@ -6,6 +6,7 @@ const COMMON_URL = '/commonResource/'
 const PRODUCT_URL = '/productResource/'
 const RETAIL_URL = '/retailResource/'
 const VENDOR_URL = '/vendorResource/'
+const ORDER_URL  ='/orderResource/'
 
 /**
  * 登录接口
@@ -79,6 +80,23 @@ export const postRetaildetail = (params)=> post(RETAIL_URL + 'retaildetail',para
 
 export const postFailedlist = (params) => post(RETAIL_URL + 'failedlist',params)
 
+
+/**
+ * 厂商管理相关的接口
+ */
+export const postVendorList = (params) => post(VENDOR_URL + 'vendorList',params)  //厂商列表
+
+export const postVendorDetail = (params) => post(VENDOR_URL + 'vendorDetail',params)  //厂商详情
+
+
+/**
+ * 订单管理相关的接口
+ */
+export const postOrderDetail = (ordeId) => post(ORDER_URL + 'orderDetail',ordeId)  //订单详情
+
+export const getHistoryList = () => get(ORDER_URL + 'historyList')  //获取历史记录列表
+
+export const postOrderList = (params) => post(ORDER_URL + 'orderList',params)  //订单列表
 
 /**
  * 数据管理相关的接口
