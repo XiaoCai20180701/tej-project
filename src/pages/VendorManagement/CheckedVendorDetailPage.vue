@@ -107,7 +107,11 @@
         this.getList()
       },
       getList() {
-        postVendorDetail().then(res => {
+        postVendorDetail({
+          vendorId: this.$route.query.vendorId,
+          page: 1,
+          pageSize: 10
+        }).then(res => {
           let data = res.data
           this.vendorDetail = data
           console.log('data',data)
