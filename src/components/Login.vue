@@ -61,6 +61,7 @@
         let username = this.formInline.user
         let password = this.$md5(this.formInline.password)
         login({userName: username, passWord: password}).then(res => {
+          this.loading = false
           let data = res.data
           // 登陆成功 设置用户信息
           localStorage.setItem('userImg', data.avatar)
@@ -71,6 +72,7 @@
           this.$router.push({path: this.redirect || '/ProductManagementPage'})
           this.$Message.success("登录成功")
         }).catch(err => {
+          this.loading = false
           this.$Message.info("登录失败", err)
         })
       }
