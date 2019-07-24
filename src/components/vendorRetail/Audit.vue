@@ -3,11 +3,11 @@
     <div class="outside">
       <Row>
         <Col span="6">
-        <p style="font-size: 16px;">{{isVendor? '厂商基本信息': '零售商基本信息'}}</p>
+        <p style="font-size: 16px;">{{ isVendor ? '厂商': '零售商'}}基本信息</p>
         </Col>
         <Col span="10" offset="3">
         <p style="margin-top: 25px;">
-          <span class="s_text">{{isVendor? '厂家名称': '零售商名称'}}：</span>
+          <span class="s_text">{{isVendor? '厂家': '零售商'}}名称：</span>
           <span>{{retailInfo.name}}</span>
         </p>
         <p class="p-text">
@@ -26,7 +26,6 @@
           <span class="s_text">联系地址：</span>
           <span>{{retailInfo.address}}</span>
         </p>
-
         </Col>
       </Row>
     </div>
@@ -77,14 +76,14 @@
 
 <script>
   export default {
-    name: 'Audit',
     props: {
       isAudit: Number,
       info: Object,
-      isVendor: Boolean,
+      isVendor: {
+        type: Boolean
+      },
       retailInfo: Object
     },
-
     data() {
       return {
         modal: false,
