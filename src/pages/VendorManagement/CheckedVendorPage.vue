@@ -18,7 +18,7 @@
 <script>
   import  TejTable  from '@/components/TejTable'
   import { postVendorList} from '@/api/api'
-  import { checkedVendorTable } from '@/api/tableData'
+  import { checkedVendorTable, auditType } from '@/api/tableData'
   export default {
     name: 'CheckedVendorPage',
     components: {
@@ -35,7 +35,6 @@
         },
         keywords: '',
         blockId: null,
-        status: 1   //已审核
       }
     },
     mounted(){
@@ -67,7 +66,7 @@
           pageSize: this.page.size,
           keywords: this.keywords,
           blockId: this.blockId,
-          status: this.status
+          status: auditType.checked
         }).then(res => {
           let data = res.data
           this.tableData = data.vendorList
