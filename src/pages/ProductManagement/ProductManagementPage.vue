@@ -85,7 +85,10 @@
           })
         })
           .catch(err => {
-            this.$Message.error('获取商品列表失败', err)
+            console.log('err', err)
+            this.$Message.info({
+              content: err
+            })
           })
       },
       gotoAddClassification() {
