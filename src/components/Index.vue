@@ -17,7 +17,7 @@
                             <span v-show="isShowAsideTitle">{{item.text}}</span>
                         </template>
                         <div v-for="(subItem, i) in item.children" :key="index + i">
-                            <Submenu v-if="subItem.children" :name="index + '-' + i">
+                            <Submenu v-if="subItem.children > 0" :name="index + '-' + i">
                                 <template slot="title">
                                     <Icon :size="subItem.size" :type="subItem.type"/>
                                     <span v-show="isShowAsideTitle">{{subItem.text}}</span>
