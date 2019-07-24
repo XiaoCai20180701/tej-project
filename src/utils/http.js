@@ -4,9 +4,9 @@ import router from 'vue-router'
 import QS from 'qs'
 
 if (process.env.NODE_ENV == 'development') {
-  axios.defaults.baseURL = '/api';
+  axios.defaults.baseURL = '/api'
 } else if (process.env.NODE_ENV == 'production') {
-  axios.defaults.baseURL = 'http://xxx/';
+  axios.defaults.baseURL = '/prod'
 }
 
 axios.defaults.timeout = 10000
@@ -61,7 +61,7 @@ axios.interceptors.response.use(
         case 404:
           Message({message: '网络请求不存在', duration: 1500});
           break
-        default:Message({message: err.response.data.message, duration: 1500})
+        default:Message({message: err.response.data.msg, duration: 1500})
       }
       return Promise.reject(err.response)
     }
@@ -73,11 +73,9 @@ axios.interceptors.response.use(
  * @param {String} url [请求的url地址]
  * @param {Object} params [请求时携带的参数]
  */
-export function get (url, params) {
+export function get (url) {
   return new Promise((resolve, reject) => {
-    axios.get(url, {
-      params: params
-    }).then(res => {
+    axios.get(url).then(res => {
       resolve(res.data)
     }).catch(err => {
       reject(err.data)
