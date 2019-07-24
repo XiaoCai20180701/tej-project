@@ -1,6 +1,11 @@
 <template>
   <div>
-    <Audit :is-audit="isAudit" :is-vendor="isVendor" :info="info" :retail-info="retailInfo" @save-audit-callback="saveAudit">
+    <Audit :is-audit="isAudit"
+           :is-vendor="isVendor"
+           :info="info"
+           :retail-info="retailInfo"
+           @save-audit-callback="saveAudit"
+    >
     </Audit>
   </div>
 </template>
@@ -19,7 +24,7 @@
     data() {
       return {
         isAudit: 0,  //0不通过 1通过
-        isVendor: true,
+        isVendor: this.$route.params.isVendor,
         info: {},
         retailInfo: {}
       }
@@ -29,12 +34,12 @@
     },
     methods: {
       getAuditinfo() {
-//        let params
-//        if(this.$route.params.isVendor){
-//          params = { vendorId: this.$route.query.vendorId}
-//        }else {
-//          params = { retailId: this.$route.query.retailId}
-//        }
+        let params
+        if(this.$route.params.isVendor){
+          params = { vendorId: this.$route.query.vendorId}
+        }else {
+          params = { retailId: this.$route.query.retailId}
+        }
         console.log('params !!!!',params)
         postAuditInfo(params)
           .then(res => {
