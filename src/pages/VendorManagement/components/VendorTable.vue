@@ -7,13 +7,13 @@
     >
       <template slot-scope="{ row, index }" slot="action">
         <a @click="showDetail(row.id)"
-           v-if="row.productShow == enable"
+           v-if="row.show == enable"
         >查看详情</a>
         <a @click="edit(row.id)"
            v-else
         >编辑商品</a>
         <a style="margin-right: 5px" @click="setProductShow(row)">
-          {{row.productShow == enable ? '已启用': '未启用'}}
+          {{row.show == enable ? '已启用': '未启用'}}
         </a>
       </template>
     </Table>
@@ -65,7 +65,7 @@
         })
       },
       setProductShow(row){
-          row.productShow = !row.productShow
+          row.show = !row.show
         //TODO 请求修改接口
       },
       pageChange(i) {
