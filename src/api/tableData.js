@@ -124,6 +124,16 @@ export const notPassRetailTable = [
 ]
 
 /**
+ * 厂商、零售商管理 => 审核状态
+ * 1:已审核  2:待审核 3:未通过
+ * */
+export const  auditType = {
+  'checked': 1,
+  'unChecked': 2,
+  'notPass': 3,
+}
+
+/**
  * 厂商管理 => 已审核列表
  * */
 export const checkedVendorTable = [
@@ -298,3 +308,4 @@ export const  orderType = {
   'evaluate': 4,
   'afterProcessing': 5
 }
+
