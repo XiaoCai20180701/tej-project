@@ -88,6 +88,7 @@
       return {
         modal: false,
         value: '',
+       // isVendor: true
       }
     },
     created() {
