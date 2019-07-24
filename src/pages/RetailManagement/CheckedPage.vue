@@ -18,7 +18,7 @@
 <script>
   import  TejTable  from '@/components/TejTable'
   import { postAuditedlist} from '@/api/api'
-  import { checkedRetailTable } from '@/api/tableData'
+  import { checkedRetailTable, auditType } from '@/api/tableData'
   export default {
     name: 'CheckedPage',
     components: {
@@ -34,8 +34,7 @@
           total: 10
         },
         keywords: '',
-        blockId: null,
-        status: 1   //已审核
+        blockId: null
       }
     },
     mounted(){
@@ -67,7 +66,7 @@
           pageSize: this.page.size,
           keywords: this.keywords,
           blockId: this.blockId,
-          status: this.status
+          status: auditType.checked
         }).then(res => {
           let data = res.data
           this.tableData = data.list
