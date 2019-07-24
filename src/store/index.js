@@ -9,7 +9,7 @@ const store = new Vuex.Store({
     state: {
         // 左侧菜单栏数据 (前端路由表)
         menuItems: frontRoutes,
-        role: 0
+        role: 1
     },
     mutations: {
         SET_MENUS(state, items) {
@@ -21,7 +21,7 @@ const store = new Vuex.Store({
     },
     actions: {
         getAnyscMenu({commit},role){
-            getRes(role).then(res => {
+            getRes({roleId: 1}).then(res => {
                 let menuItems = res.data.menuItems
                 commit('SET_MENUS',menuItems)
             }).catch(err => {
