@@ -6,7 +6,7 @@
 </template>
 
 <script>
-  import Audit from '@/components/Audit'
+  import Audit from '@/components/vendorRetail/Audit'
   import {
     postAuditInfo,
     putSaveAudit
