@@ -68,7 +68,9 @@
           orderId: null,
           orderTime: null,
           orderType: null,
-          retailInfo: {},
+          retailInfo: {
+            retailId: null
+          },
           vendorInfo: {},
           productInformationList: {
             list: []
@@ -84,10 +86,12 @@
     },
     methods: {
       getDetail() {
-        let id = this.$route.query.ordeId
-        postOrderDetail({ordeId: id}).then(res => {
+        let id = this.$route.query.orderId
+        postOrderDetail({
+          ordeId: id
+        }).then(res => {
           this.orderDetail = res.data
-          console.log('oder list', res.data)
+          console.log('oder list', res)
         }).catch(err => {
           this.$Message.error('获取订单详情失败', err)
         })
