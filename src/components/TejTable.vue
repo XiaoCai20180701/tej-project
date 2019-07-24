@@ -54,7 +54,7 @@
         v-if="tableData.length > 0"
       >
         <template slot-scope="{ row, index }" slot="action">
-          <a style="margin-right: 5px" @click="showDetail(row.id)">查看详情</a>
+          <a style="margin-right: 5px" @click="showDetail(row)">查看详情</a>
           <slot name="action-btn"></slot>
         </template>
       </Table>
@@ -111,27 +111,41 @@
       console.log('路由', this.$route.name)
     },
     methods: {
-      showDetail(id) {
-        console.log('查看详情', id)
+      showDetail(row) {
+        console.log('查看详情', row)
         switch (this.$route.name) {
+          case 'CheckedPage':
+            this.$router.push({
+              name: 'AuditStatusPage',
+              query: {retailId: row.retailId}
+            })
+            break
           case 'UnCheckedPage':
             this.$router.push({
               name: 'AuditStatusPage',
-              query: {retailId: id}
+              query: {retailId: row.retailId},
+              params: {isVendor: false}
             })
             break
           case 'ProductManagementPage':
             this.$router.push({
               name: 'EditProductPage',
-              query: {productId: id},
+              query: {productId: row.id},
               params: {isEdit: true}
             })
             break
           case 'CheckedVendorPage':
             this.$router.push({
               name: 'CheckedVendorDetailPage',
-              query: {vendorId: id},
+              query: {vendorId: row.vendorId},
               params: {page: 1, pageSize: 10}
+            })
+            break
+          case 'UnCheckedVendorPage':
+            this.$router.push({
+              name: 'AuditStatusPage',
+              query: {vendorId: row.vendorId},
+              params: {isVendor: true}
             })
             break
         }
