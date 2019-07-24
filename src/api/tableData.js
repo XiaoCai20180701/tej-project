@@ -285,3 +285,16 @@ export const  cooperationTable = [
   },
 ]
 
+
+/**
+ * 订单管理 => 订单状态
+ * 0:未付款  1:未发货  2:已收货 3:已发货 4:已评价 5:退换货
+ * */
+export const  orderType = {
+  'nonPayment': 0,
+  'unshipped': 1,
+  'payment': 2,
+  'shipped': 3,
+  'evaluate': 4,
+  'afterProcessing': 5
+}
