@@ -15,6 +15,7 @@
 
 <script>
   import { postOrderList} from '@/api/api'
+  import { orderType } from '@/api/tableData'
   import OrderSearchForm from './components/OrderSearchForm'
   import OrderTable from './components/OrderTable'
   import expandRow from './components/OrderItemExpand'
@@ -35,7 +36,6 @@
             type: 'expand',
             width: 50,
             render: (h, params) => {
-              console.log('params.row',params.row)
               return h(expandRow, {
                 props: {
                   row: params.row
@@ -84,29 +84,29 @@
         this.getList()
       },
       searchCallback(data){
-        console.log('確認',data)
+        console.log('确认 回调',data)
         this.getList()
       },
       vendorCallback(data){
-        console.log('廠商歷史記錄',data)
+        console.log('厂商历史记录点击 回调',data)
         this.getList()
       },
       retailCallback(data){
-        console.log('生產商歷史記錄',data)
+        console.log('零售商历史记录点击 回调',data)
         this.getList()
       },
       getList() {
         let params = {
-          page: 1,
-          pageSize: 10,
-          orderType: 0,
+          page: this.page.index,
+          pageSize: this.page.size,
+          orderType: orderType.nonPayment,
           vendorName: this.vendorName,
           retailName: this.retailName,
           startTime: this.startTime,
           endTime: this.endTime
         }
         postOrderList(params).then(res => {
-          console.log('订单列表', res.data)
+          console.log('未付款订单列表', res.data)
           let data = res.data
           this.orderData = data.orderList
           this.page = {
@@ -115,7 +115,7 @@
             total: data.total
           }
         }).catch(err => {
-          this.$Message.error('获取订单列表失败', err)
+          this.$Message.error('获取未付款订单列表失败', err)
         })
       }
     }
