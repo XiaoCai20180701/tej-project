@@ -1,8 +1,9 @@
 <template>
   <div class="tej-product-item">
-    <div class="picture"
-         style="background-image: url('http://b-ssl.duitang.com/uploads/item/201805/13/20180513224039_tgfwu.png')"></div>
-    <div class="product">
+    <div class="picture">
+      <div class="img" style="background-image: url('http://b-ssl.duitang.com/uploads/item/201805/13/20180513224039_tgfwu.png')"></div>
+    </div>
+    <div class="product" :style="getProductStyle()">
       <h4 class="title">{{data.productName}}</h4>
       <div v-if="totalAlign == 'left'">
         <p>总计：{{data.totalNumber}}件</p>
@@ -14,7 +15,7 @@
         <span>{{item.color}}</span> <span>全码</span> <span>{{item.number}}件</span>
       </p>
     </div>
-    <div class="total" v-if="totalAlign == 'right'">
+    <div class="total" v-if="totalAlign == 'right'" :style="getTotalStyle()">
       <span>总计：{{data.totalNumber}}件</span>
       <span>总价：{{data.totalPrice | money}}元</span>
     </div>
@@ -36,6 +37,22 @@
       return {}
     },
     computed:{
+    },
+    methods: {
+      getProductStyle(){
+        if(this.totalAlign == 'left'){
+          return 'width: 70%'
+        }else {
+          return 'width: 40%'
+        }
+      },
+      getTotalStyle(){
+        if(this.totalAlign == 'left'){
+          return 'width: 20%'
+        }else {
+          return 'width: auto'
+        }
+      }
     }
   }
 </script>
@@ -48,10 +65,16 @@
   }
 
   .tej-product-item .picture {
+    width: 88px;
+    padding: 6px;
+    border: 1px solid #e8eaec;
+    border-radius: 4px;
+  }
+  .tej-product-item .img {
     vertical-align: middle;
     /*display: table-cell;*/
-    width: 88px;
-    height: 88px;
+    width: 76px;
+    height: 76px;
     background-size: cover;
   }
 
