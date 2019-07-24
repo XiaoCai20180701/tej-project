@@ -15,18 +15,18 @@
               </RadioGroup>
             </slot>
           </div>
-          <div>
-            <slot name="age">
-              <RadioGroup v-model="checkedAge" @on-change="ageChange">
-                <Radio v-for="(item, index) in age"
-                       :key="index"
-                       :label="item.id"
-                       class="tej-radio"
-                >{{item.name}}
-                </Radio>
-              </RadioGroup>
-            </slot>
-          </div>
+          <!--<div>-->
+            <!--<slot name="age">-->
+              <!--<RadioGroup v-model="checkedAge" @on-change="ageChange">-->
+                <!--<Radio v-for="(item, index) in age"-->
+                       <!--:key="index"-->
+                       <!--:label="item.id"-->
+                       <!--class="tej-radio"-->
+                <!--&gt;{{item.name}}-->
+                <!--</Radio>-->
+              <!--</RadioGroup>-->
+            <!--</slot>-->
+          <!--</div>-->
         </FormItem>
         <Divider/>
         <div class="tej-table-extra">
@@ -137,14 +137,13 @@
           case 'CheckedVendorPage':
             this.$router.push({
               name: 'CheckedVendorDetailPage',
-              query: {vendorId: row.vendorId},
-              params: {page: 1, pageSize: 10}
+              query: {vendorId: row.id}
             })
             break
           case 'UnCheckedVendorPage':
             this.$router.push({
               name: 'AuditStatusPage',
-              query: {vendorId: row.vendorId},
+              query: {vendorId: row.id},
               params: {isVendor: true}
             })
             break
@@ -170,12 +169,14 @@
           .then(res => {
             this.area = res.data.area
             this.checkedArea = this.area[0].id
-            this.age = res.data.age
-            this.checkedAge = this.age[0].id
-            console.log('filter', res.data)
+//            this.age = res.data.age
+//            this.checkedAge = this.age[0].id
           })
           .catch(err => {
-            this.$Message.error('获取筛选条件失败', err)
+            console.log('获取筛选条件失败!!',err)
+            this.$Message.error({
+              content: '获取筛选条件失败'
+            })
           })
       },
       pageChange(i) {
