@@ -16,7 +16,7 @@ export const login = (userName,passWord) => post('/loginResource/login',userName
 /**
  * 获取页面菜单权限接口
  */
-export const getRes = (role) => get('/loginResource/menu',role)
+export const getRes = (roleId) => post('/loginResource/menu',roleId)
 
 /**
  * 上传图片接口
@@ -63,7 +63,7 @@ export const getProductDetail = (id) => post(PRODUCT_URL + 'getProductDetail',id
 
 export const isShow = (id,isShow) => put(PRODUCT_URL + 'isShow',id,isShow)
 
-export const getProductFilter = () => get(PRODUCT_URL + 'searchData','')
+export const getProductFilter = () => get(PRODUCT_URL + 'searchData')
 
 /**
  * 零售商管理相关的接口
