@@ -56,7 +56,7 @@
             key: 'orderSendTime'
           },
           {
-            title: '发货至',
+            title: '发货于',
             key: 'vendorName'
           },
           {
