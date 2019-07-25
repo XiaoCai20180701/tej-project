@@ -17,7 +17,7 @@
     </div>
     <div class="total" v-if="totalAlign == 'right'" :style="getTotalStyle()">
       <span>总计：{{data.totalNumber}}件</span>
-      <span>总价：{{data.totalPrice | money}}元</span>
+      <span>总价：{{data.totalPrice? data.totalPrice: data.productPrice | money}}元</span>
     </div>
   </div>
 </template>
