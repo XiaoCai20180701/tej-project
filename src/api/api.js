@@ -7,6 +7,7 @@ const PRODUCT_URL = '/productResource/'
 const RETAIL_URL = '/retailResource/'
 const VENDOR_URL = '/vendorResource/'
 const ORDER_URL  ='/orderResource/'
+const USER_URL = '/userResource/'
 
 /**
  * 登录接口
@@ -68,15 +69,15 @@ export const getProductFilter = () => get(PRODUCT_URL + 'searchData')
 /**
  * 零售商管理相关的接口
  */
-export const putSaveAudit = (id,isUsed) => put(RETAIL_URL + 'saveaudit',id,isUsed)
+export const putSaveAudit = (id,isUsed) => put(RETAIL_URL + 'saveaudit',id,isUsed)  //存储审核结果
 
-export const postAuditInfo = (id) => post(RETAIL_URL + 'auditinfo',id)
+export const postAuditInfo = (id) => post(RETAIL_URL + 'auditinfo',id)  //获取零售商审核信息
 
 export const postApplylist = (params)=> post(RETAIL_URL + 'applylist',params)
 
-export const postAuditedlist = (params)=> post(RETAIL_URL + 'auditedlist',params)
+export const postRetaillist = (params)=> post(RETAIL_URL + 'retaillist',params)  //零售商列表
 
-export const postRetaildetail = (params)=> post(RETAIL_URL + 'retaildetail',params)
+export const postRetailDetail = (params)=> post(RETAIL_URL + 'retaildetail',params)  //零售商详情
 
 export const postFailedlist = (params) => post(RETAIL_URL + 'failedlist',params)
 
@@ -87,6 +88,8 @@ export const postFailedlist = (params) => post(RETAIL_URL + 'failedlist',params)
 export const postVendorList = (params) => post(VENDOR_URL + 'vendorList',params)  //厂商列表
 
 export const postVendorDetail = (params) => post(VENDOR_URL + 'vendorDetail',params)  //厂商详情
+
+export const postVendorInfo = (id) => post(RETAIL_URL + 'auditinfo',id) //获取厂商审核信息  //TODO 接口名称需要修改
 
 
 /**
@@ -103,12 +106,19 @@ export const postOrderList = (params) => post(ORDER_URL + 'orderList',params)  /
  */
 export const getStationdata = ()=>get('/statisticsResource/stationdata','')
 
-export const postProductsaletop = (paramas)=>post('/statisticsResource/productsaletop',paramas)
+export const postProductsaletop = (params)=>post('/statisticsResource/productsaletop',params)
 
-export const postProductaccesstop = (paramas)=>post('/statisticsResource/productaccesstop',paramas)
+export const postProductaccesstop = (params)=>post('/statisticsResource/productaccesstop',params)
 
-export const postVendorsaletop = (paramas)=>post('/statisticsResource/vendorsaletop',paramas)
+export const postVendorsaletop = (params)=>post('/statisticsResource/vendorsaletop',params)
 
-export const postCooperationtop = (paramas)=>post('/statisticsResource/cooperationtop',paramas)
+export const postCooperationtop = (params)=>post('/statisticsResource/cooperationtop',params)
 
+/**
+ * 账户管理相关的接口
+ */
+export const  postUserList = (params) => post(USER_URL + 'userlist',params)   //账户列表
 
+export const getRolelist = () => get(USER_URL + 'rolelist')  //角色列表
+
+export const  putEditUserStatus = (params) => put(USER_URL + 'edituserstatus',params)  //修改用户状态
