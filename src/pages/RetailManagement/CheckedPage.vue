@@ -17,7 +17,7 @@
 
 <script>
   import  TejTable  from '@/components/TejTable'
-  import { postAuditedlist} from '@/api/api'
+  import { postRetaillist} from '@/api/api'
   import { checkedRetailTable, auditType } from '@/api/tableData'
   export default {
     name: 'CheckedPage',
@@ -61,7 +61,7 @@
         this.getList()
       },
       getList(){
-        postAuditedlist({
+        postRetaillist({
           page: this.page.index,
           pageSize: this.page.size,
           keywords: this.keywords,

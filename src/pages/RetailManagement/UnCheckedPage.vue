@@ -16,8 +16,8 @@
 </template>
 
 <script>
-  import { postApplylist } from '@/api/api'
-  import { unCheckedRetailTable } from '@/api/tableData'
+  import { postRetaillist } from '@/api/api'
+  import { unCheckedRetailTable, auditType } from '@/api/tableData'
   import  TejTable  from '@/components/TejTable'
   export default {
     name: 'UnCheckedPage',
@@ -35,7 +35,6 @@
         },
         keywords: '',
         blockId: null,
-        status: 2   //待审核
       }
     },
     mounted(){
@@ -62,12 +61,12 @@
         this.getList()
       },
       getList(){
-        postApplylist({
+        postRetaillist({
           page: this.page.index,
           pageSize: this.page.size,
           keywords: this.keywords,
           blockId: this.blockId,
-          status: this.status
+          status: auditType.unChecked
         }).then(res => {
           let data = res.data
           this.tableData = data.list

@@ -16,8 +16,8 @@
 </template>
 
 <script>
-  import { postFailedlist } from '@/api/api'
-  import { notPassRetailTable } from '@/api/tableData'
+  import { postRetaillist } from '@/api/api'
+  import { notPassRetailTable, auditType } from '@/api/tableData'
   import  TejTable  from '@/components/TejTable'
   export default {
     name: 'NotPassPage',
@@ -35,7 +35,6 @@
         },
         keywords: '',
         blockId: null,
-        status: 3   //不通过
       }
     },
     mounted(){
@@ -62,12 +61,12 @@
         this.getList()
       },
       getList(){
-        postFailedlist({
+        postRetaillist({
           page: this.page.index,
           pageSize: this.page.size,
           keywords: this.keywords,
           blockId: this.blockId,
-          status: this.status
+          status: auditType.notPass
         }).then(res => {
           let data = res.data
           this.tableData = data.list
