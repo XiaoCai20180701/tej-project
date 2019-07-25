@@ -295,6 +295,30 @@ export const  cooperationTable = [
   },
 ]
 
+/**
+ * 账户管理 => 列表
+ * */
+export const accountTable = [
+  {
+    'title': '账户编号'
+  },
+  {
+    'title': '账户昵称'
+  },
+  {
+    'title': '默认角色'
+  },
+  {
+    'title': '绑定手机号'
+  },
+  {
+    'title': '备注信息'
+  },
+  {
+    'title': '操作',
+    'slot': 'action'
+  }
+]
 
 /**
  * 订单管理 => 订单状态
@@ -308,4 +332,25 @@ export const  orderType = {
   'evaluate': 4,
   'afterProcessing': 5
 }
+/**
+ * 账户管理 => 角色
+ * 1:管理员 2:产品运营 3:营销管理 4:售前售后 5:行政管理
+ * */
+export const  roleType = {
+  'admin': 1,
+  'productOperation': 2,
+  'marketingManagement': 3,
+  'preAfterSales': 4,
+  'administrativeManagement': 5
+}
+
+/**
+ * 账户管理 => 账户状态
+ * 0:未启用 1:启用
+ * */
+export const  userStatusType = {
+  'enable': 1,
+  'disable': 0,
+}
+
 
