@@ -45,6 +45,11 @@ const frontRoutes = [
     },
       {
         type: 'ios-grid',
+        name: 'CheckedDetailPage',
+        text: '零售商详情'
+      },
+      {
+        type: 'ios-grid',
         name: 'UnCheckedPage',
         text: '待审核'
       },

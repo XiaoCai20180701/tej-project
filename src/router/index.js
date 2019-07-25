@@ -109,6 +109,11 @@ export const asyncRoutes = {
     name: 'CheckedPage',
     component: () => import('@/pages/RetailManagement/CheckedPage.vue')
   },
+  'CheckedDetailPage': {
+    path: 'CheckedDetailPage',
+    name: 'CheckedDetailPage',
+    component: () => import('@/pages/RetailManagement/CheckedDetailPage.vue')
+  },
   'UnCheckedPage': {
     path: 'UnCheckedPage',
     name: 'UnCheckedPage',
@@ -122,7 +127,7 @@ export const asyncRoutes = {
   'AuditStatusPage': {
     path: 'AuditStatusPage',
     name: 'AuditStatusPage',
-    component: () => import('@/pages/RetailManagement/AuditStatusPage.vue')
+    component: () => import('@/components/vendorRetail/AuditStatusPage.vue')
   },
   'password': {
     path: 'password',
