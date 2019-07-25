@@ -7,11 +7,11 @@
       <Col span="19">
         <div class="tej-vendor-detailinfo">
           <Row :gutter="20">
-            <Col span="10">
-                <DataInfo :data="vendorDetail.trafficAndSales"></DataInfo>
+            <Col span="12">
+                <DataInfo :data="vendorDetail.trafficAndSales" :is-vendor="isVendor"></DataInfo>
             </Col>
-            <Col span="10">
-              <EnvironmentImg></EnvironmentImg>
+            <Col span="12">
+              <EnvironmentImg :img-list="vendorDetail.vendorEnvironmentImg"></EnvironmentImg>
             </Col>
           </Row>
           <div class="tej-vendor-table">
@@ -92,6 +92,7 @@
           vendorInfo: {},
           trafficAndSales: {}
         },
+        isVendor: true
       }
     },
     mounted() {
