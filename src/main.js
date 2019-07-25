@@ -12,10 +12,14 @@ import './utils/permission'
 import md5 from 'js-md5'
 import filter from '@/utils/filter'
 import Moment from 'moment'
+import VueAwesomeSwiper from 'vue-awesome-swiper'
+import 'swiper/dist/css/swiper.css'
+
 Vue.config.productionTip = false
 Vue.use(VueRouter)
 Vue.use(Vuex)
 Vue.use(iview)
+Vue.use(VueAwesomeSwiper)
 
 Vue.prototype.$axios = axios
 Vue.prototype.$md5 = md5
