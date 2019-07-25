@@ -15,6 +15,9 @@
               </RadioGroup>
             </slot>
           </div>
+          <div>
+            <slot name="extra"></slot>
+          </div>
           <!--<div>-->
             <!--<slot name="age">-->
               <!--<RadioGroup v-model="checkedAge" @on-change="ageChange">-->
@@ -32,11 +35,13 @@
         <div class="tej-table-extra">
           <Row>
             <Col span="19">
-            <div class="tej-table-search-box">
-              <Input v-model="keywords" :placeholder="inputText" class="tej-search-input" clearable
-                     @on-change="inputChange"/>
-              <Button type="primary" class="tej-search-btn" @click="searchClick(keywords)">搜索</Button>
-            </div>
+            <slot name="search">
+              <div class="tej-table-search-box">
+                <Input v-model="keywords" :placeholder="inputText" class="tej-search-input" clearable
+                       @on-change="inputChange"/>
+                <Button type="primary" class="tej-search-btn" @click="searchClick(keywords)">搜索</Button>
+              </div>
+            </slot>
             </Col>
             <Col span="5">
             <div class="tej-table-btngroup">
@@ -55,7 +60,7 @@
       >
         <template slot-scope="{ row, index }" slot="action">
           <a style="margin-right: 5px" @click="showDetail(row)">查看详情</a>
-          <slot name="action-btn"></slot>
+          <slot name="action-btn" :row="row"></slot>
         </template>
       </Table>
       <slot name="page">
@@ -116,7 +121,7 @@
         switch (this.$route.name) {
           case 'CheckedPage':
             this.$router.push({
-              name: 'AuditStatusPage',
+              name: 'CheckedDetailPage',
               query: {retailId: row.retailId}
             })
             break
@@ -124,7 +129,14 @@
             this.$router.push({
               name: 'AuditStatusPage',
               query: {retailId: row.retailId},
-              params: {isVendor: false}
+              params: {isVendor: false,isAudit: 0}
+            })
+            break
+          case 'NotPassPage':
+            this.$router.push({
+              name: 'AuditStatusPage',
+              query: {retailId: row.id},
+              params: {isVendor: false,isAudit: 1}
             })
             break
           case 'ProductManagementPage':
@@ -143,8 +155,8 @@
           case 'UnCheckedVendorPage':
             this.$router.push({
               name: 'AuditStatusPage',
-              query: {vendorId: row.id},
-              params: {isVendor: true}
+              query: {vendorId: row.vendorId},
+              params: {isVendor: true,isAudit: 0}
             })
             break
         }
