@@ -1,74 +1,81 @@
 <template>
-  <div style="background: white; padding: 10px 20px 10px 20px;">
+  <div class="tej-audit">
     <div class="outside">
       <Row>
         <Col span="6">
-        <p style="font-size: 16px;">{{ isVendor ? '厂商': '零售商'}}基本信息</p>
+        <p class="title">{{ isVendor ? '厂商' : '零售商'}}基本信息</p>
         </Col>
         <Col span="10" offset="3">
-        <p style="margin-top: 25px;">
-          <span class="s_text">{{isVendor? '厂家': '零售商'}}名称：</span>
-          <span>{{retailInfo.name}}</span>
-        </p>
-        <p class="p-text">
-          <span class="s_text">公司法人：</span>
-          <span>{{retailInfo.juridicalPerson}}</span>
-        </p>
-        <p class="p-text">
-          <span class="s_text">联系人：</span>
-          <span>{{retailInfo.contact}}</span>
-        </p>
-        <p class="p-text">
-          <span class="s_text">联系电话：</span>
-          <span>{{retailInfo.mobile}}</span>
-        </p>
-        <p class="p-text">
-          <span class="s_text">联系地址：</span>
-          <span>{{retailInfo.address}}</span>
-        </p>
+        <div class="tej-audit-info">
+          <p class="">
+            <span class="s-text">{{isVendor ? '厂家' : '零售商'}}名称：</span>
+            <span>{{retailInfo.name}}</span>
+          </p>
+          <p class="p-text">
+            <span class="s-text">公司法人：</span>
+            <span>{{retailInfo.juridicalPerson}}</span>
+          </p>
+          <p class="p-text">
+            <span class="s-text">联系人：</span>
+            <span>{{retailInfo.contact}}</span>
+          </p>
+          <p class="p-text">
+            <span class="s-text">联系电话：</span>
+            <span>{{retailInfo.mobile}}</span>
+          </p>
+          <p class="p-text">
+            <span class="s-text">联系地址：</span>
+            <span>{{retailInfo.address}}</span>
+          </p>
+        </div>
         </Col>
       </Row>
     </div>
     <div class="outside">
       <Row>
         <Col span="6">
-        <p style="font-size: 16px;">{{isVendor?'厂商生产凭证':'零售商生产凭证'}}</p>
+        <p class="title">{{isVendor ? '厂商生产凭证' : '零售商生产凭证'}}</p>
         </Col>
         <Col span="10" offset="3">
-        <p style="margin-top: 25px;">
-          <span class="s_text">{{isVendor?'厂商生产许可证':'零售商生产许可证'}}：</span>
-          <span style="color: #409EFF;" @click="showBigImg(info.brandImg)">查看大图</span>
+        <div class="tej-audit-info">
+          <p>
+            <span class="s-text">{{isVendor ? '厂商生产许可证' : '零售商生产许可证'}}：</span>
+            <span class="link" @click="showBigImg(info.brandImg)">查看大图</span>
           <div>
-            <img :src="info.brandImg" width="100" height="100" style="margin-left: 120px;margin-top: 10px;" />
+            <img :src="info.brandImg" class="img"/>
           </div>
-        </p>
-        <p class="p-text">
-          <span class="s_text">{{isVendor?'厂商商标':'零售商商标'}}：</span>
-          <span style="color: #409EFF;" @click="showBigImg(info.licenceImg)">查看大图</span>
+          </p>
+          <p class="p-text">
+            <span class="s-text">{{isVendor ? '厂商商标' : '零售商商标'}}：</span>
+            <span class="link" @click="showBigImg(info.licenceImg)">查看大图</span>
           <div>
-            <img :src="info.licenceImg" width="100" height="100" style="margin-left: 120px;margin-top: 10px;" />
+            <img :src="info.licenceImg" class="img"/>
           </div>
-        </p>
+          </p>
+        </div>
         </Col>
       </Row>
     </div>
-    <div>
-      <div style="margin: 70px;" v-if="isAudit == 0">
+    <div class="tej-audit-action">
+      <div class="tej-audit-btngroup" style="margin: 70px;" v-if="isAudit == 0">
         <div style="width: 180px; height: 35px;margin: 0 auto;">
-          <Button class="b_style" @click="modal = true">不通过</button>
+          <Button class="b_style" @click="modal = true">不通过</Button>
           <Modal v-model="modal" :closable="false" :mask-closable="false">
-            <Input v-model="value" type="textarea" :rows="6" placeholder="请输入审核不通过的理由" />
+            <Input v-model="value" type="textarea" :rows="6" placeholder="请输入审核不通过的理由"/>
             <div slot="footer" style="text-align: center;">
               <Button class="b_style" @click="modalCancel">取消</Button>
-              <Button class="b_style" style="color: white; background: #409EFF;margin-left: 25px;" @click="modalOk">确认</Button>
+              <Button class="b_style" style="color: white; background: #409EFF;margin-left: 25px;" @click="modalOk">确认
+              </Button>
             </div>
           </Modal>
-          <Button class="b_style" style="color: white; background: #409EFF;margin-right: 0px; float: right;" @click="success">通过</button>
+          <Button class="b_style" style="color: white; background: #409EFF;margin-right: 0px; float: right;"
+                  @click="success">通过
+          </button>
         </div>
       </div>
-      <div style="padding-top: 20px; padding-bottom: 50px;" v-else>
-        <p style="font-size: 16px;">{{isVendor?'厂商未通过的原因':'商家未通过的原因'}}</p>
-        <p style="margin-top: 10px;margin-left: 85px;"> 图片违法</p>
+      <div class="tej-audit-reason"  v-else>
+        <p class="txt">{{isVendor ? '厂商未通过的原因' : '商家未通过的原因'}}</p>
+        <p class="content"> 图片违法</p>
       </div>
     </div>
   </div>
@@ -88,7 +95,7 @@
       return {
         modal: false,
         value: '',
-       // isVendor: true
+        // isVendor: true
       }
     },
     created() {
@@ -132,20 +139,55 @@
 </script>
 
 <style scoped>
-  .outside {
-    border-bottom-style: dashed;
-    border-color: #BBBBBB;
-    border-bottom-width: 1.0px;
-    padding-bottom: 10px;
-    padding-top: 10px;
-
+  .tej-audit {
+    padding: 10px 20px;
+    background: #fff;
   }
 
+  .tej-audit .outside {
+    padding-bottom: 10px;
+    padding-top: 10px;
+    border-bottom: 1px dashed #bbb;
+  }
+
+  .tej-audit .title {
+    font-size: 16px;
+  }
+
+  .tej-audit-info {
+    margin-top: 25px;
+  }
+
+  .tej-audit-info .link {
+    color: #409eff;
+    cursor: pointer;
+  }
+
+  .tej-audit-info .img {
+    width: 100px;
+    height: 100px;
+    margin-left: 120px;
+    margin-top: 10px;
+  }
+
+  .tej-audit-reason {
+    padding-top: 20px;
+    padding-bottom: 50px;
+  }
+
+  .tej-audit-reason .txt {
+    font-size: 16px;
+  }
+
+  .tej-audit-reason .content {
+    margin-top: 10px;
+    margin-left: 85px;
+  }
   .p-text {
     margin-top: 10px;
   }
 
-  .s_text {
+  .s-text {
     display: inline-block;
     width: 120px;
     text-align: right;

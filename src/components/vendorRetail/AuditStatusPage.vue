@@ -14,7 +14,8 @@
   import Audit from './Audit'
   import {
     postAuditInfo,
-    putSaveAudit
+    putSaveAudit,
+    postVendorInfo
   } from '@/api/api'
   export default {
     name: 'AuditStatusPage',
@@ -23,33 +24,51 @@
     },
     data() {
       return {
-        isAudit: 0,  //0不通过 1通过
+        isAudit: this.$route.params.isAudit,  //0未审核 1已审核
         isVendor: this.$route.params.isVendor,
         info: {},
         retailInfo: {}
       }
+    },
+    watch:{
+      $route(){
+        this.isVendor = this.$route.params.isVendor
+        this.isAudit = this.$route.params.isAudit
+      },
+//      isVendor() {
+//        console.log("重新请求" + this.isVendor + "的数据")
+//      }
     },
     mounted() {
       this.getAuditinfo()
     },
     methods: {
       getAuditinfo() {
-        let params
-        if(this.$route.params.isVendor){
-          params = { vendorId: this.$route.query.vendorId}
-        }else {
-          params = { retailId: this.$route.query.retailId}
-        }
-        console.log('params !!!!',params)
-        postAuditInfo(params)
-          .then(res => {
-            console.log('postAuditinfoOk', res)
+        if(this.isVendor){
+          console.log('厂商审核详情11111')
+          postVendorInfo({
+            vendorId: this.$route.query.vendorId
+          }).then(res => {
+            console.log('厂商审核详情',res)
             this.info = res.data
             this.retailInfo = res.data.retailInfo
-          })
-          .catch(err => {
+          }).catch(err => {
             this.$Message.error('获取信息失败', err)
           })
+        }else {
+          console.log('零售商审核详情11111')
+          postAuditInfo({
+            retailId: this.$route.query.retailId
+          })
+            .then(res => {
+              console.log('零售商审核详情',res)
+              this.info = res.data
+              this.retailInfo = res.data.retailInfo
+            })
+            .catch(err => {
+              this.$Message.error('获取信息失败', err)
+            })
+        }
       },
      saveAudit(status, reason) {
         putSaveAudit({

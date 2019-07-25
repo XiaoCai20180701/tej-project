@@ -4,7 +4,10 @@
          style="background-image: url('http://b-ssl.duitang.com/uploads/item/201801/04/20180104151926_TH2xE.jpeg')"></div>
     <h2 class="title">{{detailData.name}}</h2>
     <div>
-      <p class="item"><span class="label">厂商编号：</span><span>{{detailData.vendorId}}</span></p>
+      <p class="item">
+        <span class="label">{{detailData.vendorId ? '厂商': '商家'}}编号：</span>
+        <span>{{detailData.vendorId ? detailData.vendorId: detailData.retailId}}</span>
+      </p>
       <p class="item"><span class="label">联系人：</span><span>{{detailData.contact}}</span></p>
       <p class="item"><span class="label">联系号码：</span><span>{{detailData.mobile}}</span></p>
       <p class="item"><span class="label">联系地址：</span><span class="address">{{detailData.address}}</span>
