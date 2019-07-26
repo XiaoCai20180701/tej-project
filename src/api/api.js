@@ -92,7 +92,7 @@ export const postVendorList = (params) => post(VENDOR_URL + 'vendorList',params)
 
 export const postVendorDetail = (params) => post(VENDOR_URL + 'vendorDetail',params)  //厂商详情
 
-export const postVendorInfo = (id) => post(VENDOR_URL + 'auditDetail',id) //获取厂商审核信息  //TODO 接口名称需要修改
+export const postVendorInfo = (id) => post(VENDOR_URL + 'auditDetail',id) //获取厂商审核信息
 
 
 /**
