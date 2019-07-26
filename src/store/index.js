@@ -21,7 +21,7 @@ const store = new Vuex.Store({
     },
     actions: {
         getAnyscMenu({commit},role){
-            getRes({roleId: 1}).then(res => {
+            getRes({roleId: role}).then(res => {
                 let menuItems = res.data.menuItems
                 commit('SET_MENUS',menuItems)
             }).catch(err => {
