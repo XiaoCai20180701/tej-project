@@ -353,4 +353,14 @@ export const  userStatusType = {
   'disable': 0,
 }
 
+/**
+ * 账户管理 => 菜单授权状态
+ * 0:无权限 1:有权限
+ * */
+export const  authType = {
+  'auth': 1,
+  'noAuth': 0,
+}
+
+
 
