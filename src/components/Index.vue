@@ -67,7 +67,7 @@
                             <DropdownMenu slot="list">
                                 <!-- name标识符 -->
                                 <DropdownItem name="1">修改密码</DropdownItem>
-                                <DropdownItem divided  name="2">退出登录</DropdownItem>
+                                <DropdownItem divided  name="2" @click="userOperate('2')">退出登录</DropdownItem>
                             </DropdownMenu>
                         </Dropdown>
                     </div>
@@ -93,7 +93,7 @@
 
 <script>
 import { resetRouter } from '../router'
-
+import { postLogout } from '@/api/api'
 export default {
     name: 'index',
     data () {
@@ -218,6 +218,8 @@ export default {
     methods: {
       beforeunloadFn (e) {
         // ...
+        console.log('页面刷新了',e)
+        this.currentPage = this.$route.name
         this.$store.dispatch('getAnyscMenu',this.$store.state.role)
       },
       // 判断当前标签页是否激活状态
@@ -240,19 +242,16 @@ export default {
         },
         // 用户操作
         userOperate(name) {
+            let userId = localStorage.getItem('userId')
             switch(name) {
                 case '1':
                     // 修改密码
                     this.gotoPage('password')
                     break
                 case '2':
-                    // 退出登陆 清除用户资料
-                    localStorage.setItem('token', '')
-                    localStorage.setItem('userImg', '')
-                    localStorage.setItem('userName', '')
+                    this.logout(userId)
                     // 重设路由
                     resetRouter()
-                    this.$router.replace({name: 'login'})
                     break
             }
         },
@@ -324,6 +323,7 @@ export default {
         },
         // 菜单栏改变事件
         menuChange(data) {
+        console.log('菜单栏改变事件', data)
             this.menuCache = data
         },
         processNameToTitle(obj, data, text) {
@@ -336,6 +336,22 @@ export default {
                     this.processNameToTitle(obj, e, text? `${text} / ${data.text}` : data.text)
                 })
             }
+        },
+        logout(userId){
+          postLogout({
+            userId: userId
+          }).then(res => {
+            // 退出登陆 清除用户资料
+            localStorage.setItem('token', '')
+            localStorage.setItem('userImg', '')
+            localStorage.setItem('userName', '')
+            localStorage.setItem('userId', '')
+            this.$router.replace({name: 'login'})
+          }).catch(err => {
+            this.$Message.error({
+              content: '退出登录失败' + err
+            })
+          })
         }
     }
 }
