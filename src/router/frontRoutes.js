@@ -152,6 +152,14 @@ const frontRoutes = [
     meta: {
       requireAuth: true
     }
+  },
+  {
+    name: 'AccountDetailPage',
+    type: 'md-home',
+    text: '账户详情',
+    meta: {
+      requireAuth: true
+    }
   }
 ]
 
