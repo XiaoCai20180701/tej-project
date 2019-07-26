@@ -68,4 +68,7 @@
     text-align: right;
     align-self: center;
   }
+  .ivu-radio-inner, .ivu-radio-inner:after {
+    border-radius: 0 !important;
+  }
 </style>
