@@ -51,7 +51,7 @@
           }).then(res => {
             console.log('厂商审核详情',res)
             this.info = res.data
-            this.retailInfo = res.data.retailInfo
+            this.retailInfo = res.data.vendorInfo
           }).catch(err => {
             this.$Message.error('获取信息失败', err)
           })
