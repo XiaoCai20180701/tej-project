@@ -75,7 +75,7 @@
       </div>
       <div class="tej-audit-reason"  v-else>
         <p class="txt">{{isVendor ? '厂商未通过的原因' : '商家未通过的原因'}}</p>
-        <p class="content"> 图片违法</p>
+        <p class="content"> {{info.reason}}</p>
       </div>
     </div>
   </div>
