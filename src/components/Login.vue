@@ -6,7 +6,7 @@
         <Form ref="formInline" :model="formInline" :rules="ruleInline" :label-width="80">
           <h3 class="tej-login-title">童 E 家</h3>
           <FormItem prop="user" label="账号">
-            <Input type="text" v-model="formInline.user" placeholder="请输入账号">
+            <Input type="text" v-model="formInline.user" placeholder="请输入手机号">
             </Input>
           </FormItem>
           <FormItem prop="password" label="密码">
@@ -36,7 +36,7 @@
         },
         ruleInline: {
           user: [
-            {required: true, message: '请输入用户名', trigger: 'blur'}
+            {required: true, message: '请输入手机号', trigger: 'blur'}
           ],
           password: [
             {required: true, message: '请输入密码.', trigger: 'blur'},
@@ -67,7 +67,8 @@
           localStorage.setItem('userImg', data.avatar)
           localStorage.setItem('userName', data.userName)
           localStorage.setItem('token', data.token)
-          this.$store.dispatch('getRole')
+          localStorage.setItem('userId', data.userId)
+          this.$store.dispatch('getRole',data.roleId)
           this.$store.dispatch('getAnyscMenu',this.$store.state.role)
           this.$router.push({path: this.redirect || '/ProductManagementPage'})
           this.$Message.success("登录成功")
