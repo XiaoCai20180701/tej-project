@@ -20,21 +20,21 @@
       </div>
       <div slot="search" class="notxt">1</div>
       <div slot="btn">
-          <Button type="primary" class="tej-addrole-btn">添加账户</Button>
+        <Button type="primary" class="tej-addrole-btn">添加账户</Button>
       </div>
       <a slot="action-btn"
          slot-scope="props"
-         class="tej-disable-txt"
-         @click="disableUser(props.row.userId)"
-      >禁用{{props.row.userId}}</a>
+         @click="disableUser(props.row)"
+      >{{props.row.isUsed == userStatus ? '已启用' : '未启用'}}</a>
     </TejTable>
   </div>
 </template>
 
 <script>
   import TejTable from '@/components/TejTable'
-  import  { accountTable, roleType, userStatusType } from '@/api/tableData'
-  import { postUserList, getRolelist, putEditUserStatus } from '@/api/api'
+  import {accountTable, roleType, userStatusType} from '@/api/tableData'
+  import {postUserList, getRolelist, putEditUserStatus} from '@/api/api'
+
   export default {
     name: 'AccountManagementPage',
     components: {
@@ -55,17 +55,18 @@
         userStatus: userStatusType.enable
       }
     },
-    mounted(){
+    mounted() {
       this.columnsData = accountTable
       this.getRolelistFun()
       this.getList()
     },
     methods: {
-      disableUser(userId){
-        console.log('props.row.userId',userId)
-        this.editUserStatus(userId)
+      disableUser(row) {
+        console.log('props.row.userId', row.userId)
+        row.isUsed = !row.isUsed
+        this.editUserStatus(row.userId)
       },
-      roleChange(e){
+      roleChange(e) {
         console.log('角色change', e)
         this.getList()
       },
@@ -77,14 +78,14 @@
         this.page = page
         this.getList()
       },
-      getList(){
+      getList() {
         let params = {
           page: this.page.index,
           pageSize: this.page.size,
           roleId: this.roleId
         }
-        postUserList(params).then(res=> {
-          console.log('账户列表',res)
+        postUserList(params).then(res => {
+          console.log('账户列表', res)
           let data = res.data
           this.tableData = data.list
           data.list.map((item) => {
@@ -99,7 +100,7 @@
           })
         })
       },
-      getRolelistFun(){
+      getRolelistFun() {
         getRolelist().then(res => {
           console.log('角色列表', res.data)
           this.roleList = res.data.list
@@ -109,7 +110,7 @@
           })
         })
       },
-      editUserStatus(userId){
+      editUserStatus(userId) {
         let params = {
           userId: userId,
           isUsed: this.userStatus
@@ -129,13 +130,12 @@
 </script>
 
 <style scoped>
-.tej-addrole-btn {
-  margin-bottom: 20px;
-}
+  .tej-addrole-btn {
+    margin-bottom: 20px;
+  }
+
   .notxt {
     color: transparent;
   }
-  .tej-disable-txt {
-    color: red;
-  }
+
 </style>
