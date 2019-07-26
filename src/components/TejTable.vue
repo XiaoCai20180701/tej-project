@@ -159,6 +159,18 @@
               params: {isVendor: true,isAudit: 0}
             })
             break
+          case 'NotPassVendorPage':
+            this.$router.push({
+              name: 'AuditStatusPage',
+              query: {vendorId: row.vendorId},
+              params: {isVendor: true,isAudit: 1}
+            })
+            break
+          default:
+            this.$router.push({
+              name: 'AccountDetailPage',
+              query: { userId: row.userId}
+            })
         }
       },
       searchClick() {
@@ -221,10 +233,6 @@
 
   .tej-label > :first-child {
     font-size: 14px;
-  }
-
-  .ivu-radio-inner, .ivu-radio-inner:after {
-    border-radius: 0 !important;
   }
 
   .tej-radio {
