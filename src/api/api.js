@@ -2,6 +2,7 @@
  * api接口统一管理
  */
 import {get,post,put,deleteAxios} from '@/utils/http'
+const LOGIN_URL = '/loginResource/'
 const COMMON_URL = '/commonResource/'
 const PRODUCT_URL = '/productResource/'
 const RETAIL_URL = '/retailResource/'
@@ -12,12 +13,14 @@ const USER_URL = '/userResource/'
 /**
  * 登录接口
  */
-export const login = (userName,passWord) => post('/loginResource/login',userName,passWord)
+export const login = (userName,passWord) => post(LOGIN_URL + 'login',userName,passWord)  //登录
+
+export const postLogout = (userId)=> post(LOGIN_URL + 'logout',userId)  //退出登录
 
 /**
  * 获取页面菜单权限接口
  */
-export const getRes = (roleId) => post('/loginResource/menu',roleId)
+export const getRes = (roleId) => post('/loginResource/menu',roleId)  //菜单权限
 
 /**
  * 上传图片接口
@@ -89,7 +92,7 @@ export const postVendorList = (params) => post(VENDOR_URL + 'vendorList',params)
 
 export const postVendorDetail = (params) => post(VENDOR_URL + 'vendorDetail',params)  //厂商详情
 
-export const postVendorInfo = (id) => post(RETAIL_URL + 'auditinfo',id) //获取厂商审核信息  //TODO 接口名称需要修改
+export const postVendorInfo = (id) => post(VENDOR_URL + 'auditDetail',id) //获取厂商审核信息  //TODO 接口名称需要修改
 
 
 /**
@@ -122,3 +125,11 @@ export const  postUserList = (params) => post(USER_URL + 'userlist',params)   //
 export const getRolelist = () => get(USER_URL + 'rolelist')  //角色列表
 
 export const  putEditUserStatus = (params) => put(USER_URL + 'edituserstatus',params)  //修改用户状态
+
+export const postUserDetail = (params) => post(USER_URL + 'userdetail',params)  //用户详情
+
+export const putEditPermissions = (params) => put(USER_URL + 'editpermissions',params) //修改角色权限
+
+export const postRolePermissions = (params) => post(USER_URL + 'rolepermissions',params) //获取角色权限
+
+export const putModifyPassword = (params) => post('/modifyPassword',params)  //修改密码
