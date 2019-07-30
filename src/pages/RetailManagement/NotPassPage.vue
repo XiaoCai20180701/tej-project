@@ -75,11 +75,6 @@
             size: data.pageSize,
             total: data.total
           }
-          data.list.map((item) => {
-            this.columnsData.map((col,c) => {
-              col['key'] = Object.keys(item)[c+1]
-            })
-          })
         })
           .catch(err => {
             this.$Message.error('获取零售商未通过列表失败',err)
