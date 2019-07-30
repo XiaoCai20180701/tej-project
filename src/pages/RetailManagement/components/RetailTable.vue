@@ -3,10 +3,10 @@
     <Table
       :columns="columnsData"
       :data="tableData"
-      v-if="tableData.length > 0"
+      v-if="tableData.length >= 0"
     >
       <template slot-scope="{ row, index }" slot="action">
-        <a @click="showDetail(row.id)">查看详情</a>
+        <a @click="showDetail(row.orderId)">查看订单详情</a>
       </template>
     </Table>
     <div class="tej-page-box">
@@ -47,7 +47,11 @@
     },
     methods: {
       showDetail(id) {
-        this.$Message.info('跳转到前台页面', id)
+        this.$router.push({
+          name: 'OrderDetailPage',
+          query: {orderId: id},
+          params: {page: 1,pageSize: 10}
+        })
       },
       pageChange(i) {
         console.log('page', i)
