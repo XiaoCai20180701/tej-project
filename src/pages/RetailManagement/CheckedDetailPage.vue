@@ -120,7 +120,7 @@
           this.page = {
             index: data.orderList.page,
             size: data.orderList.pageSize,
-//            total: data.orderList.total
+            total: data.orderList.total
           }
         }).catch(err => {
           this.$Message.error('获取零售商详情失败', err)
