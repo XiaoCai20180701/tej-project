@@ -160,6 +160,14 @@ const frontRoutes = [
     meta: {
       requireAuth: true
     }
+  },
+  {
+    name: 'AccountAddPage',
+    type: 'md-home',
+    text: '添加账户',
+    meta: {
+      requireAuth: true
+    }
   }
 ]
 

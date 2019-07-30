@@ -104,6 +104,11 @@ export const asyncRoutes = {
     name: 'AccountDetailPage',
     component: () => import('@/pages/AccountManagement/AccountDetailPage.vue')
   },
+  'AccountAddPage': {
+    path: 'AccountAddPage',
+    name: 'AccountAddPage',
+    component: () => import('@/pages/AccountManagement/AccountAddPage.vue')
+  },
   'RetailManagementPage': {
     path: 'RetailManagementPage',
     name: 'RetailManagementPage',
