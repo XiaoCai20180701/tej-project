@@ -1,6 +1,6 @@
 <template>
-  <Row>
-    <i-col span="8">
+  <Row class="tej-add-product">
+    <i-col span="8" class="tej-add-product-left">
       <!--商品分类选择-->
       <Classification :list="list" @classification-callback="classificationCallback"></Classification>
       <!--商品尺码、颜色-->
@@ -8,11 +8,11 @@
       <!--商品库存、零售价、批发价-->
       <Price @price-callback="priceCallback"></Price>
     </i-col>
-    <i-col span="15" offset="1">
+    <i-col span="15" offset="1" class="tej-add-product-right">
       <!--商品主图、详情图-->
       <Photograph @photograph-callback="photographCallback"></Photograph>
       <!--商品使用状态-->
-      <Card>
+      <Card class="tej-bule-card">
         <p slot="title">使用状态</p>
         <RadioGroup v-model="productShow" @on-change="productShowChange">
           <Radio label="1">启用</Radio>
@@ -20,7 +20,8 @@
         </RadioGroup>
       </Card>
       <div>
-        <Button>取消</Button>
+        <Button @click="cancel">取消</Button>
+        <Button @click="review">预览</Button>
         <Button type="primary" @click="saveAddProduct">确定</Button>
       </div>
     </i-col>
@@ -55,12 +56,19 @@
       this.getClassificationlist()
     },
     methods: {
+      cancel() {
+        this.$router.push({name: 'ProductManagementPage'})
+      },
+      review(){
+        this.$Message.info('跳转到 前台页面')
+      },
       saveAddProduct(){
         let productShow = {productShow: Number(this.productShow)}
         let params = {...this.photograph, ...this.price, ...this.feature, ...this.classification, ...productShow}
         console.log('新增商品 params!!!!!!',params)
         postAddProduct(params).then(res => {
           this.$Message.success('成功新增商品')
+          this.$router.push({ name: 'ProductManagementPage'})
         }).catch(err => {
           this.$Message.error('新增商品失败',err)
         })
@@ -98,6 +106,18 @@
 </script>
 
 <style scoped>
-
+  .tej-add-product {
+    background: #fff;
+  }
+  .tej-bule-card {
+    border-left: 5px solid #2d8cf0;
+    border-top: none;
+    border-bottom: none;
+    borer-right: none;
+  }
+  .tej-add-product-left, .tej-add-product-right{
+    padding: 20px;
+    background: #fff;
+  }
 </style>
 

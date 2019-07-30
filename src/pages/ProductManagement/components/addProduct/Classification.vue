@@ -1,5 +1,5 @@
 <template>
-  <Card>
+  <Card class="tej-bule-card">
     <div class="tej-product-box">
       <p>商品分类选择</p>
       <Cascader

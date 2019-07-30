@@ -1,5 +1,5 @@
 <template>
-  <Card>
+  <Card class="tej-bule-card">
     <div class="tej-product-box">
       <p>商品主图</p>
       <UploadFile :picture-num="pictureNumber" @main-callback="mainCallback"></UploadFile>
@@ -48,7 +48,6 @@
 </script>
 
 <style scoped>
-
 </style>
 
 

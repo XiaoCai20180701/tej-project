@@ -1,5 +1,5 @@
 <template>
-  <Card>
+  <Card class="tej-bule-card">
     <div class="tej-product-box">
       <p>商品库存</p>
       <Input v-model="inventory" type="number" placeholder="请输入库存数量" clearable @on-change="inventoryChange"/>
@@ -15,13 +15,13 @@
           <Checkbox :label="item.start">
             <slot v-if="item.isEdit">
               <span>
-                <Input v-model="priceWholesaleEdit.start"  type="number" style="width: 50px" @on-change="getStartEditValue"/>
+                <Input v-model="priceWholesaleEdit.start"  type="number" style="width: 50px" @on-change="getStartEditValue" size="small"/>
                 -
-                <Input v-model="priceWholesaleEdit.end" type="number"  style="width: 50px" @on-change="getEndEditValue"/>
+                <Input v-model="priceWholesaleEdit.end" type="number"  style="width: 50px" @on-change="getEndEditValue" size="small"/>
                 (件)
               </span>
               <span class="tej-price-dis">
-                <Input v-model="priceWholesaleEdit.priceWholesale"  type="number" style="width: 40px" @on-change="getPriceEditValue"/>(元)
+                <Input v-model="priceWholesaleEdit.priceWholesale"  type="number" style="width: 40px;" @on-change="getPriceEditValue" size="small"/> (元)
               </span>
             </slot>
             <slot v-else>
@@ -37,13 +37,13 @@
           <Checkbox>
             <slot>
               <span>
-                <Input v-model="priceWholesale.start"  type="number" style="width: 50px" @on-change="getStartValue"/>
+                <Input v-model="priceWholesale.start"  type="number" style="width: 50px" @on-change="getStartValue" size="small"/>
                 -
-                <Input v-model="priceWholesale.end"  type="number" style="width: 50px" @on-change="getEndValue"/>
+                <Input v-model="priceWholesale.end"  type="number" style="width: 50px" @on-change="getEndValue" size="small"/>
                 (件)
               </span>
               <span class="tej-price-dis">
-                <Input v-model="priceWholesale.priceWholesale"  type="number" style="width: 40px" @on-change="getPriceValue"/>(元)
+                <Input v-model="priceWholesale.priceWholesale"  type="number" style="width: 40px" @on-change="getPriceValue" size="small"/><span>(元)</span>
               </span>
             </slot>
           </Checkbox>
@@ -187,9 +187,12 @@
   }
 </script>
 
-<style scoped>
+<style>
 .tej-price-dis {
   margin-left: 20px;
+}
+.tej-price-dis input {
+  margin-right: 3px;
 }
 </style>
 
