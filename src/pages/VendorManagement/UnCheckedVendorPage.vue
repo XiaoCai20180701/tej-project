@@ -66,7 +66,7 @@
           pageSize: this.page.size,
           keywords: this.keywords,
           blockId: this.blockId,
-          status: auditType.unChecked
+          vendorType: auditType.unChecked
         }).then(res => {
           let data = res.data
           this.tableData = data.vendorList
@@ -75,12 +75,6 @@
             size: data.pageSize,
             total: data.total
           }
-          data.vendorList.map((item) => {
-            console.log('key Object---------',Object.keys(item))
-            this.columnsData.map((col,c) => {
-              col['key'] = Object.keys(item)[c + 1]
-            })
-          })
         })
           .catch(err => {
             this.$Message.error('获取厂商待审核列表失败',err)
