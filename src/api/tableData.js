@@ -3,32 +3,40 @@
  * */
 export const productManagementTable = [
   {
-    'title': '编号'
+    'title': '编号',
+    'key': 'id'
   },
   {
-    'title': '商品类别'
+    'title': '商品类别',
+    'key': 'typeName'
   },
   {
-    'title': '商品名称'
+    'title': '商品名称',
+    'key': 'name'
   },
   {
     'title': '零售价',
+    'key': 'priceSale',
     'sortable': true
   },
   {
     'title': '库存',
+    'key': 'inventory',
     'sortable': true
   },
   {
     'title': '访问量',
+    'key': 'access',
     'sortable': true
   },
   {
     'title': '销量',
+    'key': 'numberSale',
     'sortable': true
   },
   {
-    'title': '厂商'
+    'title': '厂商',
+    'key': 'vendorName'
   },
   {
     title: '操作',
@@ -41,25 +49,32 @@ export const productManagementTable = [
 * */
 export const checkedRetailTable = [
   {
-    'title': '编号'
+    'title': '编号',
+    'key': 'id'
   },
   {
-    'title': '商家名称'
+    'title': '商家名称',
+    'key': 'name'
   },
   {
-    'title': '所在省市'
+    'title': '所在省市',
+    'key': 'city'
   },
   {
-    'title': '联系人'
+    'title': '联系人',
+    'key': 'contact'
   },
   {
-    'title': '联系号码'
+    'title': '联系号码',
+    'key': 'mobile'
   },
   {
-    'title': '成交订单数'
+    'title': '成交订单数',
+    'key': 'orderNum'
   },
   {
-    'title': '总成交额'
+    'title': '总成交额',
+    'key': 'orderMoney'
   },
   {
     title: '操作',
@@ -72,25 +87,32 @@ export const checkedRetailTable = [
  * */
 export const unCheckedRetailTable = [
   {
-    'title': '商家名称'
+    'title': '商家名称',
+    'key': 'name'
   },
   {
-    'title': '所在省市'
+    'title': '所在省市',
+    'key': 'city'
   },
   {
-    'title': '联系人'
+    'title': '联系人',
+    'key': 'contact'
   },
   {
-    'title': '联系号码'
+    'title': '联系号码',
+    'key': 'mobile'
   },
   {
-    'title': '经营许可证'
+    'title': '经营许可证',
+    'key': 'licenceImg'
   },
   {
-    'title': '生产环境'
+    'title': '生产环境',
+    'key': 'environmentImgList'
   },
   {
-    'title': '店铺商标'
+    'title': '店铺商标',
+    'key': 'brandImg'
   },
   {
     title: '操作',
@@ -103,19 +125,24 @@ export const unCheckedRetailTable = [
  * */
 export const notPassRetailTable = [
   {
-    'title': '商家名称'
+    'title': '商家名称',
+    'key': 'name'
   },
   {
-    'title': '所在省市'
+    'title': '所在省市',
+    'key': 'city'
   },
   {
-    'title': '联系人'
+    'title': '联系人',
+    'key': 'contact'
   },
   {
-    'title': '联系号码'
+    'title': '联系号码',
+    'key': 'mobile'
   },
   {
-    'title': '未通过理由'
+    'title': '未通过理由',
+    'key': 'reason'
   },
   {
     title: '操作',
@@ -138,28 +165,36 @@ export const  auditType = {
  * */
 export const checkedVendorTable = [
   {
-    'title': '编号'
+    'title': '编号',
+    'key': 'id'
   },
   {
-    'title': '商家名称'
+    'title': '商家名称',
+    'key': 'name'
   },
   {
-    'title': '所在省市'
+    'title': '所在省市',
+    'key': 'city'
   },
   {
-    'title': '联系人'
+    'title': '联系人',
+    'key': 'contact'
   },
   {
-    'title': '联系号码'
+    'title': '联系号码',
+    'key': 'mobile'
   },
   {
-    'title': '总销售额'
+    'title': '总销售额',
+    'key': 'orderMoney'
   },
   {
-    'title': '总访问量'
+    'title': '总访问量',
+    'key': 'orderNum'
   },
   {
-    'title': '总商品数'
+    'title': '总商品数',
+    'key': 'totalProductNumber'
   },
   {
     title: '操作',
@@ -172,25 +207,32 @@ export const checkedVendorTable = [
  * */
 export const unCheckedVendorTable = [
   {
-    'title': '厂家名称'
+    'title': '厂家名称',
+    'key': 'name'
   },
   {
-    'title': '所在省市'
+    'title': '所在省市',
+    'key': 'city'
   },
   {
-    'title': '联系人'
+    'title': '联系人',
+    'key': 'contact'
   },
   {
-    'title': '联系号码'
+    'title': '联系号码',
+    'key': 'mobile'
   },
   {
-    'title': '生产许可证'
+    'title': '生产许可证',
+    'key': 'licenceImg'
   },
   {
-    'title': '生产环境'
+    'title': '生产环境',
+    'key': 'vendorEnvironmentImg'
   },
   {
-    'title': '品牌商标'
+    'title': '品牌商标',
+    'key': 'trademarkImg'
   },
   {
     title: '操作',
@@ -203,19 +245,24 @@ export const unCheckedVendorTable = [
  * */
 export const notPassVendorTable = [
   {
-    'title': '厂家名称'
+    'title': '厂家名称',
+    'key': 'name'
   },
   {
-    'title': '所在省市'
+    'title': '所在省市',
+    'key': 'city'
   },
   {
-    'title': '联系人'
+    'title': '联系人',
+    'key': 'contact'
   },
   {
-    'title': '联系号码'
+    'title': '联系号码',
+    'key': 'mobile'
   },
   {
-    'title': '未通过理由'
+    'title': '未通过理由',
+    'key': 'reason'
   },
   {
     title: '操作',
@@ -228,16 +275,20 @@ export const notPassVendorTable = [
  * */
 export const  productSaleTable = [
   {
-    'title': '编号'
+    'title': '编号',
+    'key': 'productId'
   },
   {
-    'title': '商品名称'
+    'title': '商品名称',
+    'key': 'productName'
   },
   {
-    'title': '厂商'
+    'title': '厂商',
+    'key': 'vendorName'
   },
   {
-    'title': '销量(件)'
+    'title': '销量(件)',
+    'key': 'number'
   },
 ]
 
@@ -246,16 +297,20 @@ export const  productSaleTable = [
  * */
 export const  productAccessTable = [
   {
-    'title': '编号'
+    'title': '编号',
+    'key': 'productId'
   },
   {
-    'title': '商品名称'
+    'title': '商品名称',
+    'key': 'productName'
   },
   {
-    'title': '厂商'
+    'title': '厂商',
+    'key': 'vendorName'
   },
   {
-    'title': '访问量(次)'
+    'title': '访问量(次)',
+    'key': 'number'
   },
 ]
 
@@ -264,16 +319,20 @@ export const  productAccessTable = [
  * */
 export const  vendorSaleTable = [
   {
-    'title': '编号'
+    'title': '编号',
+    'key': 'vendorId'
   },
   {
-    'title': '厂商'
+    'title': '厂商',
+    'key': 'vendorName'
   },
   {
-    'title': '地区'
+    'title': '地区',
+    'key': 'city'
   },
   {
-    'title': '销量(件)'
+    'title': '销量(件)',
+    'key': 'number'
   },
 ]
 
@@ -282,16 +341,20 @@ export const  vendorSaleTable = [
  * */
 export const  cooperationTable = [
   {
-    'title': '编号'
+    'title': '编号',
+    'key': 'vendorId'
   },
   {
-    'title': '厂商'
+    'title': '厂商',
+    'key': 'vendorName'
   },
   {
-    'title': '零售商'
+    'title': '零售商',
+    'key': 'retailName'
   },
   {
-    'title': '合作次数'
+    'title': '合作次数',
+    'key': 'number'
   },
 ]
 
@@ -300,19 +363,24 @@ export const  cooperationTable = [
  * */
 export const accountTable = [
   {
-    'title': '账户编号'
+    'title': '账户编号',
+    'key': 'userId'
   },
   {
-    'title': '账户昵称'
+    'title': '账户昵称',
+    'key': 'userName'
   },
   {
-    'title': '默认角色'
+    'title': '默认角色',
+    'key': 'roleName'
   },
   {
-    'title': '绑定手机号'
+    'title': '绑定手机号',
+    'key': 'mobile'
   },
   {
-    'title': '备注信息'
+    'title': '备注信息',
+    'key': 'message'
   },
   {
     'title': '操作',
@@ -362,5 +430,15 @@ export const  authType = {
   'noAuth': 0,
 }
 
+/**
+ * 数据管理 => 排行榜统一
+ * 1:商品销量 2:商品访问量 3.厂商销量 4.厂商、零售商合作排行
+ * */
+export const  dataStatus = {
+  'commoditySales': 1,
+  'commodityTraffic': 2,
+  'vendorSales': 3,
+  'cooperation': 4
+}
 
 
