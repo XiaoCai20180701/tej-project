@@ -87,8 +87,12 @@
     methods: {
       getDetail() {
         let id = this.$route.query.orderId
+        let page = this.$route.params.page
+        let pageSize = this.$route.params.pageSize
         postOrderDetail({
-          ordeId: id
+          orderId: id,
+          page: page,
+          pageSize: pageSize
         }).then(res => {
           this.orderDetail = res.data
           console.log('oder list', res)
