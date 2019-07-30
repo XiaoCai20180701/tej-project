@@ -6,6 +6,7 @@
           <div>
             <slot name="area">
               <RadioGroup v-model="checkedArea" @on-change="areaChange">
+                <!--<Radio v-model="checkedAllArea">全部</Radio>-->
                 <Radio v-for="(item, index) in area"
                        :key="index"
                        :label="item.id"
@@ -19,16 +20,16 @@
             <slot name="extra"></slot>
           </div>
           <!--<div>-->
-            <!--<slot name="age">-->
-              <!--<RadioGroup v-model="checkedAge" @on-change="ageChange">-->
-                <!--<Radio v-for="(item, index) in age"-->
-                       <!--:key="index"-->
-                       <!--:label="item.id"-->
-                       <!--class="tej-radio"-->
-                <!--&gt;{{item.name}}-->
-                <!--</Radio>-->
-              <!--</RadioGroup>-->
-            <!--</slot>-->
+          <!--<slot name="age">-->
+          <!--<RadioGroup v-model="checkedAge" @on-change="ageChange">-->
+          <!--<Radio v-for="(item, index) in age"-->
+          <!--:key="index"-->
+          <!--:label="item.id"-->
+          <!--class="tej-radio"-->
+          <!--&gt;{{item.name}}-->
+          <!--</Radio>-->
+          <!--</RadioGroup>-->
+          <!--</slot>-->
           <!--</div>-->
         </FormItem>
         <Divider/>
@@ -56,7 +57,7 @@
       <Table
         :columns="columnsData"
         :data="tableData"
-        v-if="tableData.length > 0"
+        v-if="tableData.length >= 0"
       >
         <template slot-scope="{ row, index }" slot="action">
           <a style="margin-right: 5px" @click="showDetail(row)">查看详情</a>
@@ -104,6 +105,7 @@
       return {
         area: [],
         age: [],
+        checkedAllArea: 999,
         checkedArea: 0,
         checkedAge: 0,
         keywords: ''
@@ -122,21 +124,21 @@
           case 'CheckedPage':
             this.$router.push({
               name: 'CheckedDetailPage',
-              query: {retailId: row.retailId}
+              query: {retailId: row.id}
             })
             break
           case 'UnCheckedPage':
             this.$router.push({
               name: 'AuditStatusPage',
-              query: {retailId: row.retailId},
-              params: {isVendor: false,isAudit: 0}
+              query: {retailId: row.id},
+              params: {isVendor: false, isAudit: 0}
             })
             break
           case 'NotPassPage':
             this.$router.push({
               name: 'AuditStatusPage',
               query: {retailId: row.id},
-              params: {isVendor: false,isAudit: 1}
+              params: {isVendor: false, isAudit: 1}
             })
             break
           case 'ProductManagementPage':
@@ -156,20 +158,20 @@
             this.$router.push({
               name: 'AuditStatusPage',
               query: {vendorId: row.vendorId},
-              params: {isVendor: true,isAudit: 0}
+              params: {isVendor: true, isAudit: 0}
             })
             break
           case 'NotPassVendorPage':
             this.$router.push({
               name: 'AuditStatusPage',
               query: {vendorId: row.vendorId},
-              params: {isVendor: true,isAudit: 1}
+              params: {isVendor: true, isAudit: 1}
             })
             break
           default:
             this.$router.push({
               name: 'AccountDetailPage',
-              query: { userId: row.userId}
+              query: {userId: row.userId}
             })
         }
       },
@@ -182,6 +184,7 @@
       },
       areaChange(e) {
         console.log('radio area', e)
+        e == 0 ? e = null : e
         this.$emit('area-change-callback', e)
       },
       ageChange(e) {
@@ -191,13 +194,13 @@
       getProductFilterFun() {
         getProductFilter()
           .then(res => {
-            this.area = res.data.area
+            let area = res.data.area
+            let firstArea = [{id: 0, name: '全部'}]
+            this.area = [...firstArea, ...area]
             this.checkedArea = this.area[0].id
-//            this.age = res.data.age
-//            this.checkedAge = this.age[0].id
           })
           .catch(err => {
-            console.log('获取筛选条件失败!!',err)
+            console.log('获取筛选条件失败!!', err)
             this.$Message.error({
               content: '获取筛选条件失败'
             })
