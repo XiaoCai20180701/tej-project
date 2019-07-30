@@ -110,8 +110,8 @@
       },
       handleMonthChange (date) {
         this.monthValue = date
-        this.startDate = date + '-01 00:00:00'
-        this.endDate = date + '-31 23:59:59'
+        this.startDate = date
+        this.endDate = date
       },
       handleWeekChange (date) {
         //TODO 样式可优化
@@ -120,8 +120,8 @@
       },
       handleDateChange (date) {
         this.dateValue = date
-        this.startDate = date + '00:00:00'
-        this.endDate = date + '23:59:59'
+        this.startDate = date
+        this.endDate = date
       },
       getWeek(checkedDate){
         let day =  new Date(checkedDate).getDay()  //选中的日期是这周的第几天
@@ -133,8 +133,8 @@
         let time = this.$Moment(checkedDate).valueOf()
         let monday = new Date(time +stepSunday *24*3600*1000 )
         let sunday = new Date(time +stepMonday *24*3600*1000 )
-        this.startDate = this.$Moment(monday).format('YYYY-MM-DD HH:mm:ss')
-        this.endDate = this.$Moment(sunday).format('YYYY-MM-DD HH:mm:ss')
+        this.startDate = this.$Moment(monday).format('YYYY-MM-DD')
+        this.endDate = this.$Moment(sunday).format('YYYY-MM-DD')
       },
       handleClear (name) {
         switch (name){
