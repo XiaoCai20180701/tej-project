@@ -43,15 +43,13 @@
 
 <script>
   import TopDate from './components/TopDate'
-  import { productSaleTable, productAccessTable, vendorSaleTable, cooperationTable } from '@/api/tableData'
+  import { productSaleTable, productAccessTable, vendorSaleTable, cooperationTable, dataStatus } from '@/api/tableData'
   import {
     postProductList,
     getStationdata,
-    postProductsaletop,
-    postProductaccesstop,
-    postVendorsaletop,
-    postCooperationtop
-  } from '@/api/api'
+    postRanklist
+} from '@/api/api'
+  import {get,post} from '@/utils/http'
 
   export default {
     name: 'DataManagementPage',
@@ -77,12 +75,15 @@
       this.vendorsaleColumns = vendorSaleTable
       this.cooperationColumns = cooperationTable
       this.getStation()
-      this.postProductSale()
-      this.postProductAccess()
-      this.postVendorSale()
-      this.postCooperation()
+      this.getInit()
     },
     methods: {
+      getInit(){
+        //默认以当前时间为开始时间和结束时间
+        let startDate = this.$Moment().locale('zh-cn').format('YYYY-MM-DD')
+        let endDate = this.$Moment().locale('zh-cn').format('YYYY-MM-DD')
+        this.getList(startDate,endDate)
+      },
       getStation() {
         getStationdata()
           .then(res => {
@@ -107,79 +108,46 @@
           })
       },
       //全站销量前十商品排行
-      postProductSale(startDate, endDate) {
-        postProductsaletop({
-          startTime: startDate,
-          endTime: endDate
+      async postProductSale(startDate, endDate) {
+        await  postRanklist({
+          startDate: startDate,
+          endDate: endDate,
+          status: dataStatus.commoditySales
         })
-          .then(res => {
-            console.log('postProductsaletopOk', res)
-            this.productSaleList = res.data.list
-            res.data.list.map(item => {
-              this.productSaleColumns.map((pro, index) => {
-                pro['key'] = Object.keys(item)[index]
-              })
-            })
-          })
-          .catch(err => {
-            this.$Message.error('全站销量前十排行榜获取失败',err)
-          })
       },
       //全站访问量前十商品排行
-      postProductAccess(startDate,endDate) {
-       // console.log(this.timeArray[1].startTime, this.timeArray[1].endTime);
-        postProductaccesstop({
-          startTime: startDate,
-          endTime: endDate
+      async postProductAccess(startDate,endDate) {
+        await  postRanklist({
+          startDate: startDate,
+          endDate: endDate,
+          status: dataStatus.commodityTraffic
         })
-          .then(res => {
-            console.log('全站访问量Ok', res)
-            this.productAccessList = res.data.list
-            res.data.list.map(item => {
-              this.productAccessColumns.map((pro, index) => {
-                pro['key'] = Object.keys(item)[index]
-              })
-            })
-          })
-          .catch(err => {
-            this.$Message.error('全站访问量 获取失败', err)
-          })
       },
       //全站销量前十厂商
-      postVendorSale(startDate,endDate) {
-        postVendorsaletop({
-          startTime: startDate,
-          endTime: endDate
+      async postVendorSale(startDate,endDate) {
+        await  postRanklist({
+          startDate: startDate,
+          endDate: endDate,
+          status: dataStatus.vendorSales
         })
-          .then(res => {
-            this.vendorSaleList = res.data.list
-            res.data.list.map(item => {
-              this.vendorsaleColumns.map((pro, index) => {
-                pro['key'] = Object.keys(item)[index]
-              })
-            })
-          })
-          .catch(err => {
-            this.$Message.error('全站销量前十厂商 获取失败', err)
-          })
       },
       //全站前十厂商、商家合作次数
-      postCooperation(startDate, endDate) {
-        postCooperationtop({
-          startTime: startDate,
-          endTime: endDate
+      async postCooperation(startDate, endDate) {
+        await  postRanklist({
+          startDate: startDate,
+          endDate: endDate,
+          status: dataStatus.cooperation
         })
-          .then(res => {
-            this.cooperationList = res.data.list;
-            res.data.list.map(item => {
-              this.cooperationColumns.map((pro, index) => {
-                pro['key'] = Object.keys(item)[index]
-              })
-            })
-          })
-          .catch(err => {
-            this.$Message.error('全站前十厂商、商家合作次数 获取失败', err)
-          })
+      },
+      async getList(startDate,endDate) {
+        await Promise.all([
+          this.postProductSale(startDate,endDate),
+          this.postProductAccess(startDate,endDate),
+          this.postVendorSale(startDate,endDate),
+          this.postCooperation(startDate,endDate),
+          ]).then(res=> {
+          console.log('list~~~~~~~~~~',res)
+        })
       }
     }
   }
