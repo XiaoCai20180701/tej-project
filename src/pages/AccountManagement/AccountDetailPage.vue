@@ -7,6 +7,7 @@
       <AccountSetting :role-list="roleList"
                       :menu-items="menuItems"
                       @role-change="roleChange"
+                      :role-id="baseInfo.roleId"
       ></AccountSetting>
     </Col>
   </Row>
