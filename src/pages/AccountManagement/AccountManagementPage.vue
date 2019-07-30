@@ -20,7 +20,7 @@
       </div>
       <div slot="search" class="notxt">1</div>
       <div slot="btn">
-        <Button type="primary" class="tej-addrole-btn">添加账户</Button>
+        <Button type="primary" class="tej-addrole-btn" @click="addUser">添加账户</Button>
       </div>
       <a slot="action-btn"
          slot-scope="props"
@@ -61,6 +61,11 @@
       this.getList()
     },
     methods: {
+      addUser(){
+        this.$router.push({
+          name: 'AccountAddPage'
+        })
+      },
       disableUser(row) {
         console.log('props.row.userId', row.userId)
         row.isUsed = !row.isUsed
@@ -68,6 +73,7 @@
       },
       roleChange(e) {
         console.log('角色change', e)
+        this.roleId = e
         this.getList()
       },
       pageChange(page) {
@@ -88,12 +94,11 @@
           console.log('账户列表', res)
           let data = res.data
           this.tableData = data.list
-          data.list.map((item) => {
-//            console.log('key Object---------',Object.keys(item))
-            this.columnsData.map((col, c) => {
-              col['key'] = Object.keys(item)[c]
-            })
-          })
+          this.page = {
+            index: data.page,
+            size: data.pageSize,
+            total: data.total
+          }
         }).catch(err => {
           this.$Message.error({
             content: '获取账户列表失败'
@@ -103,7 +108,10 @@
       getRolelistFun() {
         getRolelist().then(res => {
           console.log('角色列表', res.data)
-          this.roleList = res.data.list
+          let roleList = res.data.list
+          let firstRole = [{id: 0, name:'全部'}]
+          this.roleList = [...firstRole, ...roleList]
+          this.checkedRole = this.roleList[0].id
         }).catch(err => {
           this.$Message.error({
             content: '获取角色列表失败'
