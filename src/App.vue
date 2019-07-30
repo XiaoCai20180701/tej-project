@@ -18,7 +18,7 @@
     color: #2c3e50;
   }
   .tej-product-box {
-    margin-bottom: 20px;
+    margin-bottom: 12px;
   }
   .tej-product-box p {
     margin-bottom: 5px;
@@ -70,5 +70,12 @@
   }
   .ivu-radio-inner, .ivu-radio-inner:after {
     border-radius: 0 !important;
+  }
+  .tej-bule-card {
+    margin-bottom: 20px;
+    border-left: 5px solid #2d8cf0;
+    border-top: none;
+    border-bottom: none;
+    border-right: none;
   }
 </style>
