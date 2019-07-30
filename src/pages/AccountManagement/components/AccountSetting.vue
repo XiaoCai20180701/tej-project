@@ -1,12 +1,12 @@
 <template>
   <Card class="tej-account-card">
     <p slot="title">账户操作权限管理</p>
-    <div class="head">
+    <div class="head" v-if="roleId == 1">
       <div class="label">快速配置权限：</div>
       <div class="checked-group">
         <RadioGroup v-model="roleGroup" @on-change="roleChange">
           <Radio v-for="(item, index) in roleList"
-                 :key="index"
+                 :key="item.id"
                  :label="item.id"
                  class="tej-radio"
           >{{item.name}}
@@ -29,15 +29,20 @@
         </div>
       </div>
     </div>
+    <slot name="add-role"></slot>
   </Card>
 </template>
 
 <script>
   import { authType } from '@/api/tableData'
-  import { putEditPermissions } from '@/api/api'
+  import { putEditPermissions, postAddRole } from '@/api/api'
   export default {
     name: 'AccountSetting',
     props: {
+      roleId: {
+        type: Number,
+        required: false
+      },
       roleList: Array,
       menuItems: Array
     },
@@ -45,7 +50,7 @@
       return {
         roleGroup: 1,
         newRoleValue:'',
-        auth: authType.auth
+        auth: authType.auth,
       }
     },
     methods: {
@@ -62,8 +67,22 @@
           return;
         } else {
           this.roleList.push({name: this.newRoleValue})
+          this.addRoleAjax(this.newRoleValue)
           this.newRoleValue = ''
         }
+      },
+      addRoleAjax(value){
+        postAddRole({
+          roleName: value
+        }).then(res=> {
+          this.$Message.success({
+            content: '新增成功'
+          })
+        }).catch(err=> {
+          this.$Message.error({
+            content: '新增角色失败' + err
+          })
+        })
       },
       editPermissions(roleId,menuId,status){
         let params = {
@@ -84,6 +103,9 @@
 </script>
 
 <style>
+  .tej-account-card {
+    min-height: 85vh;
+  }
   .tej-account-card .ivu-card-head {
     background: #f3f7f9;
   }
