@@ -9,6 +9,7 @@ const RETAIL_URL = '/retailResource/'
 const VENDOR_URL = '/vendorResource/'
 const ORDER_URL  ='/orderResource/'
 const USER_URL = '/userResource/'
+const STATISTICS_URL = '/statisticsResource/'
 
 /**
  * 登录接口
@@ -107,15 +108,9 @@ export const postOrderList = (params) => post(ORDER_URL + 'orderList',params)  /
 /**
  * 数据管理相关的接口
  */
-export const getStationdata = ()=>get('/statisticsResource/stationdata','')
+export const getStationdata = ()=>get(STATISTICS_URL + 'stationdata','')    //全站数据
 
-export const postProductsaletop = (params)=>post('/statisticsResource/productsaletop',params)
-
-export const postProductaccesstop = (params)=>post('/statisticsResource/productaccesstop',params)
-
-export const postVendorsaletop = (params)=>post('/statisticsResource/vendorsaletop',params)
-
-export const postCooperationtop = (params)=>post('/statisticsResource/cooperationtop',params)
+export const postRanklist = (params)=>post(STATISTICS_URL + 'ranklist',params)   //排行榜统一接口
 
 /**
  * 账户管理相关的接口
@@ -128,8 +123,12 @@ export const  putEditUserStatus = (params) => put(USER_URL + 'edituserstatus',pa
 
 export const postUserDetail = (params) => post(USER_URL + 'userdetail',params)  //用户详情
 
+export const postAddUser = (params) => post(USER_URL + 'adduser',params) //新增用户
+
 export const putEditPermissions = (params) => put(USER_URL + 'editpermissions',params) //修改角色权限
 
 export const postRolePermissions = (params) => post(USER_URL + 'rolepermissions',params) //获取角色权限
+
+export const postAddRole = (params) => post(USER_URL +'addrole', params)  //新增角色
 
 export const putModifyPassword = (params) => post('/modifyPassword',params)  //修改密码
