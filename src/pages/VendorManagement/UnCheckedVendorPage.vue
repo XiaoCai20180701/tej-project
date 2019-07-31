@@ -4,7 +4,7 @@
       :columns-data="columnsData"
       :table-data="tableData"
       :page="page"
-      input-text="请输入厂商编号/名称/联系人"
+      input-text="请输入厂商名称/联系人/联系号码"
       @page-change-callback="pageChange"
       @pageSize-change-callback="pageSizeChange"
       @area-change-callback="areaChange"
@@ -68,6 +68,10 @@
           blockId: this.blockId,
           vendorType: auditType.unChecked
         }).then(res => {
+          if(res.code != 200){
+            this.$Message.warning(res.msg)
+            return
+          }
           let data = res.data
           this.tableData = data.vendorList
           this.page = {

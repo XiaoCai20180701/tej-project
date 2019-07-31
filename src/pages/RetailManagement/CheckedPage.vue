@@ -68,6 +68,10 @@
           blockId: this.blockId,
           status: auditType.checked
         }).then(res => {
+          if(res.code != 200){
+            this.$Message.warning(res.msg)
+            return
+          }
           let data = res.data
           this.tableData = data.list
           this.page = {

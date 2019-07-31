@@ -113,6 +113,10 @@
           page: 1,
           pageSize: 10
         }).then(res => {
+          if(res.code != 200){
+            this.$Message.warning(res.msg)
+            return
+          }
           let data = res.data
           this.retailDetail = data
           console.log('data',data)
