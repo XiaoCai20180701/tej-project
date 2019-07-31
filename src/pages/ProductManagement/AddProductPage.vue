@@ -67,6 +67,10 @@
         let params = {...this.photograph, ...this.price, ...this.feature, ...this.classification, ...productShow}
         console.log('新增商品 params!!!!!!',params)
         postAddProduct(params).then(res => {
+          if(res.code != 200){
+            this.$Message.warning(res.msg)
+            return
+          }
           this.$Message.success('成功新增商品')
           this.$router.push({ name: 'ProductManagementPage'})
         }).catch(err => {
@@ -94,6 +98,10 @@
       },
       getClassificationlist() {
         getClassificationlist('').then(res => {
+          if(res.code != 200){
+            this.$Message.warning(res.msg)
+            return
+          }
           let labelList= JSON.parse(JSON.stringify(res.data.list).replace(/title/g,"label"))
           let list = JSON.parse(JSON.stringify(labelList).replace(/id/g,"value"))
           this.list = list

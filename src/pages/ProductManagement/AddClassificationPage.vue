@@ -131,6 +131,10 @@
       },
       deleteTypeFun(id) {
         deleteType(id).then(res => {
+          if(res.code != 200){
+            this.$Message.warning(res.msg)
+            return
+          }
           this.getClassificationlist()
         })
           .catch(err => {
@@ -153,6 +157,10 @@
         })
           .then(res => {
             console.log('新增目录', res)
+            if(res.code != 200){
+              this.$Message.warning(res.msg)
+              return
+            }
             //  this.parentList.push({title: this.newValue})
             if (isParent) {
               this.list.push({title: this.newValue})
@@ -170,6 +178,10 @@
       //获取已有分类、一级目录、二级目录
       getClassificationlist() {
         getClassificationlist('').then(res => {
+          if(res.code != 200){
+            this.$Message.warning(res.msg)
+            return
+          }
           let data = res.data
           this.list = data.list
           this.parentList = data.list

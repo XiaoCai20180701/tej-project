@@ -70,6 +70,10 @@
           blockId: this.regionGroupID,
           keywords: this.keywords
         }).then(res => {
+          if(res.code != 200){
+            this.$Message.warning(res.msg)
+            return
+          }
           let data = res.data
           this.tableData = data.list
           this.page = {

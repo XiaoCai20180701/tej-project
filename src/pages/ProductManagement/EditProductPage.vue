@@ -86,6 +86,10 @@
         let params = {...this.photograph, ...this.price, ...this.feature, ...this.classification, ...productShow}
         console.log('修改商品 params!!!!!!',params)
         putProductDetail(params).then(res => {
+          if(res.code != 200){
+            this.$Message.warning(res.msg)
+            return
+          }
           this.$Message.success('成功修改商品')
         }).catch(err => {
           this.$Message.error('修改商品失败',err)
@@ -115,6 +119,10 @@
         let productId = this.$route.query.productId
         getProductDetail({productId: productId}).then(res => {
           console.log('获取商品详情',res)
+          if(res.code != 200){
+            this.$Message.warning(res.msg)
+            return
+          }
           let data = res.data
           this.productDetail.classification = {
             typeParentId: data.typeParentId,
@@ -140,6 +148,10 @@
       },
       getClassificationlist() {
         getClassificationlist('').then(res => {
+          if(res.code != 200){
+            this.$Message.warning(res.msg)
+            return
+          }
           let labelList= JSON.parse(JSON.stringify(res.data.list).replace(/title/g,"label"))
           let list = JSON.parse(JSON.stringify(labelList).replace(/id/g,"value"))
           this.list = list
