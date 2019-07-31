@@ -10,18 +10,18 @@
     </Row>
     <Row :gutter="20" style="margin-top: 10px;">
       <Col span="12">
-        <TopDate list-name="全站销量前十商品排行"
-                 :table-data="productSaleList"
-                 :columns-data="productSaleColumns"
-                 @date-change="postProductSale"
-        ></TopDate>
+      <TopDate list-name="全站销量前十商品排行"
+               :table-data="productSaleList"
+               :columns-data="productSaleColumns"
+               @date-change="postProductSale"
+      ></TopDate>
       </Col>
       <Col span="12">
-        <TopDate list-name="全站访问量前十商品排行"
-                 :table-data="productAccessList"
-                 :columns-data="productAccessColumns"
-                 @date-change="postProductAccess"
-        ></TopDate>
+      <TopDate list-name="全站访问量前十商品排行"
+               :table-data="productAccessList"
+               :columns-data="productAccessColumns"
+               @date-change="postProductAccess"
+      ></TopDate>
       </Col>
       <Col span="12">
       <TopDate list-name="全站销量前十厂商"
@@ -44,12 +44,7 @@
 <script>
   import TopDate from './components/TopDate'
   import { productSaleTable, productAccessTable, vendorSaleTable, cooperationTable, dataStatus } from '@/api/tableData'
-  import {
-    postProductList,
-    getStationdata,
-    postRanklist
-} from '@/api/api'
-  import {get,post} from '@/utils/http'
+  import { getStationdata, postRanklist, getRankAllList} from '@/api/api'
 
   export default {
     name: 'DataManagementPage',
@@ -78,20 +73,18 @@
       this.getInit()
     },
     methods: {
-      getInit(){
-        //默认以当前时间为开始时间和结束时间
-        let startDate = this.$Moment().locale('zh-cn').format('YYYY-MM-DD')
-        let endDate = this.$Moment().locale('zh-cn').format('YYYY-MM-DD')
-        this.getList(startDate,endDate)
-      },
       getStation() {
         getStationdata()
           .then(res => {
+            if(res.code != 200){
+              this.$Message.warning(res.msg)
+              return
+            }
             let data = res.data
             this.allData = [
               {
                 title: '全站访问量(次)：',
-                data: data.accessNum
+                data: data.traffic
               },
               {
                 title: '全站销售量(件)：',
@@ -107,47 +100,66 @@
             this.$Message.error('获取全站数据失败', err)
           })
       },
-      //全站销量前十商品排行
-      async postProductSale(startDate, endDate) {
-        await  postRanklist({
-          startDate: startDate,
-          endDate: endDate,
-          status: dataStatus.commoditySales
+      getInit(){
+        getRankAllList().then(res => {
+          if(res.code != 200){
+            this.$Message.warning(res.msg)
+            return
+          }
+          this.productSaleList = res.data.productSalesList
+          this.productAccessList = res.data.productTrafficList
+          this.vendorSaleList = res.data.vendorSalesList
+          this.cooperationList = res.data.cooperationList
+        }).catch(err => {
+          this.$Message.error('排行榜请求失败' + err)
         })
+      },
+      postRanklistFun(startDate, endDate,status){
+        postRanklist({
+          startTime: startDate,
+          endTime: endDate,
+          status: status
+        })
+          .then(res => {
+            if(res.code != 200){
+              this.$Message.warning(res.msg)
+              return
+            }
+            this.getData(status,res.data.list)
+          })
+          .catch(err => {
+            this.$Message.error('全站销量前十排行榜获取失败',err)
+          })
+      },
+      getData(status,list){
+        switch (status){
+          case dataStatus.commoditySales:
+            this.productSaleList = list
+            break
+          case dataStatus.commodityTraffic:
+            this.productAccessList = list
+            break
+          case dataStatus.vendorSales:
+            this.vendorSaleList = list
+          default:
+            this.cooperationList = list
+        }
+      },
+      //全站销量前十商品排行
+      postProductSale(startDate, endDate) {
+        this.postRanklistFun(startDate, endDate,dataStatus.commoditySales)
       },
       //全站访问量前十商品排行
-      async postProductAccess(startDate,endDate) {
-        await  postRanklist({
-          startDate: startDate,
-          endDate: endDate,
-          status: dataStatus.commodityTraffic
-        })
+      postProductAccess(startDate,endDate) {
+        this.postRanklistFun(startDate, endDate,dataStatus.commodityTraffic)
       },
       //全站销量前十厂商
-      async postVendorSale(startDate,endDate) {
-        await  postRanklist({
-          startDate: startDate,
-          endDate: endDate,
-          status: dataStatus.vendorSales
-        })
+      postVendorSale(startDate,endDate) {
+        this.postRanklistFun(startDate, endDate,dataStatus.vendorSales)
       },
       //全站前十厂商、商家合作次数
-      async postCooperation(startDate, endDate) {
-        await  postRanklist({
-          startDate: startDate,
-          endDate: endDate,
-          status: dataStatus.cooperation
-        })
-      },
-      async getList(startDate,endDate) {
-        await Promise.all([
-          this.postProductSale(startDate,endDate),
-          this.postProductAccess(startDate,endDate),
-          this.postVendorSale(startDate,endDate),
-          this.postCooperation(startDate,endDate),
-          ]).then(res=> {
-          console.log('list~~~~~~~~~~',res)
-        })
+      postCooperation(startDate, endDate) {
+        this.postRanklistFun(startDate, endDate,dataStatus.cooperation)
       }
     }
   }

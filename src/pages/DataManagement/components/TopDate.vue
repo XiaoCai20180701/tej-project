@@ -43,7 +43,7 @@
         </DatePicker>
 		</p>
     </div>
-    <Table  :columns="columnsData" :data="tableData" v-if="tableData.length > 0"></Table>
+    <Table  :columns="columnsData" :data="tableData" v-if="tableData.length >= 0"></Table>
   </div>
 </template>
 
