@@ -63,6 +63,10 @@
         login({userName: username, passWord: password}).then(res => {
           this.loading = false
           let data = res.data
+          if(res.code != 200){
+            this.$Message.warning(res.msg)
+            return
+          }
           // 登陆成功 设置用户信息
           localStorage.setItem('userImg', data.avatar)
           localStorage.setItem('userName', data.userName)
