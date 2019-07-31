@@ -95,6 +95,8 @@ export const postVendorDetail = (params) => post(VENDOR_URL + 'vendorDetail',par
 
 export const postVendorInfo = (id) => post(VENDOR_URL + 'auditDetail',id) //获取厂商审核信息
 
+export const putAuditIsUsed = (params) => put(VENDOR_URL + 'auditIsUsed', params) //厂商审核是否通过
+
 
 /**
  * 订单管理相关的接口
@@ -112,6 +114,8 @@ export const getStationdata = ()=>get(STATISTICS_URL + 'stationdata','')    //�
 
 export const postRanklist = (params)=>post(STATISTICS_URL + 'ranklist',params)   //排行榜统一接口
 
+export const getRankAllList = () => get(STATISTICS_URL + 'rankalllist')   //排行榜详情
+
 /**
  * 账户管理相关的接口
  */
@@ -125,7 +129,7 @@ export const postUserDetail = (params) => post(USER_URL + 'userdetail',params)  
 
 export const postAddUser = (params) => post(USER_URL + 'adduser',params) //新增用户
 
-export const putEditPermissions = (params) => put(USER_URL + 'editpermissions',params) //修改角色权限
+export const postEditPermissions = (params) => post(USER_URL + 'editpermissions',params) //修改角色权限
 
 export const postRolePermissions = (params) => post(USER_URL + 'rolepermissions',params) //获取角色权限
 
