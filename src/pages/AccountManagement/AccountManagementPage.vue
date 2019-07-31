@@ -25,7 +25,10 @@
       <a slot="action-btn"
          slot-scope="props"
          @click="disableUser(props.row)"
-      >{{props.row.isUsed == userStatus ? '已启用' : '未启用'}}</a>
+      >
+        <span v-if="props.row.isUsed == userStatus">已启用</span>
+        <span class="tej-disable-txt" v-else >未启用</span>
+      </a>
     </TejTable>
   </div>
 </template>
@@ -49,11 +52,14 @@
           size: 10,
           total: 10
         },
-        roleId: roleType.admin,
+        roleId: null,
         checkedRole: 0,
         roleList: [],
         userStatus: userStatusType.enable
       }
+    },
+    watch: {
+      '$route': 'getList'
     },
     mounted() {
       this.columnsData = accountTable
@@ -67,9 +73,8 @@
         })
       },
       disableUser(row) {
-        console.log('props.row.userId', row.userId)
-        row.isUsed = !row.isUsed
-        this.editUserStatus(row.userId)
+        row.isUsed = row.isUsed == 0 ? 1 : 0
+        this.editUserStatus(row.userId, row.isUsed)
       },
       roleChange(e) {
         console.log('角色change', e)
@@ -91,7 +96,10 @@
           roleId: this.roleId
         }
         postUserList(params).then(res => {
-          console.log('账户列表', res)
+          if(res.code != 200){
+            this.$Message.warning(res.msg)
+            return
+          }
           let data = res.data
           this.tableData = data.list
           this.page = {
@@ -108,6 +116,10 @@
       getRolelistFun() {
         getRolelist().then(res => {
           console.log('角色列表', res.data)
+          if(res.code != 200){
+            this.$Message.warning(res.msg)
+            return
+          }
           let roleList = res.data.list
           let firstRole = [{id: 0, name:'全部'}]
           this.roleList = [...firstRole, ...roleList]
@@ -118,12 +130,16 @@
           })
         })
       },
-      editUserStatus(userId) {
+      editUserStatus(userId, isUsed) {
         let params = {
           userId: userId,
-          isUsed: this.userStatus
+          isUsed: isUsed
         }
         putEditUserStatus(params).then(res => {
+          if(res.code != 200){
+            this.$Message.warning(res.msg)
+            return
+          }
           this.$Message.success({
             content: '成功修改状态'
           })
@@ -144,6 +160,10 @@
 
   .notxt {
     color: transparent;
+  }
+
+  .tej-disable-txt {
+    color: red;
   }
 
 </style>

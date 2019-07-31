@@ -8,7 +8,6 @@
     <AccountSetting :role-list="roleList"
                     :menu-items="menuItems"
                     @role-change="roleChange"
-                    @setting-callback="accountSettingCallback"
                     :role-id="this.$store.state.role"
     >
       <div slot="add-role" class="tej-addrole-btngroup">
@@ -23,7 +22,7 @@
 <script>
   import AccountAdd from './components/AccountAdd'
   import AccountSetting from './components/AccountSetting'
-  import { postUserDetail, postRolePermissions, postAddUser } from '@/api/api'
+  import { getRolelist, postRolePermissions, postAddUser } from '@/api/api'
 
   export default {
     name: 'AccountAddPage',
@@ -41,7 +40,8 @@
       }
     },
     mounted(){
-      this.getDetail()
+      this.getRoleListFun()
+      this.getRolePermissions(this.$store.state.role)
     },
     methods: {
       addCallback(data){
@@ -52,9 +52,13 @@
         console.log('基本信息 params',this.addParams)
         let params = {
           ...this.addParams,
-          roleId: this.$store.state.roleId
+          roleId: this.roleId
         }
         postAddUser(params).then(res => {
+          if(res.code != 200){
+            this.$Message.warning(res.msg)
+            return
+          }
           this.$Message.success('新增用户成功')
           this.$router.push({
             name: 'AccountManagementPage'
@@ -72,12 +76,18 @@
       },
       roleChange(data){
         console.log('role 回调',data)
+        this.roleId = data
         this.getRolePermissions(data)
       },
       getRolePermissions(roleId){
+        console.log('roleId', roleId)
         postRolePermissions({
           roleId: roleId
         }).then(res => {
+          if(res.code != 200){
+            this.$Message.warning(res.msg)
+            return
+          }
           let data = res.data
           this.menuItems = data.menuItems
         }).catch(err => {
@@ -86,17 +96,17 @@
           })
         })
       },
-      getDetail(){
-        postUserDetail({
-          userId: this.$route.query.userId
-        }).then(res => {
+      getRoleListFun(){
+        getRolelist().then(res => {
+          if(res.code != 200){
+            this.$Message.warning(res.msg)
+            return
+          }
           let data = res.data
-          this.baseInfo = data.userInfo
-          this.roleList = data.roleList
-          this.menuItems = data.menuItems
+          this.roleList = data.list
         }).catch(err => {
           this.$Message.error({
-            content: '获取账户详情失败' + err
+            content: '获取角色列表失败' + err
           })
         })
       }

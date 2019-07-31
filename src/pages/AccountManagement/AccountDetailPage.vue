@@ -43,6 +43,10 @@
         postRolePermissions({
           roleId: roleId
         }).then(res => {
+          if(res.code != 200){
+            this.$Message.warning(res.msg)
+            return
+          }
           let data = res.data
           this.menuItems = data.menuItems
         }).catch(err => {
@@ -55,6 +59,10 @@
         postUserDetail({
           userId: this.$route.query.userId
         }).then(res => {
+          if(res.code != 200){
+            this.$Message.warning(res.msg)
+            return
+          }
           let data = res.data
           this.baseInfo = data.userInfo
           this.roleList = data.roleList
