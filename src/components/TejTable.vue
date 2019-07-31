@@ -157,7 +157,7 @@
           case 'UnCheckedVendorPage':
             this.$router.push({
               name: 'AuditStatusPage',
-              query: {vendorId: row.vendorId},
+              query: {vendorId: row.id},
               params: {isVendor: true, isAudit: 0}
             })
             break
