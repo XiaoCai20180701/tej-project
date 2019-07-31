@@ -33,7 +33,10 @@
       <Col span="24">
         <Card class="tej-part-card">
           <p slot="title">购买商品列表</p>
-          <div v-for="(item, index) in orderDetail.productInformationList.list" :key="index">
+          <div v-if="orderDetail.productInformationList.list.length == 0">
+            暂无数据
+          </div>
+          <div v-for="(item, index) in orderDetail.productInformationList.list" :key="index" v-else>
             <ProductItem :data="item" total-align="left"></ProductItem>
           </div>
         </Card>
@@ -42,7 +45,7 @@
     <Row>
       <Col span="24">
       <div class="tej-order-detail-box clearfix">
-        <span class="number">总计：{{orderDetail.orderProductPrice | money}}元</span>
+        <span class="number">总计：{{price | money}}元</span>
         <span class="number">优惠：{{orderDetail.discount | money}}元</span>
         <span class="number">运费：{{orderDetail.orderLogisticsCost | money}}元</span>
       </div>
@@ -61,6 +64,12 @@
     components: {
       'PartDom': PartDom,
       'ProductItem': ProductItem
+    },
+    computed: {
+      price(){
+        let checked = this.orderDetail.hasOwnProperty('orderProductPrice')
+        return checked ? this.orderDetail.orderProductPrice: this.orderDetail.orderPrice
+      }
     },
     data() {
       return {
@@ -94,6 +103,10 @@
           page: page,
           pageSize: pageSize
         }).then(res => {
+          if(res.code != 200){
+            this.$Message.warning(res.msg)
+            return
+          }
           this.orderDetail = res.data
           console.log('oder list', res)
         }).catch(err => {

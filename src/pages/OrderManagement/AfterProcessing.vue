@@ -107,6 +107,10 @@
         }
         postOrderList(params).then(res => {
           console.log('售后处理订单列表', res.data)
+          if(res.code != 200){
+            this.$Message.warning(res.msg)
+            return
+          }
           let data = res.data
           this.orderData = data.orderList
           this.page = {

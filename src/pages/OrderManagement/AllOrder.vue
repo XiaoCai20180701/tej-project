@@ -25,6 +25,10 @@
     components: { expandRow,OrderSearchForm,OrderTable },
     data() {
       return {
+        vendorName: '',
+        retailName: '',
+        startTime: null,
+        endTime: null,
         page: {
           index: 1,
           size: 10,
@@ -68,7 +72,8 @@
             slot: 'action'
           }
         ],
-        orderData: []
+        orderData: [],
+
       }
     },
     mounted() {
@@ -85,6 +90,10 @@
       },
       searchCallback(data){
         console.log('确认 回调',data)
+        this.vendorName = data.vendorName
+        this.retailName = data.retailName
+        this.startTime = data.startTime
+        this.endTime = data.endTime
         this.getList()
       },
       vendorCallback(data){
@@ -107,6 +116,10 @@
         }
         postOrderList(params).then(res => {
           console.log('全部订单列表', res.data)
+          if(res.code != 200){
+            this.$Message.warning(res.msg)
+            return
+          }
           let data = res.data
           this.orderData = data.orderList
           this.page = {
