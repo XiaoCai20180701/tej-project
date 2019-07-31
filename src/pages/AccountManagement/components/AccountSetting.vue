@@ -19,7 +19,14 @@
       </div>
     </div>
     <div class="content">
-      <div v-for="(item, index) in menuItems" :key="index" class="item">
+      <div v-if="menuItems.length == 0">
+        菜单信息 — 暂无数据
+      </div>
+      <div v-for="(item, index) in menuItems"
+           :key="index"
+           class="item"
+           v-else
+      >
         <span class="txt">{{item.text}}</span>
         <div v-if="item.status == auth" class="auth-btn">
           <span class="auth-txt">已授权</span> <span class="cancel-txt" @click="changeAuth(item)">取消授权</span>
@@ -35,7 +42,7 @@
 
 <script>
   import { authType } from '@/api/tableData'
-  import { putEditPermissions, postAddRole } from '@/api/api'
+  import { postEditPermissions, postAddRole } from '@/api/api'
   export default {
     name: 'AccountSetting',
     props: {
@@ -51,30 +58,41 @@
         roleGroup: 1,
         newRoleValue:'',
         auth: authType.auth,
+        role: 1
       }
     },
     methods: {
       changeAuth(item){
-        item.status = !item.status
-        this.editPermissions(this.roleGroup,item.id,item.status)
+        item.status = item.status == 0 ? 1 : 0
+//        this.editPermissions(this.roleGroup,item.menuId,item.status)
+        this.editPermissions(this.role,item.menuId,item.status)
       },
       roleChange(e){
+        this.role = e
         this.$emit('role-change',e)
       },
       addRole(){
         if (this.newRoleValue === '') {
           this.$Message.error('新增角色名不能为空')
-          return;
-        } else {
-          this.roleList.push({name: this.newRoleValue})
-          this.addRoleAjax(this.newRoleValue)
-          this.newRoleValue = ''
+          return
         }
+        let checked = this.roleList.some((i,v) => i.name == this.newRoleValue )
+        if(checked){
+          this.$Message.error('与已有角色名重复')
+          return
+        }
+        this.roleList.push({name: this.newRoleValue})
+        this.addRoleAjax(this.newRoleValue)
+        this.newRoleValue = ''
       },
       addRoleAjax(value){
         postAddRole({
           roleName: value
         }).then(res=> {
+          if(res.code != 200){
+            this.$Message.warning(res.msg)
+            return
+          }
           this.$Message.success({
             content: '新增成功'
           })
@@ -90,8 +108,12 @@
           menuId: menuId,
           status: status
         }
-        putEditPermissions(params).then(res => {
-
+        postEditPermissions(params).then(res => {
+          if(res.code != 200){
+            this.$Message.warning(res.msg)
+            return
+          }
+          this.$Message.success('修改成功')
         }).catch(err=> {
           this.$Message.error({
             content: '修改角色权限失败' + err
