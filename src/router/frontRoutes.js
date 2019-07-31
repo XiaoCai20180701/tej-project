@@ -38,20 +38,21 @@ const frontRoutes = [
     meta: {
       requireAuth: false
     },
-    children: [{
+    children: [
+      {
+        type: 'ios-grid',
+        name: 'UnCheckedPage',
+        text: '待审核'
+      },
+      {
       type: 'ios-grid',
       name: 'CheckedPage',
-      text: '已审核'
+      text: '已通过'
     },
       {
         type: 'ios-grid',
         name: 'CheckedDetailPage',
         text: '零售商详情'
-      },
-      {
-        type: 'ios-grid',
-        name: 'UnCheckedPage',
-        text: '待审核'
       },
       {
         type: 'ios-grid',
@@ -71,20 +72,21 @@ const frontRoutes = [
     meta: {
       requireAuth: false
     },
-    children: [{
+    children: [
+      {
+        type: 'ios-grid',
+        name: 'UnCheckedVendorPage',
+        text: '待审核'
+      },
+      {
       type: 'ios-grid',
       name: 'CheckedVendorPage',
-      text: '已审核'
+      text: '已通过'
     },
       {
         type: 'ios-grid',
         name: 'CheckedVendorDetailPage',
         text: '厂商详情'
-      },
-      {
-        type: 'ios-grid',
-        name: 'UnCheckedVendorPage',
-        text: '待审核'
       },
       {
         type: 'ios-grid',
