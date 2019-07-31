@@ -50,7 +50,8 @@
       showDetail(orderId) {
         this.$router.push({
           name: 'OrderDetailPage',
-          query: { orderId: orderId}
+          query: { orderId: orderId},
+          params: {page: 1,pageSize: 10}
         })
       }
     }

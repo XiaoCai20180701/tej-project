@@ -11,7 +11,7 @@
     <div class="right">
       <p><span class="label">运费：</span><span>{{row.orderLogisticsCost | money}}元</span> </p>
       <p><span class="label">优惠券：</span><span>{{row.discount | money}} 元</span></p>
-      <p><span class="label">总计：</span><span>{{row.orderProductPrice ?row.orderProductPrice: row.orderPrice | money}}元</span></p>
+      <p><span class="label">总计：</span><span>{{price | money}}元</span></p>
     </div>
   </div>
 </template>
@@ -27,8 +27,15 @@
     props: {
       row: Object
     },
+    computed:{
+      price(){
+        let checked = this.row.hasOwnProperty('orderProductPrice')
+        return  checked ? this.row.orderProductPrice: this.row.orderPrice
+      }
+    },
     data() {
-      return {}
+      return {
+      }
     }
   }
 </script>

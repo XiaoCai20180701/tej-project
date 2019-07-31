@@ -33,7 +33,7 @@
         type: Object
       },
       id: {
-        type: Number
+        type: Number | String
       }
     },
     mounted(){
