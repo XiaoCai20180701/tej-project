@@ -78,9 +78,9 @@
             <!-- 页面主体 -->
             <div class="main-content">
                 <div class="view-c">
-                    <keep-alive :include="keepAliveData">
+                    <keep-alive>
                         <!-- 子页面 -->
-                        <router-view v-if="isShowRouter"/>
+                        <router-view />
                     </keep-alive>
                     <div class="loading-c" v-show="showLoading">
                         <Spin size="large"></Spin>
@@ -295,32 +295,32 @@ export default {
             this.main.style.width = 'calc(100% - 220px)'
         },
         // 刷新当前标签页
-        reloadPage() {
-            let name = this.$route.name
-            let index = this.keepAliveData.indexOf(name)
-            this.$nextTick(() => {
-                if (this.tagsArry.length) {
-                    this.isShowRouter = false
-                    this.tagsArry.splice(index, 1)
-                    this.$nextTick(() => {
-                        this.tagsArry.splice(index, 0, {name, text: this.nameToTitle[name]})
-                        this.gotoPage(name)
-                        this.isShowRouter = true
-                    })
-                } else {
-                    this.isShowRouter = false
-                    this.$nextTick(() => {
-                        this.tagsArry.push({name, text: this.nameToTitle[name]})
-                        this.gotoPage(name)
-                        this.isShowRouter = true
-                    })
-                }
-            })
-        },
-        // 激活标签
-        activeTag(i) {
-            this.gotoPage(this.tagsArry[i].name)
-        },
+//        reloadPage() {
+//            let name = this.$route.name
+//            let index = this.keepAliveData.indexOf(name)
+//            this.$nextTick(() => {
+//                if (this.tagsArry.length) {
+//                    this.isShowRouter = false
+//                    this.tagsArry.splice(index, 1)
+//                    this.$nextTick(() => {
+//                        this.tagsArry.splice(index, 0, {name, text: this.nameToTitle[name]})
+//                        this.gotoPage(name)
+//                        this.isShowRouter = true
+//                    })
+//                } else {
+//                    this.isShowRouter = false
+//                    this.$nextTick(() => {
+//                        this.tagsArry.push({name, text: this.nameToTitle[name]})
+//                        this.gotoPage(name)
+//                        this.isShowRouter = true
+//                    })
+//                }
+//            })
+//        },
+//        // 激活标签
+//        activeTag(i) {
+//            this.gotoPage(this.tagsArry[i].name)
+//        },
         // 菜单栏改变事件
         menuChange(data) {
         console.log('菜单栏改变事件', data)
