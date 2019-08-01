@@ -96,6 +96,7 @@
         })
       },
       parentChange(e) {
+        this.typeParentId = e
         this.parentList.find((item) => {
           this.childrenList = item.children
           return item.id == e
@@ -130,7 +131,8 @@
         }
       },
       deleteTypeFun(id) {
-        deleteType(id).then(res => {
+        console.log('删除 id',id)
+        deleteType({id: id}).then(res => {
           if(res.code != 200){
             this.$Message.warning(res.msg)
             return
@@ -144,11 +146,29 @@
       //新增目录
       addParent() {
         this.isParent = true
-        this.newValue === '' ? this.$Message.error('一级分类名称不能为空') : this.add(this.isParent)
+        if(this.newValue === ''){
+          this.$Message.error('一级目录名称不能为空')
+          return
+        }
+        let checked = this.parentList.some((i,v) => i.title == this.newValue)
+        if(checked){
+          this.$Message.warning('与已有的一级目录名称重复')
+          return
+        }
+        this.add(this.isParent)
       },
       addChildren() {
         this.isParent = false
-        this.newChildrenValue === '' ? this.$Message.error('二级分类名称不能为空') : this.add(this.isParent)
+        if(this.newChildrenValue === ''){
+          this.$Message.warning('二级目录名称不能为空')
+          return
+        }
+        let checked = this.childrenList.some((i,v) => i.title == this.newChildrenValue)
+        if(checked){
+          this.$Message.warning('与已有的二级目录名称重复')
+          return
+        }
+        this.add(this.isParent)
       },
       add(isParent) {
         addParentType({
@@ -185,11 +205,11 @@
           let data = res.data
           this.list = data.list
           this.parentList = data.list
-          data.list.find((item, index) => {
-            this.childrenList = item.children
-            this.checkParent = item.id
-            return index == 0
-          })
+//          data.list.find((item, index) => {
+//            this.childrenList = item.children
+//            this.checkParent = item.id
+//            return index == 0
+//          })
         }).catch(err => {
           this.$Message.error('获取商品分类失败！', err)
         })
