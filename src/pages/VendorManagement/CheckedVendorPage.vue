@@ -66,7 +66,7 @@
           pageSize: this.page.size,
           keywords: this.keywords,
           blockId: this.blockId,
-          vendorType: auditType.checked
+          status: auditType.checked
         }).then(res => {
           if(res.code != 200){
             this.$Message.warning(res.msg)
