@@ -38,7 +38,7 @@ export const getVendorList = () => get(COMMON_URL + 'vendorlist','')
  */
 export const addParentType = (params) => post(PRODUCT_URL + 'addParentType',params)
 
-export const deleteType = (typeParentId) => deleteAxios(PRODUCT_URL + 'deleteType',typeParentId)
+export const deleteType = (params) => deleteAxios(PRODUCT_URL + 'deleteType',params)
 
  export const getColorList = ()=> get(PRODUCT_URL + 'getColorList','')
 
