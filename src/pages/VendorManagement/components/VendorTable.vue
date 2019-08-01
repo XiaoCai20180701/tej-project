@@ -3,7 +3,7 @@
     <Table
       :columns="columnsData"
       :data="tableData"
-      v-if="tableData.length > 0"
+      v-if="tableData.length >= 0"
     >
       <template slot-scope="{ row, index }" slot="action">
         <a @click="showDetail(row.id)"
