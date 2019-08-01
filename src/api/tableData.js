@@ -45,8 +45,8 @@ export const productManagementTable = [
 ]
 
 /**
-* 零售商管理 => 已审核列表
-* */
+ * 零售商管理 => 已审核列表
+ * */
 export const checkedRetailTable = [
   {
     'title': '编号',
@@ -154,7 +154,7 @@ export const notPassRetailTable = [
  * 厂商、零售商管理 => 审核状态
  * 1:已审核  2:待审核 3:未通过
  * */
-export const  auditType = {
+export const auditType = {
   'checked': 1,
   'unChecked': 2,
   'notPass': 3,
@@ -224,15 +224,18 @@ export const unCheckedVendorTable = [
   },
   {
     'title': '生产许可证',
-    'key': 'licenceImg'
+    'key': 'licenceImg',
+    'slot': 'licenceImg'
   },
   {
     'title': '生产环境',
-    'key': 'vendorEnvironmentImg'
+    'key': 'vendorEnvironmentImg',
+    'slot': 'vendorEnvironmentImg'
   },
   {
     'title': '品牌商标',
-    'key': 'trademarkImg'
+    'key': 'trademarkImg',
+    'slot': 'trademarkImg'
   },
   {
     title: '操作',
@@ -273,7 +276,7 @@ export const notPassVendorTable = [
 /**
  * 数据管理 => 全站销量前十商品排行榜
  * */
-export const  productSaleTable = [
+export const productSaleTable = [
   {
     'title': '编号',
     'key': 'productId'
@@ -295,7 +298,7 @@ export const  productSaleTable = [
 /**
  * 数据管理 => 全站访问量前十商品排行榜
  * */
-export const  productAccessTable = [
+export const productAccessTable = [
   {
     'title': '编号',
     'key': 'productId'
@@ -317,7 +320,7 @@ export const  productAccessTable = [
 /**
  * 数据管理 => 全站销量前十厂商
  * */
-export const  vendorSaleTable = [
+export const vendorSaleTable = [
   {
     'title': '编号',
     'key': 'vendorId'
@@ -339,7 +342,7 @@ export const  vendorSaleTable = [
 /**
  * 数据管理 => 全站前十厂商、商家合作次数
  * */
-export const  cooperationTable = [
+export const cooperationTable = [
   {
     'title': '编号',
     'key': 'vendorId'
@@ -392,7 +395,7 @@ export const accountTable = [
  * 订单管理 => 订单状态
  * 0:未付款  1:未发货  2:已收货 3:已发货 4:已评价 5:退换货
  * */
-export const  orderType = {
+export const orderType = {
   'nonPayment': 0,
   'unshipped': 1,
   'payment': 2,
@@ -404,7 +407,7 @@ export const  orderType = {
  * 账户管理 => 角色
  * 1:管理员 2:产品运营 3:营销管理 4:售前售后 5:行政管理
  * */
-export const  roleType = {
+export const roleType = {
   'admin': 1,
   'productOperation': 2,
   'marketingManagement': 3,
@@ -416,7 +419,7 @@ export const  roleType = {
  * 账户管理 => 账户状态
  * 0:未启用 1:启用
  * */
-export const  userStatusType = {
+export const userStatusType = {
   'enable': 1,
   'disable': 0,
 }
@@ -425,7 +428,7 @@ export const  userStatusType = {
  * 账户管理 => 菜单授权状态
  * 0:无权限 1:有权限
  * */
-export const  authType = {
+export const authType = {
   'auth': 1,
   'noAuth': 0,
 }
@@ -434,7 +437,7 @@ export const  authType = {
  * 数据管理 => 排行榜统一
  * 1:商品销量 2:商品访问量 3.厂商销量 4.厂商、零售商合作排行
  * */
-export const  dataStatus = {
+export const dataStatus = {
   'commoditySales': 1,
   'commodityTraffic': 2,
   'vendorSales': 3,
