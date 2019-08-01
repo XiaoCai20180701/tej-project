@@ -95,7 +95,7 @@
     },
     methods: {
       getDetail() {
-        let id = this.$route.query.orderId
+        let id = this.$route.params.orderId
         let page = this.$route.params.page
         let pageSize = this.$route.params.pageSize
         postOrderDetail({

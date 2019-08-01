@@ -26,6 +26,7 @@ const frontRoutes = [
   },
   {
     name: 'EditProductPage',
+    path: '/EditProductPage',
     type: 'md-home', // icon类型
     text: '编辑商品', // 文本内容,
     meta: {

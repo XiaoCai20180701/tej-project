@@ -109,7 +109,7 @@
       },
       getList() {
         postRetailDetail({
-          retailId: this.$route.query.retailId,
+          retailId: this.$route.params.retailId,
           page: 1,
           pageSize: 10
         }).then(res => {

@@ -57,7 +57,7 @@
       },
       getDetail(){
         postUserDetail({
-          userId: this.$route.query.userId
+          userId: this.$route.params.userId
         }).then(res => {
           if(res.code != 200){
             this.$Message.warning(res.msg)

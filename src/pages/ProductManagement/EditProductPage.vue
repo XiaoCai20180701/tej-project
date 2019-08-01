@@ -24,7 +24,12 @@
     </i-col>
     <i-col span="15" offset="1">
       <!--商品主图、详情图-->
-      <Photograph @photograph-callback="photographCallback"></Photograph>
+      <Photograph
+        @photograph-callback="photographCallback"
+        v-if="productDetail.photograph"
+        :main-picture-props="productDetail.photograph.mainPicture"
+        :img-content-props="productDetail.photograph.imgContent"
+      ></Photograph>
       <!--商品使用状态-->
       <Card>
         <p slot="title">使用状态</p>
@@ -66,15 +71,18 @@
         productDetail: {
           classification: null,
           feature: null,
-          price: null
+          price: null,
+          photograph: {
+            mainPicture: null,
+            imgContent: null
+          }
         },
         isEdit: false
       }
     },
     mounted(){
       this.getClassificationlist()
-      console.log('query id',this.$route.query)
-      console.log('params',this.$route.params)
+      console.log('params!!!!!!!!!!!!!',this.$route.params)
       if(this.$route.params.isEdit){
         this.isEdit = true
         this.getProductDetail()
@@ -116,7 +124,7 @@
       },
       getProductDetail(){
         //获取商品详情
-        let productId = this.$route.query.productId
+        let productId = this.$route.params.productId
         getProductDetail({productId: productId}).then(res => {
           console.log('获取商品详情',res)
           if(res.code != 200){
@@ -124,6 +132,7 @@
             return
           }
           let data = res.data
+          console.log('priceWholesaleList!!!!!!!!!!!!!!!!',data.priceWholesaleList)
           this.productDetail.classification = {
             typeParentId: data.typeParentId,
             typeParentName: data.typeParentName,
@@ -140,7 +149,11 @@
           this.productDetail.price = {
             inventory: data.inventory,
             priceSale: data.priceSale,
-            priceWholesaleList: data.priceWholesaleList
+            priceWholesaleList: data.productWholesaleList
+          }
+          this.productDetail.photograph = {
+            mainPicture: data.mainPicture,
+            imgContent: data.imgContent
           }
         }).catch(err => {
           this.$Message.error('获取商品详情失败',err)

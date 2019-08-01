@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import EditProductPage from '@/pages/ProductManagement/EditProductPage.vue'
+import AuditStatusPage from '@/components/vendorRetail/AuditStatusPage.vue'
 
 Vue.use(Router)
 
@@ -15,129 +17,124 @@ const commonRoutes = [
 // 需要通过后台数据来生成的组件(与前端路由映射)
 export const asyncRoutes = {
   'ProductManagementPage': {
-    path: 'ProductManagementPage',
+    path: '/ProductManagementPage',
     name: 'ProductManagementPage',
     component: () => import('@/pages/ProductManagement/ProductManagementPage.vue')
   },
   'AddClassificationPage': {
-    path: 'AddClassificationPage',
+    path: '/AddClassificationPage',
     name: 'AddClassificationPage',
     component: () => import('@/pages/ProductManagement/AddClassificationPage.vue')
   },
   'AddProductPage': {
-    path: 'AddProductPage',
+    path: '/AddProductPage',
     name: 'AddProductPage',
     component: () => import('@/pages/ProductManagement/AddProductPage.vue')
   },
   'EditProductPage': {
-    path: 'EditProductPage',
+    path: '/EditProductPage/:productId/:isEdit',
     name: 'EditProductPage',
-    component: () => import('@/pages/ProductManagement/EditProductPage.vue')
+    component: EditProductPage
   },
   'OrderDetailPage': {
-    path: 'OrderDetailPage',
+    path: '/OrderDetailPage/:orderId/:page/:pageSize',
     name: 'OrderDetailPage',
     component: () => import('@/pages/OrderManagement/OrderDetailPage.vue')
   },
   'NonPayment': {
-    path: 'NonPayment',
+    path: '/NonPayment',
     name: 'NonPayment',
     component: () => import('@/pages/OrderManagement/NonPayment.vue')
   },
   'Unshipped': {
-    path: 'Unshipped',
+    path: '/Unshipped',
     name: 'Unshipped',
     component: () => import('@/pages/OrderManagement/Unshipped.vue')
   },
   'Shipped': {
-    path: 'Shipped',
+    path: '/Shipped',
     name: 'Shipped',
     component: () => import('@/pages/OrderManagement/Shipped.vue')
   },
   'AfterProcessing': {
-    path: 'AfterProcessing',
+    path: '/AfterProcessing',
     name: 'AfterProcessing',
     component: () => import('@/pages/OrderManagement/AfterProcessing.vue')
   },
   'AllOrder': {
-  path: 'AllOrder',
+  path: '/AllOrder',
     name: 'AllOrder',
     component: () => import('@/pages/OrderManagement/AllOrder.vue')
 },
   'VendorManagementPage': {
-    path: 'VendorManagementPage',
+    path: '/VendorManagementPage',
     name: 'VendorManagementPage',
     component: () => import('@/pages/VendorManagement/VendorManagementPage.vue')
   },
   'UnCheckedVendorPage': {
-    path: 'UnCheckedVendorPage',
+    path: '/UnCheckedVendorPage',
     name: 'UnCheckedVendorPage',
     component: () => import('@/pages/VendorManagement/UnCheckedVendorPage.vue')
   },
   'NotPassVendorPage': {
-    path: 'NotPassVendorPage',
+    path: '/NotPassVendorPage',
     name: 'NotPassVendorPage',
     component: () => import('@/pages/VendorManagement/NotPassVendorPage.vue')
   },
   'CheckedVendorPage': {
-    path: 'CheckedVendorPage',
+    path: '/CheckedVendorPage',
     name: 'CheckedVendorPage',
     component: () => import('@/pages/VendorManagement/CheckedVendorPage.vue')
   },
   'CheckedVendorDetailPage': {
-    path: 'CheckedVendorDetailPage',
+    path: '/CheckedVendorDetailPage/:vendorId',
     name: 'CheckedVendorDetailPage',
     component: () => import('@/pages/VendorManagement/CheckedVendorDetailPage.vue')
   },
   'DataManagementPage': {
-    path: 'DataManagementPage',
+    path: '/DataManagementPage',
     name: 'DataManagementPage',
     component: () => import('@/pages/DataManagement/DataManagementPage.vue')
   },
   'AccountManagementPage': {
-    path: 'AccountManagementPage',
+    path: '/AccountManagementPage',
     name: 'AccountManagementPage',
     component: () => import('@/pages/AccountManagement/AccountManagementPage.vue')
   },
   'AccountDetailPage': {
-    path: 'AccountDetailPage',
+    path: '/AccountDetailPage/:userId',
     name: 'AccountDetailPage',
     component: () => import('@/pages/AccountManagement/AccountDetailPage.vue')
   },
   'AccountAddPage': {
-    path: 'AccountAddPage',
+    path: '/AccountAddPage',
     name: 'AccountAddPage',
     component: () => import('@/pages/AccountManagement/AccountAddPage.vue')
   },
-  'RetailManagementPage': {
-    path: 'RetailManagementPage',
-    name: 'RetailManagementPage',
-    component: () => import('@/pages/RetailManagement/RetailManagementPage.vue')
-  },
   'CheckedPage': {
-    path: 'CheckedPage',
+    path: '/CheckedPage',
     name: 'CheckedPage',
     component: () => import('@/pages/RetailManagement/CheckedPage.vue')
   },
   'CheckedDetailPage': {
-    path: 'CheckedDetailPage',
+    path: '/CheckedDetailPage/:retailId',
     name: 'CheckedDetailPage',
     component: () => import('@/pages/RetailManagement/CheckedDetailPage.vue')
   },
   'UnCheckedPage': {
-    path: 'UnCheckedPage',
+    path: '/UnCheckedPage',
     name: 'UnCheckedPage',
     component: () => import('@/pages/RetailManagement/UnCheckedPage.vue')
   },
   'NotPassPage': {
-    path: 'NotPassPage',
+    path: '/NotPassPage',
     name: 'NotPassPage',
     component: () => import('@/pages/RetailManagement/NotPassPage.vue')
   },
   'AuditStatusPage': {
-    path: 'AuditStatusPage',
+    path: '/AuditStatusPage/:id/:isVendor/:isAudit',
     name: 'AuditStatusPage',
-    component: () => import('@/components/vendorRetail/AuditStatusPage.vue')
+    component: AuditStatusPage
   },
   'password': {
     path: 'password',

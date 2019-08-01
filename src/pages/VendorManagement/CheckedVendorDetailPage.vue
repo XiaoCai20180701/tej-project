@@ -109,7 +109,7 @@
       },
       getList() {
         postVendorDetail({
-          vendorId: this.$route.query.vendorId,
+          vendorId: this.$route.params.vendorId,
           page: 1,
           pageSize: 10
         }).then(res => {

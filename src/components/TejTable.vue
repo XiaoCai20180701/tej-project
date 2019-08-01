@@ -59,6 +59,15 @@
         :data="tableData"
         v-if="tableData.length >= 0"
       >
+        <template slot-scope="{ row }" slot="licenceImg">
+          <span>已上传</span><a class="tej-look-txt" @click="viewImg(row.licenceImg)">查看</a>
+        </template>
+        <template slot-scope="{ row }" slot="vendorEnvironmentImg">
+          <span>已上传</span><a class="tej-look-txt" @click="viewImgList()">查看</a>
+        </template>
+        <template slot-scope="{ row }" slot="trademarkImg">
+          <span>已上传</span><a class="tej-look-txt" @click="viewImg(row.trademarkImg)">查看</a>
+        </template>
         <template slot-scope="{ row, index }" slot="action">
           <a style="margin-right: 5px" @click="showDetail(row)">查看详情</a>
           <slot name="action-btn" :row="row"></slot>
@@ -124,54 +133,49 @@
           case 'CheckedPage':
             this.$router.push({
               name: 'CheckedDetailPage',
-              query: {retailId: row.id}
+              params: { retailId: row.id }
             })
             break
           case 'UnCheckedPage':
             this.$router.push({
               name: 'AuditStatusPage',
-              query: {retailId: row.id},
-              params: {isVendor: false, isAudit: 0}
+              params: { id: row.id,isVendor: false, isAudit: 0 }
             })
             break
           case 'NotPassPage':
             this.$router.push({
               name: 'AuditStatusPage',
-              query: {retailId: row.id},
-              params: {isVendor: false, isAudit: 1}
+              params: { id: row.id,isVendor: false, isAudit: 1 }
             })
             break
           case 'ProductManagementPage':
             this.$router.push({
               name: 'EditProductPage',
-              query: {productId: row.id},
-              params: {isEdit: true}
+              params: {productId: row.id,isEdit: true}
             })
             break
           case 'CheckedVendorPage':
             this.$router.push({
               name: 'CheckedVendorDetailPage',
-              query: {vendorId: row.id}
+              params: {vendorId: row.id}
             })
             break
           case 'UnCheckedVendorPage':
             this.$router.push({
               name: 'AuditStatusPage',
-              query: {vendorId: row.id},
-              params: {isVendor: true, isAudit: 0}
+              params: {id: row.id,isVendor: true, isAudit: 0}
             })
             break
           case 'NotPassVendorPage':
             this.$router.push({
               name: 'AuditStatusPage',
-              query: {vendorId: row.vendorId},
-              params: {isVendor: true, isAudit: 1}
+              params: {id: row.id,isVendor: true, isAudit: 1}
             })
             break
           default:
             this.$router.push({
               name: 'AccountDetailPage',
-              query: {userId: row.userId}
+              params: {userId: row.userId}
             })
         }
       },
@@ -215,6 +219,40 @@
         console.log('pageSize', s)
         this.page.size = s
         this.$emit('pageSize-change-callback', this.page)
+      },
+      viewImg(imgurl){
+        //查看图片
+        this.$Modal.info({
+          render: (h) => {
+            return h('img', {
+              domProps: {
+                src: imgurl,
+                width: 375
+              }
+            }
+            )
+          }
+        })
+      },
+      viewImgList(){
+        let imgList = [
+          {name: '11',path: 'http://192.168.1.102:8080/tej/image/20190731/20190731160200032.png'},
+          {name: '22',path: 'http://192.168.1.102:8080/tej/image/20190731/20190731160200032.png'},
+          {name: '33',path: 'http://192.168.1.102:8080/tej/image/20190731/20190731160200032.png'},
+        ]
+        this.$Modal.info({
+          render: (h) => {
+            imgList.map(img => {
+              return h('img', {
+                  domProps: {
+                    src: img.path,
+                    width: 375
+                  }
+                }
+              )
+            })
+          }
+        })
       }
     }
   }
@@ -260,6 +298,9 @@
 
   .tej-table-btngroup {
     text-align: right;
+  }
+  .tej-look-txt {
+    margin-left: 10px;
   }
 </style>
 
