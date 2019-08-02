@@ -1,7 +1,7 @@
 <template>
   <div class="tej-product-item">
     <div class="picture">
-      <div class="img" style="background-image: url('http://b-ssl.duitang.com/uploads/item/201805/13/20180513224039_tgfwu.png')"></div>
+      <div class="img" :style="getImg(data.productImg)"></div>
     </div>
     <div class="product" :style="getProductStyle()">
       <h4 class="title">{{data.productName}}</h4>
@@ -39,6 +39,9 @@
     computed:{
     },
     methods: {
+      getImg(productImg){
+        return `background-image: url('${productImg}')`
+      },
       getProductStyle(){
         if(this.totalAlign == 'left'){
           return 'width: 70%'
