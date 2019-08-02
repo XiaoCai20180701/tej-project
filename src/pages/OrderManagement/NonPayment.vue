@@ -52,6 +52,10 @@
             key: 'orderType'
           },
           {
+            title: '下单时间',
+            key: 'orderTime'
+          },
+          {
             title: '发货时间',
             key: 'orderSendTime'
           },

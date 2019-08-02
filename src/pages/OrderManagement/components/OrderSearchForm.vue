@@ -32,15 +32,17 @@
     <Divider/>
     <FormItem label="订单时间：">
       <DatePicker type="date"
-                  placeholder="请输入开始时间"
+                  placeholder="请输入下单的开始时间"
                   :value="startTime"
                   @on-change="startTimeChange"
+                  @on-clear="clearStartTime"
       ></DatePicker>
       -
       <DatePicker type="date"
-                  placeholder="请输入结束时间"
+                  placeholder="请输入下单的结束时间"
                   :value="endTime"
                   @on-change="endTimeChange"
+                  @on-clear="clearEndTime"
       ></DatePicker>
       <Button type="primary" @click="search">确认</Button>
     </FormItem>
@@ -99,6 +101,12 @@
       endTimeChange(endTime) {
         this.endTime = endTime
         console.log('结束时间', endTime)
+      },
+      clearStartTime(){
+        this.startTime = null
+      },
+      clearEndTime(){
+        this.endTime = null
       },
       getHistoryListFun() {
         getHistoryList().then(res => {

@@ -1,7 +1,7 @@
 <template>
   <div class="tej-order-item-expand">
     <div class="left">
-      <ProductItem v-for="(item, index) in row.productInformationList"
+      <ProductItem v-for="(item, index) in row.productInformationList.list"
                    :key="index"
                    :data="item"
                    total-align="right"
