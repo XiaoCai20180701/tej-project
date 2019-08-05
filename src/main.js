@@ -14,6 +14,7 @@ import filter from '@/utils/filter'
 import Moment from 'moment'
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
+import '@/assets/iconfont/iconfont.css'
 
 Vue.config.productionTip = false
 Vue.use(VueRouter)
