@@ -13,7 +13,7 @@
         editorContent: ''
       }
     },
-    props: ['catchData', 'content'],    // 接收父组件的方法
+    props: ['catchData', 'content','editorData'],    // 接收父组件的方法
     watch: {
       content () {
         this.editor.txt.html(this.content)
@@ -105,9 +105,15 @@
       }
 
       this.editor.create()     // 创建富文本实例
-      if (!this.content) {
-        this.editor.txt.html('请编辑内容1')
+      let checked = this.$route.params.isEdit
+      if(checked){
+        this.editor.txt.html(this.editorData)
+      }else {
+        if (!this.content) {
+          this.editor.txt.html('请编辑内容1')
+        }
       }
+
     }
   }
 </script>
