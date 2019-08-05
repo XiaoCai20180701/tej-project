@@ -1,15 +1,9 @@
 <template>
   <div>
     <p slot="header" class="tej-bill-header" >
-      <Icon type="ios-arrow-back" size="24"/>
-      <span class="title">厂商账单</span>
+      <Icon type="ios-arrow-back" size="24" @click="back"/>
+      <span class="title">{{isVendor ? '厂家':'商家'}}账单</span>
     </p>
-    <!--<div class="modal_head">-->
-      <!--<span style="color: #1890FF; font-size: 14px; display: inline-block;height: 20px;line-height: 20px;" @click="back">-->
-       <!--<Icon type="ios-arrow-back" size = '24'/></span>-->
-      <!--<span style="color: #333333; display:inline-block; width:90%; text-align:center;">厂商账单-->
-      <!--</span>-->
-    <!--</div>-->
     <div class="modal_top">
       <Row :gutter="16">
         <Col span="12">
@@ -22,9 +16,21 @@
         </Col>
         <Col span="12">
         <span class="modal_span">金额：</span>
-        <Input v-model="minAmountValue" placeholder="请输入最低金额" size="small" style="width: auto" />
+        <Input v-model="minAmountValue"
+               placeholder="请输入最低金额"
+               size="small"
+               type="number"
+               style="width: auto"
+               clearable
+        />
         <span class="modal_span"> - </span>
-        <Input v-model="maxAmountValue" placeholder="请输入最高金额" size="small" style="width: auto" />
+        <Input v-model="maxAmountValue"
+               placeholder="请输入最高金额"
+               size="small"
+               type="number"
+               style="width: auto"
+               clearable
+        />
         </Col>
       </Row>
       <div class="wrap" style="margin-top: 20px;">
@@ -32,84 +38,201 @@
           <span style="height: 21px;display: inline-block;line-height: 23px;">类型：</span>
         </div>
         <div class="right">
-          <CheckboxGroup v-model="billTypeGroup">
-            <Checkbox v-for="(item,index) in billTypeArray" :key="index" :label='item'></Checkbox>
-          </CheckboxGroup>
+          <RadioGroup v-model="billTypeGroup" @on-change="typeChange">
+            <Radio v-for="(item,index) in billTypeArray"
+                   :key="index"
+                   :label='item.id'
+                   class="tej-radio">{{item.name}}</Radio>
+          </RadioGroup>
+          <div class="btn-group">
+            <Button type="primary" size="small" @click="search">确认搜索</Button>
+            <Button size="small" @click="clearAll">清空</Button>
+          </div>
         </div>
       </div>
     </div>
     <div class="modal_center">
-      <Scroll :on-reach-bottom="handleReachBottom" height="250">
-        <div dis-hover v-for="(item, index) in billList" :key="index" class="bill_list_cell">
-          <!-- Content {{ item }} -->
-          <Row style="border-bottom: #E3E3E3 solid 1px; height: 100%;">
-            <Col span="8" style="height: 100%;">
-            <p style="height: 50%;color: #37AFB8;display: inline-block;line-height: 30px; font-size: 15px;">{{item.status}}</p>
-            <p style="margin-top: 5px;">订单编号：{{item.orderId}}</p>
-            </Col>
-            <Col span="8" style="height: 100%;">
-            <p style="margin-top: 39.5px;">时间：{{item.time}}</p>
-            </Col>
-            <Col span="8" style="height: 100%;">
-            <p class="moneyLabType" :style="getStyle(index)">{{item.money}}</p>
-            </Col>
-          </Row>
-        </div>
-      </Scroll>
+      <div v-for="(item, index) in billList" :key="index" class="bill_list_cell">
+        <!-- Content {{ item }} -->
+        <Row style="border-bottom: #E3E3E3 solid 1px; height: 100%;">
+          <Col span="8" style="height: 100%;">
+          <p style="height: 50%;color: #37AFB8;display: inline-block;line-height: 30px; font-size: 15px;">{{item.statusName}}</p>
+          <p style="margin-top: 5px;">订单编号：{{item.orderId}}</p>
+          </Col>
+          <Col span="8" style="height: 100%;">
+          <p style="margin-top: 39.5px;">时间：{{item.time}}</p>
+          </Col>
+          <Col span="8" style="height: 100%;">
+          <p class="moneyLabType" :style="getStyle(index)">{{item.money}}</p>
+          </Col>
+        </Row>
+      </div>
+    </div>
+    <div class="tej-page-box">
+      <Page
+        :total="page.total"
+        :page-size="5"
+        :page-size-opts="pageSizeOpts"
+        show-sizer
+        show-total
+        class="tej-page"
+        @on-change="pageChange"
+        @on-page-size-change="pageSizeChange"/>
     </div>
   </div>
 </template>
 
 <script>
-  import { postVendorBillList } from '@/api/api'
+  import { postVendorBillList, postRetailBillList } from '@/api/api'
+  import { billTypeList } from '@/api/tableData'
   export default {
     name: 'Bill',
+    props: {
+      isVendor: {
+        type: Boolean
+      },
+      id: {
+        type: String,
+        required: false
+      }
+    },
     data() {
       return {
-        page:1,
-        startTimeValue: null,
-        endTimeValue: null,
-        minAmountValue: null,
-        maxAmountValue: null,
-        billTypeGroup: [],
-        billTypeArray: ["全部","订单收入", "提现"],
+        page:{
+          index: 1,
+          size: 5,
+          total: 10
+        },
+        pageSizeOpts: [5,10,20],
+        startTimeValue: '',
+        endTimeValue: '',
+        minAmountValue: '',
+        maxAmountValue: '',
+        billTypeGroup: '',
+        billTypeIntArray: [
+          {
+            id: '',
+            name: '全部'
+          }
+        ],
+        billTypeArray: [],
 //        billList: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-        billList: []
+        billList: [],
+
       }
     },
     mounted(){
-      this.page = 1
-      this.billList = []
+      this.getBillTypeArray()
       this.getBill()
     },
     methods: {
+      clearAll(){
+        this.startTimeValue = ''
+        this.endTimeValue = ''
+        this.minAmountValue = ''
+        this.maxAmountValue = ''
+        this.billTypeGroup = ''
+        this.getBill()
+      },
+      search(){
+        if (this.startTimeValue !== ''&&this.endTimeValue == '' ){
+          this.$Message.warning("请选择结束时间");
+          console.log('index',this.billTypeGroup)
+          return
+        }
+        if (this.endTimeValue !== ''&&this.startTimeValue == '') {
+          this.$Message.warning("请选择开始时间");
+          return
+        }
+        if (this.minAmountValue != ''&&this.maxAmountValue == '') {
+          this.$Message.warning("请输入最高金额");
+          return
+        }
+        if (this.maxAmountValue != ''&&this.minAmountValue == '') {
+          this.$Message.warning("请输入最低金额");
+          return
+        }
+        let startTime =  this.$Moment(this.startTimeValue).valueOf();
+        let endTime = this.$Moment(this.endTimeValue).valueOf();
+        if(startTime > endTime){
+          this.$Message.warning("开始时间不能大于结束时间");
+          return;
+        }
+        if(this.minAmountValue > this.maxAmountValue){
+          this.$Message.warning("最低金额不能大于最高金额");
+          return
+        }
+        this.getBill()
+      },
+      getBillTypeArray(){
+        let vendor = billTypeList.filter((i,v) => i.id < 3 )
+        let retail = billTypeList.filter((i,v) => i.id >= 3)
+        this.billTypeArray = this.isVendor ? [...this.billTypeIntArray, ...vendor] : [...this.billTypeIntArray, ...retail]
+      },
+      typeChange(e){
+        console.log('eeeeeeeeeeee',e)
+        this.billTypeGroup = e
+        this.getBill()
+      },
+      pageChange(page){
+        this.page.index = page
+        this.getBill()
+      },
+      pageSizeChange(pageSize){
+        this.page.size = pageSize
+        this.getBill()
+      },
       getBill(){
+        let id = this.isVendor ? { vendorId: this.id } : { retailId: this.id}
         let params = {
-          page: this.page,
-          pageSize: 4,
-          vendorId: this.$route.params.vendorId,
+          ...id,
+          page: this.page.index,
+          pageSize: this.page.size,
           startTime: this.startTimeValue,
           endTime: this.endTimeValue,
           startMoney: this.minAmountValue,
-          endMoney: this.maxAmountValue
+          endMoney: this.maxAmountValue,
+          billStatus: this.billTypeGroup
         }
-        postVendorBillList(params).then(res=> {
-          if(res.code != 200){
-            this.$Message.warning(res.msg)
-            return
-          }
-          let list = res.data.billList
-          list.map(item => {
-            this.billList.push(item)
+        if(this.isVendor){
+          postVendorBillList(params).then(res=> {
+            if(res.code != 200){
+              this.$Message.warning(res.msg)
+              return
+            }
+            let data = res.data
+            this.billList = data.billList
+            this.page = {
+              index: data.page,
+              size: data.pageSize,
+              total: data.total
+            }
+            console.log('厂商账单 list',this.billList)
+          }).catch(err => {
+            this.$Message.error('获取厂商账单失败'+ err)
           })
-          console.log('list',this.billList)
-        }).catch(err => {
-          this.$Message.error('获取厂商账单失败'+ err)
-        })
+        }else {
+          postRetailBillList(params).then(res=> {
+            if(res.code != 200){
+              this.$Message.warning(res.msg)
+              return
+            }
+            let data = res.data
+            this.billList = data.billList
+            this.page = {
+              index: data.page,
+              size: data.pageSize,
+              total: data.total
+            }
+            console.log('零售商账单 list',this.billList)
+          }).catch(err => {
+            this.$Message.error('获取零售商账单失败'+ err)
+          })
+        }
+
       },
       back() {
-        console.log("startTimeValue", this.startTimeValue, "endTimeValue", this.endTimeValue)
-        this.$emit('back');
+        this.$emit('back-callbak')
       },
       handleStartTimeChange(date) {
         this.startTimeValue = date
@@ -118,12 +241,6 @@
       handleEndTimeChange(date) {
         this.endTimeValue = date
         console.log('endTimeValue', date)
-      },
-      handleReachBottom() {
-        return new Promise(resolve => {
-          this.page++
-          this.getBill()
-        });
       },
       getStyle(index) {
         switch (index) {
@@ -163,9 +280,12 @@
   }
 
   .modal_top {
-    height: 110px;
     background: #E7F3FE;
     padding: 20px 25px 20px 25px;
+  }
+
+  .modal_top .btn-group {
+    float: right;
   }
 
   .modal_span {
@@ -204,5 +324,9 @@
 
   .moneyLabType {
     margin-top: 25px; text-align: right; font-size: 15px;
+  }
+
+  .tej-page-box {
+    padding-bottom: 20px;
   }
 </style>

@@ -1,32 +1,36 @@
 <template>
   <div>
-  <div class="tej-vendor-baseinfo">
-    <div class="avatar"
-         style="background-image: url('http://b-ssl.duitang.com/uploads/item/201801/04/20180104151926_TH2xE.jpeg')"></div>
-    <h2 class="title">{{detailData.name}}</h2>
-    <div>
-      <p class="item">
-        <span class="label">{{detailData.vendorId ? '厂商': '商家'}}编号：</span>
-        <span>{{detailData.vendorId ? detailData.vendorId: detailData.retailId}}</span>
-      </p>
-      <p class="item"><span class="label">联系人：</span><span>{{detailData.contact}}</span></p>
-      <p class="item"><span class="label">联系号码：</span><span>{{detailData.mobile}}</span></p>
-      <p class="item"><span class="label">联系地址：</span><span class="address">{{detailData.address}}</span>
-      </p>
+    <div class="tej-vendor-baseinfo">
+      <div class="avatar"
+           style="background-image: url('http://b-ssl.duitang.com/uploads/item/201801/04/20180104151926_TH2xE.jpeg')"></div>
+      <h2 class="title">{{detailData.name}}</h2>
+      <div>
+        <p class="item">
+          <span class="label">{{detailData.vendorId ? '厂商' : '商家'}}编号：</span>
+          <span>{{detailData.vendorId ? detailData.vendorId : detailData.retailId}}</span>
+        </p>
+        <p class="item"><span class="label">联系人：</span><span>{{detailData.contact}}</span></p>
+        <p class="item"><span class="label">联系号码：</span><span>{{detailData.mobile}}</span></p>
+        <p class="item"><span class="label">联系地址：</span><span class="address">{{detailData.address}}</span>
+        </p>
+      </div>
     </div>
-  </div>
     <div>
       <Button type="primary" @click="modal = true">
-        {{detailData.vendorId ? '厂商': '商家'}}账单
+        {{isVendor ? '厂商' : '商家'}}账单
       </Button>
       <Modal v-model="modal"
              class="tej-modal"
-             width="800"
-             height="800"
+             width="820"
              :closable="false"
              :mask-closable="false"
       >
-        <Bill @back-callbak="back" :bill="bill"></Bill>
+        <div v-if="modal">
+          <Bill @back-callbak="back"
+                :is-vendor="isVendor"
+                :id="id"
+          ></Bill>
+        </div>
         <div slot="footer">
         </div>
       </Modal>
@@ -47,12 +51,26 @@
     components: {Bill},
     data() {
       return {
-        modal: false,
-        bill: {}
+        modal: false
       }
     },
+    computed: {
+      isVendor: function () {
+        let checked = this.detailData.hasOwnProperty('vendorId')
+        console.log('checked!!!', checked)
+        return checked ? true : false
+      },
+      id: function(){
+        let checked = this.detailData.hasOwnProperty('vendorId')
+        console.log('checked!!!', checked)
+        return checked ? this.detailData.vendorId : this.detailData.retailId
+      }
+    },
+    mounted() {
+
+    },
     methods: {
-      back(){
+      back() {
         this.modal = false
       },
     }
