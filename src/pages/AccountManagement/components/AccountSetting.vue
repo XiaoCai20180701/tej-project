@@ -65,7 +65,7 @@
       changeAuth(item){
         item.status = item.status == 0 ? 1 : 0
 //        this.editPermissions(this.roleGroup,item.menuId,item.status)
-        this.editPermissions(this.role,item.menuId,item.status)
+        this.editPermissions(this.roleId,item.menuId,item.status)
       },
       roleChange(e){
         this.role = e
