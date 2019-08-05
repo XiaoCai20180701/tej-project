@@ -43,7 +43,11 @@
 <script>
   export default {
     props: {
-      pictureNum: Number
+      pictureNum: Number,
+      uploadListProps: {
+        type: Array,
+        required: false
+      }
     },
     data () {
       return {
@@ -52,8 +56,7 @@
           'token': localStorage.getItem('token'),
           'Access-Control-Allow-Origin': '*'
         },
-        defaultList: [
-        ],
+        defaultList: [],
         imgUrl: '',
         visible: false,
         uploadList: [],
@@ -73,16 +76,9 @@
         this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
       },
       handleSuccess (res, file) {
-        file.url= file.response.data[0].path
+        file.url= file.response.data[0].url
         file.name = file.response.data[0].name
-        this.$refs.upload.fileList.map(item => {
-          let data = item.response.data
-          this.list.push({
-            imgName:data[0].name,
-            imgAddress:data[0].path
-          })
-        })
-        this.$emit('main-callback',[...new Set(this.list )])
+        this.$emit('main-callback',file.name,file.url)
       },
       handleFormatError (file) {
         this.$Notice.warning({
@@ -106,9 +102,14 @@
         return check;
       }
     },
+    created(){
+      let checked = this.$route.params.isEdit
+      if (checked) {
+        this.defaultList = this.uploadListProps
+      }
+    },
     mounted () {
       this.uploadList = this.$refs.upload.fileList
-      console.log('this.uploadList',this.uploadList)
     }
   }
 </script>
