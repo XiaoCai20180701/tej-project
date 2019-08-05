@@ -1,4 +1,5 @@
 <template>
+  <div>
   <div class="tej-vendor-baseinfo">
     <div class="avatar"
          style="background-image: url('http://b-ssl.duitang.com/uploads/item/201801/04/20180104151926_TH2xE.jpeg')"></div>
@@ -14,9 +15,28 @@
       </p>
     </div>
   </div>
+    <div>
+      <Button type="primary" @click="modal = true">
+        {{detailData.vendorId ? '厂商': '商家'}}账单
+      </Button>
+      <Modal v-model="modal"
+             class="tej-modal"
+             width="800"
+             height="800"
+             :closable="false"
+             :mask-closable="false"
+      >
+        <Bill @back-callbak="back" :bill="bill"></Bill>
+        <div slot="footer">
+        </div>
+      </Modal>
+    </div>
+  </div>
 </template>
 
 <script>
+  import Bill from './Bill.vue'
+
   export default {
     name: 'BaseInfo',
     props: {
@@ -24,10 +44,17 @@
         type: Object
       }
     },
+    components: {Bill},
     data() {
       return {
-
+        modal: false,
+        bill: {}
       }
+    },
+    methods: {
+      back(){
+        this.modal = false
+      },
     }
   }
 </script>
