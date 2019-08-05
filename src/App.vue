@@ -78,4 +78,11 @@
     border-bottom: none;
     border-right: none;
   }
+  .tej-modal .ivu-modal-footer{
+    border-top: 0px solid #e8eaec;
+    padding: 0px;
+  }
+  .tej-modal .ivu-modal-body{
+    padding: 0px;
+  }
 </style>
