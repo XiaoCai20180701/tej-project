@@ -84,6 +84,8 @@ export const postRetailDetail = (params)=> post(RETAIL_URL + 'retaildetail',para
 
 export const postFailedlist = (params) => post(RETAIL_URL + 'failedlist',params)
 
+export const postRetailBillList = (params) => post(RETAIL_URL + 'bill',params) //零售商账单
+
 
 /**
  * 厂商管理相关的接口
@@ -111,11 +113,11 @@ export const postOrderList = (params) => post(ORDER_URL + 'orderList',params)  /
 /**
  * 数据管理相关的接口
  */
-export const getStationdata = ()=>get(STATISTICS_URL + 'stationdata','')    //全站数据
+export const getStationdata = ()=>post(STATISTICS_URL + 'stationdata','')    //全站数据
 
 export const postRanklist = (params)=>post(STATISTICS_URL + 'ranklist',params)   //排行榜统一接口
 
-export const getRankAllList = () => get(STATISTICS_URL + 'rankalllist')   //排行榜详情
+export const getRankAllList = () => get(STATISTICS_URL + 'rankdetails')   //排行榜详情
 
 /**
  * 账户管理相关的接口
