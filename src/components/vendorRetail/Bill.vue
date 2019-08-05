@@ -1,0 +1,208 @@
+<template>
+  <div>
+    <p slot="header" class="tej-bill-header" >
+      <Icon type="ios-arrow-back" size="24"/>
+      <span class="title">厂商账单</span>
+    </p>
+    <!--<div class="modal_head">-->
+      <!--<span style="color: #1890FF; font-size: 14px; display: inline-block;height: 20px;line-height: 20px;" @click="back">-->
+       <!--<Icon type="ios-arrow-back" size = '24'/></span>-->
+      <!--<span style="color: #333333; display:inline-block; width:90%; text-align:center;">厂商账单-->
+      <!--</span>-->
+    <!--</div>-->
+    <div class="modal_top">
+      <Row :gutter="16">
+        <Col span="12">
+        <span class="modal_span">时间：</span>
+        <DatePicker :value="startTimeValue" size="small" type="date" placeholder="请输入初始时间" style="width:150px"
+                    @on-change="handleStartTimeChange"></DatePicker>
+        <span class="modal_span"> - </span>
+        <DatePicker :value="endTimeValue" size="small" type="date" placeholder="请输入结束时间" style="width: 150px"
+                    @on-change="handleEndTimeChange"></DatePicker>
+        </Col>
+        <Col span="12">
+        <span class="modal_span">金额：</span>
+        <Input v-model="minAmountValue" placeholder="请输入最低金额" size="small" style="width: auto" />
+        <span class="modal_span"> - </span>
+        <Input v-model="maxAmountValue" placeholder="请输入最高金额" size="small" style="width: auto" />
+        </Col>
+      </Row>
+      <div class="wrap" style="margin-top: 20px;">
+        <div class="left" style="width: 36px;">
+          <span style="height: 21px;display: inline-block;line-height: 23px;">类型：</span>
+        </div>
+        <div class="right">
+          <CheckboxGroup v-model="billTypeGroup">
+            <Checkbox v-for="(item,index) in billTypeArray" :key="index" :label='item'></Checkbox>
+          </CheckboxGroup>
+        </div>
+      </div>
+    </div>
+    <div class="modal_center">
+      <Scroll :on-reach-bottom="handleReachBottom" height="250">
+        <div dis-hover v-for="(item, index) in billList" :key="index" class="bill_list_cell">
+          <!-- Content {{ item }} -->
+          <Row style="border-bottom: #E3E3E3 solid 1px; height: 100%;">
+            <Col span="8" style="height: 100%;">
+            <p style="height: 50%;color: #37AFB8;display: inline-block;line-height: 30px; font-size: 15px;">{{item.status}}</p>
+            <p style="margin-top: 5px;">订单编号：{{item.orderId}}</p>
+            </Col>
+            <Col span="8" style="height: 100%;">
+            <p style="margin-top: 39.5px;">时间：{{item.time}}</p>
+            </Col>
+            <Col span="8" style="height: 100%;">
+            <p class="moneyLabType" :style="getStyle(index)">{{item.money}}</p>
+            </Col>
+          </Row>
+        </div>
+      </Scroll>
+    </div>
+  </div>
+</template>
+
+<script>
+  import { postVendorBillList } from '@/api/api'
+  export default {
+    name: 'Bill',
+    data() {
+      return {
+        page:1,
+        startTimeValue: null,
+        endTimeValue: null,
+        minAmountValue: null,
+        maxAmountValue: null,
+        billTypeGroup: [],
+        billTypeArray: ["全部","订单收入", "提现"],
+//        billList: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        billList: []
+      }
+    },
+    mounted(){
+      this.page = 1
+      this.billList = []
+      this.getBill()
+    },
+    methods: {
+      getBill(){
+        let params = {
+          page: this.page,
+          pageSize: 4,
+          vendorId: this.$route.params.vendorId,
+          startTime: this.startTimeValue,
+          endTime: this.endTimeValue,
+          startMoney: this.minAmountValue,
+          endMoney: this.maxAmountValue
+        }
+        postVendorBillList(params).then(res=> {
+          if(res.code != 200){
+            this.$Message.warning(res.msg)
+            return
+          }
+          let list = res.data.billList
+          list.map(item => {
+            this.billList.push(item)
+          })
+          console.log('list',this.billList)
+        }).catch(err => {
+          this.$Message.error('获取厂商账单失败'+ err)
+        })
+      },
+      back() {
+        console.log("startTimeValue", this.startTimeValue, "endTimeValue", this.endTimeValue)
+        this.$emit('back');
+      },
+      handleStartTimeChange(date) {
+        this.startTimeValue = date
+        console.log('startTimeValue', date)
+      },
+      handleEndTimeChange(date) {
+        this.endTimeValue = date
+        console.log('endTimeValue', date)
+      },
+      handleReachBottom() {
+        return new Promise(resolve => {
+          this.page++
+          this.getBill()
+        });
+      },
+      getStyle(index) {
+        switch (index) {
+          case 0:
+            return 'color:#F30000'
+            break;
+          case 1:
+            return 'color:#F55F00'
+            break;
+          default:
+            return 'color:#333333'
+        }
+      }
+    }
+
+  }
+</script>
+
+<style scoped>
+  .tej-bill-header {
+    padding: 14px 10px;
+  }
+  .tej-bill-header .title{
+    display: inline-block;
+    width: 90%;
+    text-align: center;
+    font-size: 14px;
+  }
+  .modal_head {
+    border-bottom: 1px solid #e8eaec;
+    height: 40px;
+    width: 800px;
+    background: #FAFAFA;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+  }
+
+  .modal_top {
+    height: 110px;
+    background: #E7F3FE;
+    padding: 20px 25px 20px 25px;
+  }
+
+  .modal_span {
+    line-height: 24px;
+    height: 24px;
+    display: inline-block;
+  }
+
+  .wrap {
+    width: 100%;
+    display: flex;
+    /* border-bottom: #f1f1f1 solid 2px; */
+    /*flex布局*/
+  }
+
+  .left {
+    width: 150px;
+    height: 100%;
+    flex: none;
+    text-align: right;
+    /* background: #05DBFC; */
+  }
+
+  .right {
+    height: 100%;
+    flex: 1;
+    /*flex布局*/
+    /* background: #05DBFC; */
+  }
+
+  .bill_list_cell {
+    padding: 10px 20px 0px 20px;
+    /* border-bottom: #E3E3E3 solid 1px; */
+    height: 80px;
+  }
+
+  .moneyLabType {
+    margin-top: 25px; text-align: right; font-size: 15px;
+  }
+</style>
