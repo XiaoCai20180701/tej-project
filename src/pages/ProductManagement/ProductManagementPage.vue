@@ -40,6 +40,9 @@
         keywords: ''
       }
     },
+    watch: {
+      '$route': 'getList'
+    },
     mounted() {
       this.columnsData = productManagementTable
       this.getList()
