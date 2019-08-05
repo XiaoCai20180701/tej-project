@@ -274,7 +274,7 @@ export const notPassVendorTable = [
 ]
 
 /**
- * 数据管理 => 全站销量前十商品排行榜
+ * 数据管理 => 全站商品销售量
  * */
 export const productSaleTable = [
   {
@@ -296,11 +296,11 @@ export const productSaleTable = [
 ]
 
 /**
- * 数据管理 => 全站访问量前十商品排行榜
+ * 数据管理 => 全站商品访问量
  * */
-export const productAccessTable = [
+export const productTrafficTable = [
   {
-    'title': '编号',
+    'title': '商品编号',
     'key': 'productId'
   },
   {
@@ -312,13 +312,17 @@ export const productAccessTable = [
     'key': 'vendorName'
   },
   {
+    'title': '地区',
+    'key': 'city'
+  },
+  {
     'title': '访问量(次)',
     'key': 'number'
   },
 ]
 
 /**
- * 数据管理 => 全站销量前十厂商
+ * 数据管理 => 畅销厂商
  * */
 export const vendorSaleTable = [
   {
@@ -340,7 +344,30 @@ export const vendorSaleTable = [
 ]
 
 /**
- * 数据管理 => 全站前十厂商、商家合作次数
+ * 数据管理 => 厂商访问量
+ * */
+export const vendorTrafficTable = [
+  {
+    'title': '编号',
+    'key': 'vendorId'
+  },
+  {
+    'title': '厂商',
+    'key': 'vendorName'
+  },
+  {
+    'title': '地区',
+    'key': 'city'
+  },
+  {
+    'title': '销量(件)',
+    'key': 'number'
+  },
+]
+
+
+/**
+ * 数据管理 => 全站前十厂商、商家合作次数(回头客)
  * */
 export const cooperationTable = [
   {
@@ -444,4 +471,37 @@ export const dataStatus = {
   'cooperation': 4
 }
 
+/**
+ * 账单状态
+ * 1:订单收入 2:提现 3.订货扣款 4.账号充值  5.余额提现
+ * */
+export const billTypeList = [
+  {
+    'id': 1,
+    'name': '订单收入'
+  },
+  {
+    'id': 2,
+    'name': '提现'
+  },
+  {
+    'id': 3,
+    'name': '订货扣款'
+  },
+  {
+    'id': 4,
+    'name': '账号充值'
+  },
+  {
+    'id': 5,
+    'name': '余额提现'
+  }
+]
+// {
+//   'orderIncome': 1,
+//   'withdrawal': 2,
+//   'OrderDeductions': 3,
+//   'accountsPrepaid': 4,
+//   'balanceWithdrawal': 5
+// }
 
