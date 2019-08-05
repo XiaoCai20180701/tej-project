@@ -67,7 +67,7 @@
       editInitData() {
         this.productName = this.classification.productName
         this.vendor = this.classification.vendorId
-        this.cascader = [this.classification.typeParentId,this.classification.childrenCatalogId]
+        this.cascader = [this.classification.typeParentId,this.classification.typeChildId]
       },
       vendorChange(value) {
         // console.log('选择的厂商 productVendorId',value)
@@ -80,16 +80,20 @@
       },
       classificationChange(value) {
         this.typeChildId = value[1]
-        //  console.log('选择商品分类 typeChildId', this.typeChildId)
-//        this.$emit('classification-callback',{
-//          productVendorId: this.productVendorId,
-//          typeChildId: value[1],
-//          productName: this.productName
-//        })
+//        console.log('选择商品分类 typeChildId', this.typeChildId)
+        this.$emit('classification-callback',{
+          productVendorId: this.productVendorId,
+          typeChildId: value[1],
+          productName: this.productName
+        })
       },
       //获取厂商列表
       getVendorList() {
         getVendorList('').then(res => {
+          if(res.code != 200){
+            this.$Message.warning(res.msg)
+            return
+          }
           this.vendorList = res.data.list
           console.log('vendorList', this.vendorList)
         })

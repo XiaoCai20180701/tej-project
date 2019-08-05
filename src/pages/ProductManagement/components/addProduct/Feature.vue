@@ -7,7 +7,7 @@
           <Checkbox :label="item.sizeName">
             <span class="tej-size-name">{{item.sizeName}}</span>
           </Checkbox>
-          <small @click="deleteSize(item.sizeIndex)" class="tej-close-size ivu-icon"></small>
+          <small @click="deleteSize(item.id)" class="tej-close-size ivu-icon"></small>
         </span>
         <div class="item">
           <Checkbox>
@@ -27,7 +27,7 @@
           <Checkbox :label="item.colorName">
              <span class="tej-color-name">{{item.colorName}}</span>
           </Checkbox>
-            <small @click="deleteColor(item.colorIndex)" class="tej-close-color ivu-icon"></small>
+            <small @click="deleteColor(item.colorId)" class="tej-close-color ivu-icon"></small>
         </span>
         <div class="item">
           <Checkbox>
@@ -50,8 +50,10 @@
   export default {
     name: 'Feature',
     props: {
-      feature: Object,
-      required: false
+      feature: {
+        type: Object,
+        required: false
+      }
     },
     data() {
       return {
@@ -96,16 +98,14 @@
         })
       },
       deleteSize(index) {
-        console.log('deleteSize index', index)
         this.sizeList = this.sizeList.filter(item => {
-          return item.sizeIndex != index
+          return item.id != index
         })
-        console.log('deleteSize', this.sizeList)
         this.callback()
       },
       deleteColor(name) {
         this.colorList = this.colorList.filter(item => {
-          return item.colorIndex != name
+          return item.colorId != name
         })
         this.callback()
       },
@@ -147,7 +147,7 @@
           return
         }
         this.colorList.push({
-          colorIndex: this.colorIndex++,
+          colorId: this.colorIndex++,
           colorName: this.colorValue,
           colorIsShow: 1
         })
@@ -171,11 +171,15 @@
           return
         }
         this.sizeList.push({
-          sizeIndex: this.sizeIndex++,
+          id: this.sizeIndex++,
           sizeName: this.sizeValue,
           sizeIsShow: 1
         })
-        this.callback()
+        this.$emit('feature-callback', {
+          colorList: this.colorList,
+          sizeList: this.sizeList,
+          typeChildId: this.feature.typeChildId,
+        })
         this.sizeValue = ''
         let list = []
         this.sizeList.map(item => {

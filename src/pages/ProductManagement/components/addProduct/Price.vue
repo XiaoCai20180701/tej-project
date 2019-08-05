@@ -11,7 +11,7 @@
     <div class="tej-product-box">
       <p>商品批发价</p>
       <CheckboxGroup v-model="priceWholesaleCheckboxGroup" @on-change="priceWholesaleChange">
-        <div v-for="(item, index) in priceWholesaleList" :key="index">
+        <div v-for="(item, index) in priceWholesaleListDom" :key="index">
           <Checkbox :label="item.start">
             <slot v-if="item.isEdit">
               <span>
@@ -78,7 +78,7 @@
           end: null,
           priceWholesale: null,
         },
-        priceWholesaleList: [],
+        priceWholesaleListDom: [],
         isEdit: false,
         index: 0
       }
@@ -94,9 +94,10 @@
       editInitData(){
         this.inventory = this.price.inventory
         this.priceSale = this.price.priceSale
-        this.priceWholesaleList = this.price.priceWholesaleList
-        this.priceWholesaleList.map(item => {
-          if(item.show == 1){
+        this.priceWholesaleListDom = this.price.priceWholesaleList
+        this.priceWholesaleListDom.map(item => {
+          console.log('item!!!!',item.isShow,item.start)
+          if(item.isShow == 1){
             this.priceWholesaleCheckboxGroup.push(item.start)
           }
         })
@@ -105,11 +106,11 @@
         this.$emit('price-callback',{
           priceSale: this.priceSale,
           inventory: this.inventory,
-          productWholesaleList: this.priceWholesaleList
+          productWholesaleList: this.priceWholesaleListDom
         })
       },
       priceWholesaleChange(data){
-        this.priceWholesaleList.map(item => {
+        this.priceWholesaleListDom.map(item => {
           if(data.indexOf(item.start) == -1){
             item.isShow = 0
           }else {
@@ -117,10 +118,10 @@
           }
         })
         this.callback()
-        console.log('修改勾选', this.priceWholesaleList)
+        console.log('修改勾选', this.priceWholesaleListDom)
       },
       deletePriceWholesale(item,index){
-        this.priceWholesaleList =this.priceWholesaleList.filter(item => {
+        this.priceWholesaleListDom =this.priceWholesaleListDom.filter(item => {
             return item.index != index
         })
         this.callback()
@@ -132,7 +133,7 @@
         item.end = this.priceWholesaleEdit.end
         item.priceWholesale = this.priceWholesaleEdit.priceWholesale
         this.callback()
-        console.log('this.priceWholesaleList 修改后',this.priceWholesaleList)
+        console.log('this.priceWholesaleList 修改后',this.priceWholesaleListDom)
       },
       editPriceWholesale(item){
         item.isEdit = true
@@ -140,7 +141,7 @@
       },
       addPriceWholesale(){
         //TODO 不可重复添加
-        this.priceWholesaleList.push({
+        this.priceWholesaleListDom.push({
           index: this.index++,
           start: this.priceWholesale.start,
           end: this.priceWholesale.end,
@@ -149,6 +150,7 @@
           isEdit: false
         })
         this.priceWholesaleCheckboxGroup.push(this.priceWholesale.start)
+        console.log('this.priceWholesaleCheckboxGroup',this.priceWholesaleCheckboxGroup)
         this.callback()
         this.priceWholesale = {
           start: null,

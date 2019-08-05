@@ -1,6 +1,6 @@
 <template>
-  <Row>
-    <i-col span="8">
+  <Row class="tej-add-product">
+    <i-col span="8" class="tej-add-product-left">
       <!--商品分类选择-->
       <Classification
         :list="list"
@@ -22,16 +22,16 @@
         :price="productDetail.price"
       ></Price>
     </i-col>
-    <i-col span="15" offset="1">
+    <i-col span="15" offset="1" class="tej-add-product-right">
       <!--商品主图、详情图-->
       <Photograph
         @photograph-callback="photographCallback"
-        v-if="productDetail.photograph"
+        v-if="productDetail.photograph.mainPicture"
         :main-picture-props="productDetail.photograph.mainPicture"
         :img-content-props="productDetail.photograph.imgContent"
       ></Photograph>
       <!--商品使用状态-->
-      <Card>
+      <Card class="tej-bule-card">
         <p slot="title">使用状态</p>
         <RadioGroup v-model="productShow" @on-change="productShowChange">
           <Radio label="1">启用</Radio>
@@ -90,8 +90,16 @@
     },
     methods: {
       saveAddProduct(){
+        let productId = {productId: this.$route.params.productId}
         let productShow = {productShow: Number(this.productShow)}
-        let params = {...this.photograph, ...this.price, ...this.feature, ...this.classification, ...productShow}
+        let params = {
+          ...productId,
+          ...this.photograph,
+          ...this.price,
+          ...this.feature,
+          ...this.classification,
+          ...productShow
+        }
         console.log('修改商品 params!!!!!!',params)
         putProductDetail(params).then(res => {
           if(res.code != 200){
@@ -132,11 +140,10 @@
             return
           }
           let data = res.data
-          console.log('priceWholesaleList!!!!!!!!!!!!!!!!',data.priceWholesaleList)
           this.productDetail.classification = {
             typeParentId: data.typeParentId,
             typeParentName: data.typeParentName,
-            childrenCatalogId: data.childrenCatalogId,
+            typeChildId: data.typeChildId,
             typeChildName: data.typeChildName,
             vendorId: data.vendorId,
             vendorName: data.vendorName,
@@ -144,7 +151,8 @@
           }
           this.productDetail.feature = {
             colorList: data.colorList,
-            sizeList: data.sizeList
+            sizeList: data.sizeList,
+            typeChildId: data.typeChildId,
           }
           this.productDetail.price = {
             inventory: data.inventory,
@@ -158,6 +166,7 @@
         }).catch(err => {
           this.$Message.error('获取商品详情失败',err)
         })
+
       },
       getClassificationlist() {
         getClassificationlist('').then(res => {
@@ -177,7 +186,19 @@
 </script>
 
 <style scoped>
-
+  .tej-add-product {
+    background: #fff;
+  }
+  .tej-bule-card {
+    border-left: 5px solid #2d8cf0;
+    border-top: none;
+    border-bottom: none;
+    borer-right: none;
+  }
+  .tej-add-product-left, .tej-add-product-right{
+    padding: 20px;
+    background: #fff;
+  }
 </style>
 
 
