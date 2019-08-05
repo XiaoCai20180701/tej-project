@@ -3,7 +3,6 @@
  */
 import {get,post,put,deleteAxios} from '@/utils/http'
 const LOGIN_URL = '/loginResource/'
-const COMMON_URL = '/commonResource/'
 const PRODUCT_URL = '/productResource/'
 const RETAIL_URL = '/retailResource/'
 const VENDOR_URL = '/vendorResource/'
@@ -31,7 +30,7 @@ export const uploadFile = (params) => get('/fileResource/uploadimg',params)
 /**
  * 获取厂商列表接口
  */
-export const getVendorList = () => get(COMMON_URL + 'vendorlist','')
+export const getVendorList = () => get(PRODUCT_URL + 'vendorList','')
 
 /**
  * 商品管理相关的接口
@@ -96,6 +95,8 @@ export const postVendorDetail = (params) => post(VENDOR_URL + 'vendorDetail',par
 export const postVendorInfo = (id) => post(VENDOR_URL + 'auditDetail',id) //获取厂商审核信息
 
 export const putAuditIsUsed = (params) => put(VENDOR_URL + 'auditIsUsed', params) //厂商审核是否通过
+
+export const postVendorBillList = (params) => post(VENDOR_URL + 'vendorBillList',params) //厂商账单
 
 
 /**
