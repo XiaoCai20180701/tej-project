@@ -14,41 +14,44 @@
       </div>
       <div class="tej-data-date">
         <DatePicker
-          :open="isDateShow"
-          :value="dateValue"
+          :open="item.show.date"
+          v-model="dateValue"
           confirm
           type="date"
-          @on-change="onChange"
+          @on-change="handleDateChange"
+          @on-clear="handleClear(item,'date')"
+          @on-ok="handleOk(item, 'date')"
         >
-          <a href="javascript:void(0)" @click="handleClick('date')">
+          <a href="javascript:void(0)" @click="handleClick(item, 'date')" :class="{ active: item.show.date}">
             日
           </a>
         </DatePicker>
-        <!--<DatePicker-->
-          <!--:open="isWeekShow"-->
-          <!--:value="weekValue"-->
-          <!--confirm-->
-          <!--type="date"-->
-          <!--@on-change="handleWeekChange"-->
-          <!--@on-ok="handleOk('week',startDate,endDate)"-->
-        <!--&gt;-->
-          <!--<a href="javascript:void(0)" @click="handleClick('week')">-->
-            <!--周-->
-          <!--</a>-->
-        <!--</DatePicker>-->
-        <!--<DatePicker-->
-          <!--:open="isMonthShow"-->
-          <!--:value="monthValue"-->
-          <!--confirm-->
-          <!--type="month"-->
-          <!--@on-change="handleMonthChange"-->
-          <!--@on-clear="handleClear('month')"-->
-          <!--@on-ok="handleOk('month',startDate,endDate)"-->
-        <!--&gt;-->
-          <!--<a href="javascript:void(0)" @click="handleClick('month')">-->
-            <!--月-->
-          <!--</a>-->
-        <!--</DatePicker>-->
+        <DatePicker
+          :open="item.show.week"
+          :value="weekValue"
+          confirm
+          type="date"
+          @on-change="handleWeekChange"
+          @on-clear="handleClear(item,'week')"
+          @on-ok="handleOk(item,'week')"
+        >
+          <a href="javascript:void(0)" @click="handleClick(item, 'week')" :class="{ active: item.show.week}">
+            周
+          </a>
+        </DatePicker>
+        <DatePicker
+          :open="item.show.month"
+          :value="monthValue"
+          confirm
+          type="month"
+          @on-change="handleMonthChange"
+          @on-clear="handleClear(item,'month')"
+          @on-ok="handleOk(item,'month')"
+        >
+          <a href="javascript:void(0)" @click="handleClick(item,'month')" :class="{ active: item.show.month}">
+            月
+          </a>
+        </DatePicker>
       </div>
     </div>
     </Col>
@@ -66,50 +69,67 @@
     data() {
       return {
         iconClass: 'iconfont',
-        isMonthShow: false,
-        isDateShow: false,
-        isWeekShow: false,
         monthValue: '',
         weekValue: '',
         dateValue: '',
-        weekEndDate: 6, //周六是一周的最后一天
-        startDate: null,
-        endDate: null,
+        weekendTime: 6, //周六是一周的最后一天
+        startTime: null,
+        endTime: null,
       }
     },
-    method: {
-      handleClick(name){
+    methods: {
+      callback(status){
+        this.$emit('date-callback',{
+          startTime: this.startTime,
+          endTime: this.endTime,
+          status: status
+        })
+      },
+      handleClick(item, name){
         switch (name){
           case 'month':
-            this.isMonthShow = !this.isMonthShow
+            item.show = {
+              date: false,
+              week: false,
+              month: !item.show.month
+            }
             break
           case 'week':
-            this.isWeekShow = !this.isWeekShow
+            item.show = {
+              date: false,
+              week: !item.show.week,
+              month: false
+            }
             break
           case 'date':
-            this.isDateShow = !this.isDateShow
+            item.show = {
+              date: !item.show.date,
+              week: false,
+              month: false
+            }
             break
         }
       },
-      handleOk (name,startDate,endDate) {
+      handleOk (item, name) {
+        console.log('okkkkkk',item)
         switch (name){
           case 'month':
-            this.isMonthShow = false
-
+            item.show.month = false
             break
           case 'week':
-            this.isWeekShow = false
+            item.show.week = false
             break
           case 'date':
-            this.isDateShow = false
+            item.show.date = false
             break
         }
-        this.$emit('date-change',startDate,endDate)
+        this.callback(item.name)
       },
       handleMonthChange (date) {
         this.monthValue = date
-        this.startDate = date
-        this.endDate = date
+        this.startTime = date + '-01'
+        this.endTime = date + '-31'
+        console.log('月', this.startTime,this.endTime)
       },
       handleWeekChange (date) {
         //TODO 样式可优化
@@ -118,32 +138,34 @@
       },
       handleDateChange (date) {
         this.dateValue = date
-        this.startDate = date
-        this.endDate = date
+        this.startTime = date
+        this.endTime = date
+        console.log('日', this.startTime,this.endTime)
       },
       getWeek(checkedDate){
         let day =  new Date(checkedDate).getDay()  //选中的日期是这周的第几天
         let stepSunday = - day
         if(day == 0) {
-          stepSunday = - this.weekEndDate
+          stepSunday = - this.weekendTime
         }
-        let stepMonday = this.weekEndDate - day
+        let stepMonday = this.weekendTime - day
         let time = this.$Moment(checkedDate).valueOf()
         let monday = new Date(time +stepSunday *24*3600*1000 )
         let sunday = new Date(time +stepMonday *24*3600*1000 )
-        this.startDate = this.$Moment(monday).format('YYYY-MM-DD')
-        this.endDate = this.$Moment(sunday).format('YYYY-MM-DD')
+        this.startTime = this.$Moment(monday).format('YYYY-MM-DD')
+        this.endTime = this.$Moment(sunday).format('YYYY-MM-DD')
+        console.log('周', this.startTime,this.endTime)
       },
-      handleClear (name) {
+      handleClear (item,name) {
         switch (name){
           case 'month':
-            this.isMonthShow = false
+            item.show.month = false
             break
           case 'week':
-            this.isWeekShow = false
+            item.show.week = false
             break
           case 'date':
-            this.isDateShow = false
+            item.show.date = false
             break
         }
       },
@@ -201,6 +223,11 @@
   .tej-data-date span + span {
     display: inline-block;
     margin-left: 10px;
+  }
+
+  .tej-data-date .active {
+    color: red;
+    border-bottom: 2px solid red;
   }
 </style>
 

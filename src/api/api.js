@@ -113,7 +113,7 @@ export const postOrderList = (params) => post(ORDER_URL + 'orderList',params)  /
 /**
  * 数据管理相关的接口
  */
-export const getStationdata = ()=>post(STATISTICS_URL + 'stationdata','')    //全站数据
+export const getStationdata = (params)=>post(STATISTICS_URL + 'stationdata',params)    //全站数据
 
 export const postRanklist = (params)=>post(STATISTICS_URL + 'ranklist',params)   //排行榜统一接口
 

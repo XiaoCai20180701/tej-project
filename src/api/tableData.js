@@ -461,14 +461,34 @@ export const authType = {
 }
 
 /**
+ * 数据管理 => 全站数据
+ * 1：全站访问量，2：全站销量，3：全站销售额
+ * */
+export const stationStatus = [
+  {
+    'name': 'stationTraffic',
+    'status': 1
+  },
+  {
+    'name': 'stationSales',
+    'status': 2
+  },
+  {
+    'name': 'stationPrice',
+    'status': 3
+  }
+]
+
+/**
  * 数据管理 => 排行榜统一
- * 1:商品销量 2:商品访问量 3.厂商销量 4.厂商、零售商合作排行
+ * 1:商品销量 2:商品访问量 3.厂商销量 4.厂商、零售商合作排行 5.厂商访问量
  * */
 export const dataStatus = {
   'commoditySales': 1,
   'commodityTraffic': 2,
   'vendorSales': 3,
-  'cooperation': 4
+  'cooperation': 4,
+  'vendorTraffic': 5
 }
 
 /**
