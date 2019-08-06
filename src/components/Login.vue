@@ -74,7 +74,7 @@
           localStorage.setItem('userId', data.userId)
           this.$store.dispatch('getRole',data.roleId)
           this.$store.dispatch('getAnyscMenu',this.$store.state.role)
-          this.$router.push({path: this.redirect || '/ProductManagementPage'})
+          this.$router.push({path: '/ProductManagementPage'})
           this.$Message.success("登录成功")
         }).catch(err => {
           this.loading = false

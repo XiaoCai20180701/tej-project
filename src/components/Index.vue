@@ -8,7 +8,7 @@
             </div>
             <!-- 菜单栏 -->
             <Menu ref="asideMenu" theme="light" width="100%" @on-select="gotoPage"
-            accordion :open-names="openMenus" :active-name="currentPage" @on-open-change="menuChange">
+            accordion :open-names="openMenus" :active-name="currentPage" @on-open-change="menuChange(currentPage)">
                 <!-- 动态菜单 -->
                 <div v-for="(item, index) in menuItems" :key="index">
                     <Submenu v-if="!item.meta.requireAuth && item.children" :name="index">
@@ -17,7 +17,7 @@
                             <span v-show="isShowAsideTitle">{{item.text}}</span>
                         </template>
                         <div v-for="(subItem, i) in item.children" :key="index + i">
-                            <Submenu v-if="subItem.children > 0" :name="index + '-' + i">
+                            <Submenu v-if="subItem.children > 0" :name="subItem.name">
                                 <template slot="title">
                                     <Icon :size="subItem.size" :type="subItem.type"/>
                                     <span v-show="isShowAsideTitle">{{subItem.text}}</span>
@@ -198,7 +198,8 @@ export default {
     computed: {
         // 菜单栏
         menuItems() {
-            return this.$store.state.menuItems
+          console.log('菜单栏！！！',this.$store.state.menuItems)
+          return this.$store.state.menuItems
         },
         // 需要缓存的路由
         keepAliveData() {
@@ -216,11 +217,12 @@ export default {
         },
     },
     methods: {
-      beforeunloadFn (e) {
+      beforeunloadFn () {
         // ...
-        console.log('页面刷新了',e)
-        this.currentPage = this.$route.name
+        console.log('页面刷新了',this.$route.name)
         this.$store.dispatch('getAnyscMenu',this.$store.state.role)
+        const name = this.$route.name
+        this.$router.push({name: `${name}`})
       },
       // 判断当前标签页是否激活状态
         isActive(name) {
@@ -228,17 +230,18 @@ export default {
         },
         // 跳转页面 路由名称和参数
         gotoPage(name, params) {
+            console.log('跳转路由 name',name)
+          console.log('跳转路由 params',params)
             this.currentPage = name
             this.crumbs = this.paths[name]
             this.$router.replace({name, params})
-
-            if (!this.keepAliveData.includes(name)) {
-                // 如果标签超过8个 则将第一个标签删除
-                if (this.tagsArry.length == 8) {
-                    this.tagsArry.shift()
-                }
-                this.tagsArry.push({name, text: this.nameToTitle[name]})
-            }
+//            if (!this.keepAliveData.includes(name)) {
+//                // 如果标签超过8个 则将第一个标签删除
+//                if (this.tagsArry.length == 8) {
+//                    this.tagsArry.shift()
+//                }
+//                this.tagsArry.push({name, text: this.nameToTitle[name]})
+//            }
         },
         // 用户操作
         userOperate(name) {
@@ -322,8 +325,8 @@ export default {
 //            this.gotoPage(this.tagsArry[i].name)
 //        },
         // 菜单栏改变事件
-        menuChange(data) {
-        console.log('菜单栏改变事件', data)
+        menuChange(data,a) {
+        console.log('菜单栏改变事件', data,a)
             this.menuCache = data
         },
         processNameToTitle(obj, data, text) {
