@@ -158,7 +158,7 @@
           this.$Message.warning("开始时间不能大于结束时间");
           return;
         }
-        if(this.minAmountValue > this.maxAmountValue){
+        if(Number(this.minAmountValue) > Number(this.maxAmountValue)){
           this.$Message.warning("最低金额不能大于最高金额");
           return
         }
