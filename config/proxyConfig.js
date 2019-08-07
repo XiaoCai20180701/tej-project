@@ -1,7 +1,7 @@
 module.exports = {
   proxy: {
     '/prod': {
-      target: 'http://47.92.209.177:8080/tej/rest',
+      target: 'http://47.92.209.177/tej.manger/rest',
       secure: false,
       changeOrigin: true,
       pathRewrite: {
@@ -17,7 +17,7 @@ module.exports = {
       }
     },
     '/yz': {
-      target: 'http://192.168.1.102:8080/tej/rest',
+      target: 'http://192.168.1.107:8080/tej/rest',
       secure: false,
       changeOrigin: true,
       pathRewrite: {
@@ -25,7 +25,7 @@ module.exports = {
       }
     },
     '/wd': {
-      target: 'http://192.168.1.104:8080/tej/rest',
+      target: 'http://192.168.1.114:8080/tej/rest',
       secure: false,
       changeOrigin: true,
       pathRewrite: {
