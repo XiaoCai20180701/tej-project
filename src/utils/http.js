@@ -124,7 +124,7 @@ export function put (url, params) {
  */
 export function deleteAxios (url, params) {
   return new Promise((resolve, reject) => {
-    axios.delete(url, QS.stringify(params))
+    axios.delete(url, params)
       .then(res => {
         resolve(res.data)
       })
