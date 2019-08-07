@@ -7,11 +7,16 @@ Vue.use(Router)
 
 const commonRoutes = [
   {
+    path: '/',
+    component: () => import('../components/Login.vue'),
+    redirect: '/ProductManagementPage'
+  },
+  {
     path: '/login',
     name: 'login',
     component: () => import('../components/Login.vue')
   },
-  {path: '/', redirect: '/ProductManagementPage'},
+  // {path: '/', redirect: '/ProductManagementPage'},
 ]
 
 // 需要通过后台数据来生成的组件(与前端路由映射)
@@ -144,7 +149,8 @@ export const asyncRoutes = {
 }
 
 const createRouter = () => new Router({
-  routes: commonRoutes
+  routes: commonRoutes,
+  // mode:"history"
 })
 
 const router = createRouter()
