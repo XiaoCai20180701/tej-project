@@ -1,8 +1,11 @@
+/**
+ * frontRoutes前端路由表，当不需要在菜单中显示时，设置 meta: {refreshShow: false}
+ * */
 const frontRoutes = [
   {
     name: 'ProductManagementPage', // 要跳转的路由名称 不是路径
     // size: 18, // icon大小
-    type: 'md-home', // icon类型
+    type: 'icon-gongnengdingyi', // icon类型
     text: '商品管理', // 文本内容,
     meta: {
       requireAuth: true
@@ -10,122 +13,128 @@ const frontRoutes = [
   },
   {
     name: 'AddClassificationPage',
-    type: 'md-home', // icon类型
+    type: '', // icon类型
     text: '新增商品分类', // 文本内容,
     meta: {
-      requireAuth: false
+      refreshShow: false
     }
   },
   {
     name: 'AddProductPage',
-    type: 'md-home', // icon类型
+    type: '', // icon类型
     text: '新增商品', // 文本内容,
     meta: {
-      requireAuth: false
+      refreshShow: false
     }
   },
   {
     name: 'EditProductPage',
     path: '/EditProductPage',
-    type: 'md-home', // icon类型
+    type: '', // icon类型
     text: '编辑商品', // 文本内容,
     meta: {
-      requireAuth: false
+      refreshShow: false
     }
   },
   {
-    text: '零售商管理',
-    type: 'ios-paper',
+    text: '商家',
+    type: 'icon-icon_zhanghao',
     meta: {
       requireAuth: false
     },
     children: [
       {
-        type: 'ios-grid',
+        type: '',
         name: 'UnCheckedPage',
         text: '待审核'
       },
       {
-      type: 'ios-grid',
+      type: '',
       name: 'CheckedPage',
       text: '已通过'
     },
+     
       {
-        type: 'ios-grid',
-        name: 'CheckedDetailPage',
-        text: '零售商详情'
-      },
-      {
-        type: 'ios-grid',
+        type: '',
         name: 'NotPassPage',
         text: '未通过'
       },
-      {
-        type: 'ios-grid',
-        name: 'AuditStatusPage',
-        text: '审核详情'
-      }
+      
     ]
   },
   {
+    type: '',
+    name: 'CheckedDetailPage',
+    text: '商家详情',
+    meta: {
+      refreshShow: false
+    }
+  },
+  {
+    type: '',
+    name: 'AuditStatusPage',
+    text: '审核详情',
+    meta: {
+      refreshShow: false
+    }
+  },
+  {
     text: '厂商管理',
-    type: 'ios-paper',
+    type: 'icon-yuanquyunwei',
     meta: {
       requireAuth: false
     },
     children: [
       {
-        type: 'ios-grid',
+        type: '',
         name: 'UnCheckedVendorPage',
         text: '待审核'
       },
       {
-      type: 'ios-grid',
+      type: '',
       name: 'CheckedVendorPage',
       text: '已通过'
     },
       {
-        type: 'ios-grid',
-        name: 'CheckedVendorDetailPage',
-        text: '厂商详情'
-      },
-      {
-        type: 'ios-grid',
+        type: '',
         name: 'NotPassVendorPage',
         text: '未通过'
       },
       {
-        type: 'ios-grid',
+        type: '',
         name: 'VendorManagementPage',
         text: '全部厂商'
       }
     ]
   },
   {
+    type: '',
+    name: 'CheckedVendorDetailPage',
+    text: '厂商详情',
+    meta: {
+      refreshShow: false
+    }
+  },
+  {
     text: '订单管理',
-    type: 'ios-paper',
+    type: 'icon-shiyongwendang',
     meta: {
       requireAuth: false
     },
     children: [
       {
-        type: 'ios-grid',
+        type: '',
         name: 'NonPayment',
         text: '未付款'
       },
       {
-        type: 'ios-grid',
-        name: 'OrderDetailPage',
-        text: '订单详情'
-      },
-      {
         text: '未发货',
-        type: 'ios-paper',
+        type: '',
         name: 'Unshipped'
       },
       {
         text: '已发货',
-        type: 'ios-paper',
+        type: '',
         name: 'Shipped'
       },
       {
@@ -135,14 +144,22 @@ const frontRoutes = [
       },
       {
         text: '全部订单',
-        type: 'ios-paper',
+        type: '',
         name: 'AllOrder'
       }
     ]
   },
   {
+    type: '',
+    name: 'OrderDetailPage',
+    text: '订单详情',
+    meta: {
+      refreshShow: false
+    }
+  },
+  {
     name: 'DataManagementPage',
-    type: 'md-home',
+    type: 'icon-tubiao-zhuzhuangtu',
     text: '数据管理',
     meta: {
       requireAuth: true
@@ -150,26 +167,26 @@ const frontRoutes = [
   },
   {
     name: 'AccountManagementPage',
-    type: 'md-home',
+    type: 'icon-shujuwajue',
     text: '账户管理',
     meta: {
-      requireAuth: true
-    }
+      requireAuth: true,
+    },
   },
   {
     name: 'AccountDetailPage',
-    type: 'md-home',
+    type: '',
     text: '账户详情',
     meta: {
-      requireAuth: true
+      refreshShow: false
     }
   },
   {
     name: 'AccountAddPage',
-    type: 'md-home',
+    type: '',
     text: '添加账户',
     meta: {
-      requireAuth: true
+      refreshShow: false
     }
   }
 ]
