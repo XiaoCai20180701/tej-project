@@ -8,33 +8,33 @@
             </div>
             <!-- 菜单栏 -->
             <Menu ref="asideMenu" theme="light" width="100%" @on-select="gotoPage"
-            accordion :open-names="openMenus" :active-name="currentPage" @on-open-change="menuChange(currentPage)">
+            accordion :open-names="openMenus" :active-name="currentPage" @on-open-change="menuChange">
                 <!-- 动态菜单 -->
                 <div v-for="(item, index) in menuItems" :key="index">
                     <Submenu v-if="!item.meta.requireAuth && item.children" :name="index">
                         <template slot="title">
-                            <Icon :size="item.size" :type="item.type"/>
+                            <Icon :custom="getIcon(item.type)" :size="iconSize" />
                             <span v-show="isShowAsideTitle">{{item.text}}</span>
                         </template>
                         <div v-for="(subItem, i) in item.children" :key="index + i">
-                            <Submenu v-if="subItem.children > 0" :name="subItem.name">
+                            <Submenu v-if="subItem.children > 0 && !item.children.meta.requireAuth" :name="subItem.name">
                                 <template slot="title">
-                                    <Icon :size="subItem.size" :type="subItem.type"/>
-                                    <span v-show="isShowAsideTitle">{{subItem.text}}</span>
+                                  <Icon :custom="getIcon(subItem.type)" :size="iconSize" />
+                                  <span v-show="isShowAsideTitle">{{subItem.text}}</span>
                                 </template>
                                 <MenuItem class="menu-level-3" v-for="(threeItem, k) in subItem.children" :name="threeItem.name" :key="index + i + k">
-                                    <Icon :size="threeItem.size" :type="threeItem.type"/>
+                                    <Icon :size="iconSize" :type="threeItem.type"/>
                                     <span v-show="isShowAsideTitle">{{threeItem.text}}</span>
                                 </MenuItem>
                             </Submenu>
                             <MenuItem v-else v-show="isShowAsideTitle" :name="subItem.name">
-                                <Icon :size="subItem.size" :type="subItem.type"/>
+                                <Icon :custom="getIcon(subItem.type)" :size="iconSize" />
                                 <span v-show="isShowAsideTitle">{{subItem.text}}</span>
                             </MenuItem>
                         </div>
                     </Submenu>
                     <MenuItem v-else :name="item.name">
-                        <Icon :size="item.size" :type="item.type" />
+                        <Icon :custom="getIcon(item.type)" :size="iconSize" />
                         <span v-show="isShowAsideTitle">{{item.text}}</span>
                     </MenuItem>
                 </div>
@@ -116,7 +116,9 @@ export default {
             // 面包屑
             crumbs: '商品管理',
             userName: '',
-            userImg: ''
+            userImg: '',
+            iconClass: 'iconfont ',
+            iconSize: 22
         }
     },
     created() {
@@ -143,7 +145,6 @@ export default {
         })
     },
     mounted() {
-      this.beforeunloadFn()
         // 第一个标签
         const name = this.$route.name
         this.currentPage = name
@@ -168,12 +169,18 @@ export default {
 
         //     w = document.documentElement.clientWidth || document.body.clientWidth
         // }
-      window.addEventListener('beforeunload', e => this.beforeunloadFn(e))
     },
-  destroyed() {
-    window.removeEventListener('beforeunload', e => this.beforeunloadFn(e))
-  },
     watch: {
+        openMenus(){
+          console.log('openMenus', this.$refs.asideMenu.$children)
+//          this.$refs.asideMenu.$parent.forEach(item => {
+//
+//          })
+          this.$nextTick(() => {
+            this.$refs.asideMenu.updateOpened()
+            this.$refs.asideMenu.updateActiveName()
+          })
+        },
         $route(to) {
             const name = to.name
             this.currentPage = name
@@ -198,8 +205,16 @@ export default {
     computed: {
         // 菜单栏
         menuItems() {
-          console.log('菜单栏！！！',this.$store.state.menuItems)
-          return this.$store.state.menuItems
+          let list = []
+          let menu = JSON.parse(localStorage.getItem('menuItems'))  //字符串转换为对象
+          this.currentPage = this.$route.name
+          this.openMenus = this.menuCache
+          menu.map(item => {
+            if(!item.meta.hasOwnProperty('refreshShow')){
+              list.push(item)
+            }
+          })
+          return list
         },
         // 需要缓存的路由
         keepAliveData() {
@@ -217,31 +232,15 @@ export default {
         },
     },
     methods: {
-      beforeunloadFn () {
-        // ...
-        console.log('页面刷新了',this.$route.name)
-        this.$store.dispatch('getAnyscMenu',this.$store.state.role)
-        const name = this.$route.name
-        this.$router.push({name: `${name}`})
+      getIcon(type){
+        return this.iconClass + type
       },
-      // 判断当前标签页是否激活状态
-        isActive(name) {
-            return this.$route.name === name
-        },
         // 跳转页面 路由名称和参数
         gotoPage(name, params) {
             console.log('跳转路由 name',name)
-          console.log('跳转路由 params',params)
             this.currentPage = name
             this.crumbs = this.paths[name]
             this.$router.replace({name, params})
-//            if (!this.keepAliveData.includes(name)) {
-//                // 如果标签超过8个 则将第一个标签删除
-//                if (this.tagsArry.length == 8) {
-//                    this.tagsArry.shift()
-//                }
-//                this.tagsArry.push({name, text: this.nameToTitle[name]})
-//            }
         },
         // 用户操作
         userOperate(name) {
@@ -297,37 +296,11 @@ export default {
             this.asideClassName = 'aside-big'
             this.main.style.width = 'calc(100% - 220px)'
         },
-        // 刷新当前标签页
-//        reloadPage() {
-//            let name = this.$route.name
-//            let index = this.keepAliveData.indexOf(name)
-//            this.$nextTick(() => {
-//                if (this.tagsArry.length) {
-//                    this.isShowRouter = false
-//                    this.tagsArry.splice(index, 1)
-//                    this.$nextTick(() => {
-//                        this.tagsArry.splice(index, 0, {name, text: this.nameToTitle[name]})
-//                        this.gotoPage(name)
-//                        this.isShowRouter = true
-//                    })
-//                } else {
-//                    this.isShowRouter = false
-//                    this.$nextTick(() => {
-//                        this.tagsArry.push({name, text: this.nameToTitle[name]})
-//                        this.gotoPage(name)
-//                        this.isShowRouter = true
-//                    })
-//                }
-//            })
-//        },
-//        // 激活标签
-//        activeTag(i) {
-//            this.gotoPage(this.tagsArry[i].name)
-//        },
         // 菜单栏改变事件
-        menuChange(data,a) {
-        console.log('菜单栏改变事件', data,a)
-            this.menuCache = data
+        menuChange(data) {
+        console.log('菜单栏改变事件', data)
+          this.menuCache = data
+//          this.currentPage = this.$route.name
         },
         processNameToTitle(obj, data, text) {
             if (data.name) {
