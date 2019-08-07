@@ -4,14 +4,13 @@ import router from 'vue-router'
 import QS from 'qs'
 
 if (process.env.NODE_ENV == 'development') {
-  axios.defaults.baseURL = '/api'
+  axios.defaults.baseURL = '/prod'
 } else if (process.env.NODE_ENV == 'production') {
   axios.defaults.baseURL = '/prod'
 }
 
 axios.defaults.timeout = 10000
 
-// axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 
 /**
