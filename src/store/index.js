@@ -23,6 +23,9 @@ const store = new Vuex.Store({
         getAnyscMenu({commit},role){
             getRes({roleId: role}).then(res => {
                 let menuItems = res.data.menuItems
+                console.log('menu',menuItems)
+                //将前后端匹配的路由存放在localStorage,将menuItems对象转换为字符串
+                localStorage.setItem('menuItems', JSON.stringify(menuItems))
                 commit('SET_MENUS',menuItems)
             }).catch(err => {
                 console.log('get res fail',err)
