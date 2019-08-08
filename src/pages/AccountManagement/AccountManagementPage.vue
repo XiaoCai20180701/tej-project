@@ -98,6 +98,9 @@
         postUserList(params).then(res => {
           if(res.code != 200){
             this.$Message.warning(res.msg)
+            if(res.code === 9998){
+              this.$router.push({path: '/login'})
+            }
             return
           }
           let data = res.data
@@ -118,6 +121,9 @@
           console.log('角色列表', res.data)
           if(res.code != 200){
             this.$Message.warning(res.msg)
+            if(res.code === 9998){
+              this.$router.push({path: '/login'})
+            }
             return
           }
           let roleList = res.data.list
@@ -138,6 +144,9 @@
         putEditUserStatus(params).then(res => {
           if(res.code != 200){
             this.$Message.warning(res.msg)
+            if(res.code === 9998){
+              this.$router.push({path: '/login'})
+            }
             return
           }
           this.$Message.success({

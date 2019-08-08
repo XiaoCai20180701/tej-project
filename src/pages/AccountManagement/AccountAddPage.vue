@@ -57,6 +57,9 @@
         postAddUser(params).then(res => {
           if(res.code != 200){
             this.$Message.warning(res.msg)
+            if(res.code === 9998){
+              this.$router.push({path: '/login'})
+            }
             return
           }
           this.$Message.success('新增用户成功')
@@ -86,6 +89,9 @@
         }).then(res => {
           if(res.code != 200){
             this.$Message.warning(res.msg)
+            if(res.code === 9998){
+              this.$router.push({path: '/login'})
+            }
             return
           }
           let data = res.data
@@ -100,6 +106,9 @@
         getRolelist().then(res => {
           if(res.code != 200){
             this.$Message.warning(res.msg)
+            if(res.code === 9998){
+              this.$router.push({path: '/login'})
+            }
             return
           }
           let data = res.data
