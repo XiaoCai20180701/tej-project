@@ -7,16 +7,16 @@ Vue.use(Router)
 
 const commonRoutes = [
   {
-    path: '/',
-    component: () => import('../components/Login.vue'),
-    redirect: '/ProductManagementPage'
-  },
-  {
     path: '/login',
     name: 'login',
     component: () => import('../components/Login.vue')
   },
-  // {path: '/', redirect: '/ProductManagementPage'},
+  // {
+  //   path: '/',
+  //   redirect: {
+  //     name: 'login'
+  //   }
+  // },
 ]
 
 // 需要通过后台数据来生成的组件(与前端路由映射)
