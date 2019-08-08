@@ -15,7 +15,7 @@
             <p slot="title">一级目录</p>
             <RadioGroup v-model="checkParent" @on-change="parentChange">
               <div v-for="(item, index) in parentList" :key="index" class="item">
-                <Radio :label="item.id" @click="">{{item.title}}</Radio>
+                <span @click="radioClick(item.id)"><Radio :label="item.id" @click="">{{item.title}}</Radio></span>
                 <b class="tej-delete-txt" @click="deleteFun(item)">删除</b>
               </div>
               <div class="item">
@@ -86,16 +86,24 @@
         typeParentId: null
       }
     },
+    watch: {
+      '$route': 'getClassificationlist'
+    },
     mounted() {
       this.getClassificationlist()
     },
     methods: {
+      radioClick(id){
+        console.log('单选')
+        this.typeParentId = id
+      },
       cancel(){
         this.$router.push({
           name: 'ProductManagementPage'
         })
       },
       parentChange(e) {
+        console.log('parentChange',e)
         this.typeParentId = e
         this.parentList.find((item) => {
           this.childrenList = item.children
@@ -135,6 +143,9 @@
         deleteType({id: id}).then(res => {
           if(res.code != 200){
             this.$Message.warning(res.msg)
+            if(res.code === 9998){
+              this.$router.push({path: '/login'})
+            }
             return
           }
           this.getClassificationlist()
@@ -179,12 +190,17 @@
             console.log('新增目录', res)
             if(res.code != 200){
               this.$Message.warning(res.msg)
+              if(res.code === 9998){
+                this.$router.push({path: '/login'})
+              }
               return
             }
             //  this.parentList.push({title: this.newValue})
             if (isParent) {
               this.list.push({title: this.newValue})
               this.typeParentId = res.data.id
+              this.checkParent = res.data.id
+              console.log('checkParent',res.data.id)
               this.newValue = ''
             } else {
               this.childrenList.push({title: this.newChildrenValue})
@@ -200,16 +216,20 @@
         getClassificationlist('').then(res => {
           if(res.code != 200){
             this.$Message.warning(res.msg)
+            if(res.code === 9998){
+              this.$router.push({path: '/login'})
+            }
             return
           }
           let data = res.data
           this.list = data.list
           this.parentList = data.list
-//          data.list.find((item, index) => {
-//            this.childrenList = item.children
-//            this.checkParent = item.id
-//            return index == 0
-//          })
+          //页面首次进来之后，二级目录赋值
+          data.list.find((item, index) => {
+            this.childrenList = item.children
+            this.checkParent = item.id
+            return index == 0
+          })
         }).catch(err => {
           this.$Message.error('获取商品分类失败！', err)
         })
