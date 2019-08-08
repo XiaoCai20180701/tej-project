@@ -1,7 +1,7 @@
 module.exports = {
   proxy: {
     '/prod': {
-      target: 'http://47.92.209.177/tej.manger/rest',
+      target: 'http://47.92.209.177:8080/tej.manger/rest',
       secure: false,
       changeOrigin: true,
       pathRewrite: {
