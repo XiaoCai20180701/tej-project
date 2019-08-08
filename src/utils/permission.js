@@ -8,6 +8,8 @@ import  frontRoutes  from '@/router/frontRoutes'
 let hasMenus = false
 router.beforeEach(async (to, from, next) => {
     if (localStorage.getItem('token')) {
+      console.log('token')
+      // next()
         if (to.path === '/login') {
             next({path: '/'})
         } else {
