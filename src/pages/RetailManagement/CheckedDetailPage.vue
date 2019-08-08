@@ -115,6 +115,9 @@
         }).then(res => {
           if(res.code != 200){
             this.$Message.warning(res.msg)
+            if(res.code === 9998){
+              this.$router.push({path: '/login'})
+            }
             return
           }
           let data = res.data
@@ -127,7 +130,7 @@
             total: data.orderList.total
           }
         }).catch(err => {
-          this.$Message.error('获取零售商详情失败', err)
+          this.$Message.error('获取商家详情失败', err)
         })
       }
     }

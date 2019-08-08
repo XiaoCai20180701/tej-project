@@ -4,7 +4,7 @@
       :columns-data="columnsData"
       :table-data="tableData"
       :page="page"
-      input-text="请输入零售商编号/名称/联系人"
+      input-text="请输入商家编号/名称/联系人"
       @page-change-callback="pageChange"
       @pageSize-change-callback="pageSizeChange"
       @area-change-callback="areaChange"
@@ -70,6 +70,9 @@
         }).then(res => {
           if(res.code != 200){
             this.$Message.warning(res.msg)
+            if(res.code === 9998){
+              this.$router.push({path: '/login'})
+            }
             return
           }
           let data = res.data
@@ -81,7 +84,7 @@
           }
         })
           .catch(err => {
-            this.$Message.error('获取零售商已审核列表失败',err)
+            this.$Message.error('获取商家已审核列表失败',err)
           })
       },
     }

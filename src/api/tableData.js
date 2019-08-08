@@ -45,7 +45,7 @@ export const productManagementTable = [
 ]
 
 /**
- * 零售商管理 => 已审核列表
+ * 商家管理 => 已审核列表
  * */
 export const checkedRetailTable = [
   {
@@ -83,7 +83,7 @@ export const checkedRetailTable = [
 ]
 
 /**
- * 零售商管理 => 待审核列表
+ * 商家管理 => 待审核列表
  * */
 export const unCheckedRetailTable = [
   {
@@ -104,15 +104,18 @@ export const unCheckedRetailTable = [
   },
   {
     'title': '经营许可证',
-    'key': 'licenceImg'
+    'key': 'licenceImg',
+    'slot': 'licenceImg'
   },
   {
     'title': '生产环境',
-    'key': 'environmentImgList'
+    'key': 'environmentImgList',
+    'slot': 'vendorEnvironmentImg'
   },
   {
     'title': '店铺商标',
-    'key': 'brandImg'
+    'key': 'brandImg',
+    'slot': 'trademarkImg'
   },
   {
     title: '操作',
@@ -121,7 +124,7 @@ export const unCheckedRetailTable = [
 ]
 
 /**
- * 零售商管理 => 未通过列表
+ * 商家管理 => 未通过列表
  * */
 export const notPassRetailTable = [
   {
@@ -151,7 +154,7 @@ export const notPassRetailTable = [
 ]
 
 /**
- * 厂商、零售商管理 => 审核状态
+ * 厂商、商家管理 => 审核状态
  * 1:已审核  2:待审核 3:未通过
  * */
 export const auditType = {
@@ -379,7 +382,7 @@ export const cooperationTable = [
     'key': 'vendorName'
   },
   {
-    'title': '零售商',
+    'title': '商家',
     'key': 'retailName'
   },
   {
@@ -481,7 +484,7 @@ export const stationStatus = [
 
 /**
  * 数据管理 => 排行榜统一
- * 1:商品销量 2:商品访问量 3.厂商销量 4.厂商、零售商合作排行 5.厂商访问量
+ * 1:商品销量 2:商品访问量 3.厂商销量 4.厂商、商家合作排行 5.厂商访问量
  * */
 export const dataStatus = {
   'commoditySales': 1,
