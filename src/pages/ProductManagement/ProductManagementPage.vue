@@ -75,6 +75,9 @@
         }).then(res => {
           if(res.code != 200){
             this.$Message.warning(res.msg)
+            if(res.code === 9998){
+              this.$router.push({path: '/login'})
+            }
             return
           }
           let data = res.data

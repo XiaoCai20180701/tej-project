@@ -52,6 +52,9 @@
         productShow: '0'
       }
     },
+    watch:{
+      '$route': 'getClassificationlist'
+    },
     mounted(){
       this.getClassificationlist()
     },
@@ -69,6 +72,9 @@
         postAddProduct(params).then(res => {
           if(res.code != 200){
             this.$Message.warning(res.msg)
+            if(res.code === 9998){
+              this.$router.push({path: '/login'})
+            }
             return
           }
           this.$Message.success('成功新增商品')
@@ -100,6 +106,9 @@
         getClassificationlist('').then(res => {
           if(res.code != 200){
             this.$Message.warning(res.msg)
+            if(res.code === 9998){
+              this.$router.push({path: '/login'})
+            }
             return
           }
           let labelList= JSON.parse(JSON.stringify(res.data.list).replace(/title/g,"label"))
