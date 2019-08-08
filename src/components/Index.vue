@@ -78,10 +78,11 @@
             <!-- 页面主体 -->
             <div class="main-content">
                 <div class="view-c">
-                    <keep-alive>
-                        <!-- 子页面 -->
-                        <router-view />
-                    </keep-alive>
+                  <router-view />
+                    <!--<keep-alive>-->
+                        <!--&lt;!&ndash; 子页面 &ndash;&gt;-->
+                        <!--<router-view />-->
+                    <!--</keep-alive>-->
                     <div class="loading-c" v-show="showLoading">
                         <Spin size="large"></Spin>
                     </div>
@@ -171,16 +172,16 @@ export default {
         // }
     },
     watch: {
-        openMenus(){
-          console.log('openMenus', this.$refs.asideMenu.$children)
-//          this.$refs.asideMenu.$parent.forEach(item => {
-//
+//        openMenus(){
+//          console.log('openMenus', this.$refs.asideMenu.$children)
+////          this.$refs.asideMenu.$parent.forEach(item => {
+////
+////          })
+//          this.$nextTick(() => {
+//            this.$refs.asideMenu.updateOpened()
+//            this.$refs.asideMenu.updateActiveName()
 //          })
-          this.$nextTick(() => {
-            this.$refs.asideMenu.updateOpened()
-            this.$refs.asideMenu.updateActiveName()
-          })
-        },
+//        },
         $route(to) {
             const name = to.name
             this.currentPage = name
@@ -206,9 +207,10 @@ export default {
         // 菜单栏
         menuItems() {
           let list = []
-          let menu = JSON.parse(localStorage.getItem('menuItems'))  //字符串转换为对象
+         // let menu = JSON.parse(localStorage.getItem('menuItems'))  //字符串转换为对象
+          let menu = this.$store.state.menuItems
           this.currentPage = this.$route.name
-          this.openMenus = this.menuCache
+//          this.openMenus = this.menuCache
           menu.map(item => {
             if(!item.meta.hasOwnProperty('refreshShow')){
               list.push(item)
