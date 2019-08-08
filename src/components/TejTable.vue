@@ -241,16 +241,18 @@
           {name: '33',path: 'http://192.168.1.102:8080/tej/image/20190731/20190731160200032.png'},
         ]
         this.$Modal.info({
-          render: (h) => {
-            imgList.map(img => {
-              return h('img', {
-                  domProps: {
-                    src: img.path,
-                    width: 375
-                  }
+          width: 700,
+          render: (h, params)=> {
+            console.log('params!!!!!!',params)
+            return h('div',imgList.map(item => {
+              return h('img',{
+                domProps: {
+                  src: item.path,
+                  width: 200,
+                  height: 200
                 }
-              )
-            })
+              })
+            }))
           }
         })
       }
