@@ -80,6 +80,9 @@
         isEdit: false
       }
     },
+    watch: {
+      '$route': 'getProductDetail'
+    },
     mounted(){
       this.getClassificationlist()
       console.log('params!!!!!!!!!!!!!',this.$route.params)

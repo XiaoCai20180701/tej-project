@@ -121,9 +121,7 @@
         console.log('修改勾选', this.priceWholesaleListDom)
       },
       deletePriceWholesale(item,index){
-        this.priceWholesaleListDom =this.priceWholesaleListDom.filter(item => {
-            return item.index != index
-        })
+        this.priceWholesaleListDom.splice(index,1)
         this.callback()
         this.$Message.info('删除批发价')
       },
