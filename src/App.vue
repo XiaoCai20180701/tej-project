@@ -7,6 +7,11 @@
 <script>
   export default {
     name: 'App',
+    mounted(){
+      if(this.$route.path == '/login'){
+        localStorage.clear()
+      }
+    }
   }
 </script>
 
