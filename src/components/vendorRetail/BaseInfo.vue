@@ -11,7 +11,7 @@
         </p>
         <p class="item"><span class="label">联系人：</span><span>{{detailData.contact}}</span></p>
         <p class="item"><span class="label">联系号码：</span><span>{{detailData.mobile}}</span></p>
-        <p class="item"><span class="label">联系地址：</span><span class="address">{{detailData.address}}</span>
+        <p class="item"><span class="label">联系地址：</span><span>{{detailData.address}}</span>
         </p>
       </div>
     </div>
