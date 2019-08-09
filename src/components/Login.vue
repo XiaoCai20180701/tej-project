@@ -23,11 +23,24 @@
 </template>
 
 <script>
-  import {login} from '@/api/api'
+  import { login } from '@/api/api'
 
   export default {
     name: 'login',
     data() {
+      const validatePhone = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请输入手机号'));
+        } else {
+          if (value !== '') {
+            var reg = /^1[3456789]\d{9}$/;
+            if (!reg.test(value)) {
+              callback(new Error('请输入有效手机号码'));
+            }
+          }
+          callback();
+        }
+      }
       return {
         loading: false,
         formInline: {
@@ -36,11 +49,11 @@
         },
         ruleInline: {
           user: [
-            {required: true, message: '请输入手机号', trigger: 'blur'}
+            {required: true, validator: validatePhone,trigger: 'blur'}
           ],
           password: [
             {required: true, message: '请输入密码.', trigger: 'blur'},
-            {type: 'string', min: 6, message: '密码长度不能小于6位', trigger: 'blur'}
+            {type: 'string', min: 6, message: '密码长度不能小于6位', trigger: 'change'}
           ]
         }
       }
@@ -55,8 +68,11 @@
         immediate: true
       }
     },
+    mounted(){
+      console.log('mmmmmmmmmmmm')
+    },
     methods: {
-      submit() {
+      submit () {
         this.loading = true
         let username = this.formInline.user
         let password = this.$md5(this.formInline.password)
@@ -80,7 +96,7 @@
           this.loading = false
           this.$Message.info("登录失败", err)
         })
-      }
+      },
     }
   }
 </script>
