@@ -24,9 +24,7 @@
           :key="index"
           :label="item.area"
         >
-          <Option v-for="(child, c) in item.children" :value="child.vendorId" :key="child.vendorId">
-            {{ child.vendorName }} ({{child.vendorId}})
-          </Option>
+          <Option v-for="(child, c) in item.children" :value="child.vendorId" :key="child.vendorId">{{ child.vendorName }} ({{child.vendorId}})</Option>
         </OptionGroup>
       </Select>
     </div>
