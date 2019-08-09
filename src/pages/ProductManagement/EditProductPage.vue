@@ -39,7 +39,7 @@
         </RadioGroup>
       </Card>
       <div>
-        <Button>取消</Button>
+        <Button @click="cancel">取消</Button>
         <Button type="primary" @click="saveAddProduct">确定</Button>
       </div>
     </i-col>
@@ -92,6 +92,16 @@
       }
     },
     methods: {
+      cancel(){
+        if (window.history.length <= 1) {
+          this.$router.push({
+            path: '/'
+          })
+          return false
+        } else {
+          this.$router.go(-1)
+        }
+      },
       saveAddProduct(){
         let productId = {productId: this.$route.params.productId}
         let productShow = {productShow: Number(this.productShow)}
