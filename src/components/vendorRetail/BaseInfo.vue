@@ -15,10 +15,18 @@
         </p>
       </div>
     </div>
-    <div>
-      <Button type="primary" @click="modal = true">
-        {{isVendor ? '厂商' : '商家'}}账单
-      </Button>
+    <div class="tej-bill-box">
+      <p class="item">
+        <span class="label">账户余额：</span><span>{{detailData.balance}}元</span>
+      </p>
+      <p class="item" v-if="!isVendor">
+        <span class="label">积分余额：</span><span>{{detailData.balanceIntegration}}点</span>
+      </p>
+      <div class="btn">
+        <Button type="primary" @click="modal = true">
+          {{isVendor ? '厂商' : '商家'}}账单
+        </Button>
+      </div>
       <Modal v-model="modal"
              class="tej-modal"
              width="820"
@@ -95,12 +103,16 @@
     text-align: center;
   }
 
-  .tej-vendor-baseinfo .item {
+  .tej-vendor-baseinfo .item, .tej-bill-box .item {
     margin: 10px 0;
     font-size: 14px;
   }
+  .tej-bill-box .item {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
 
-  .tej-vendor-baseinfo .label {
+  .tej-vendor-baseinfo .label, .tej-bill-box .label {
     display: inline-block;
     width: 80px;
     margin-right: 10px;
@@ -112,4 +124,22 @@
     margin-left: 90px;
     margin-top: -21px;
   }
+
+  .tej-bill-box{
+    padding: 10px;
+    background: #fff;
+    margin-top: 20px;
+  }
+
+  .tej-bill-box p + p,.tej-bill-box p + button {
+    margin-top: 20px;
+  }
+  .tej-bill-box p + button {
+    text-align: center;
+  }
+  .tej-bill-box .btn {
+    margin-top: 20px;
+    text-align: center;
+  }
 </style>
+
