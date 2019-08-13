@@ -112,6 +112,10 @@
       },
       handleOk (item, name) {
         console.log('okkkkkk',item)
+        if(this.startTime == '' || this.endTime == ''){
+          this.$Message.error('请选择时间')
+          return
+        }
         switch (name){
           case 'month':
             item.show.month = false

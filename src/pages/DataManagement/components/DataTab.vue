@@ -1,23 +1,23 @@
 <template>
   <div class="tej-data-tabs">
     <Tabs size="small" :animated="false" @on-click="tabClick">
-      <TabPane label="全站商品销售量">
+      <TabPane label="全站商品销售量" :index="tabIndexObj.two">
         <p class="date">{{ time[0] }}</p>
         <Table :columns="productSaleColumns" :data="productSalesList"></Table>
       </TabPane>
-      <TabPane label="全站商品访问量">
+      <TabPane label="全站商品访问量" :index="tabIndexObj.one">
         <p class="date">{{ time[1] }}</p>
         <Table :columns="productTrafficColumns" :data="productTrafficList"></Table>
       </TabPane>
-      <TabPane label="全站畅销厂商">
+      <TabPane label="全站畅销厂商" :index="tabIndexObj.three">
         <p class="date">{{ time[2] }}</p>
         <Table :columns="vendorSaleColumns" :data="vendorSalesList"></Table>
       </TabPane>
-      <TabPane label="全站回头客量">
+      <TabPane label="全站回头客量" :index="tabIndexObj.four">
         <p class="date">{{ time[3] }}</p>
         <Table :columns="cooperationColumns" :data="cooperationList"></Table>
       </TabPane>
-      <TabPane label="全站厂商访问量">
+      <TabPane label="全站厂商访问量" :index="tabIndexObj.five">
         <p class="date">{{ time[4] }}</p>
         <Table :columns="vendorTrafficColumns" :data="vendorTrafficList"></Table>
       </TabPane>
@@ -110,7 +110,14 @@
         weekendTime: 6, //周六是一周的最后一天
         startTime: null,
         endTime: null,
-        tabIndex: 1,
+        tabIndex: 2,
+        tabIndexObj: {
+          one: 1,
+          two: 2,
+          three: 3,
+          four: 4,
+          five: 5
+        },
         time: [
           '',
           '',
@@ -128,22 +135,47 @@
       this.vendorSaleColumns = vendorSaleTable
       this.cooperationColumns = cooperationTable
       this.vendorTrafficColumns = vendorTrafficTable
+
+      //默认显示 tab1 当天的数据
+      this.initData()
     },
     methods: {
+      initData(){
+        let startTime = this.$Moment(new Date()).add(0,'year').format("YYYY-MM-DD")
+        let endTime = this.$Moment(new Date()).add(0,'year').format("YYYY-MM-DD")
+        this.postRanklistFun(startTime, endTime, this.tabIndex)
+        this.time[1] = startTime + ' - ' + endTime
+      },
       tabClick(index) {
         console.log('tabs', index)
         this.tabIndex = index + 1  //选中的值与后端status定义的相同
       },
       handleOk(name) {
         console.log('tabIndex', this.tabIndex)
+        if(this.startTime == '' || this.endTime == ''){
+          this.$Message.error('请选择时间')
+          return
+        }
         switch (name) {
           case 'date':
+            if(this.dateValue == ''){
+              this.$Message.error('请选择时间')
+              return
+            }
             this.dateShow = false
             break
           case 'week':
+            if(this.weekValue == ''){
+              this.$Message.error('请选择时间')
+              return
+            }
             this.weekShow = false
             break
           case 'month':
+            if(this.monthValue == ''){
+              this.$Message.error('请选择时间')
+              return
+            }
             this.monthShow = false
             break
         }
@@ -181,6 +213,7 @@
         this.startTime = this.$Moment(monday).format('YYYY-MM-DD')
         this.endTime = this.$Moment(sunday).format('YYYY-MM-DD')
         this.time[this.tabIndex -1 ] = this.startTime + ' - ' + this.endTime
+//        this.monthShow = false
         console.log('周', this.startTime,this.endTime)
       },
       handleClick(name) {
