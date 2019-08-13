@@ -88,6 +88,7 @@
           localStorage.setItem('userName', data.userName)
           localStorage.setItem('token', data.token)
           localStorage.setItem('userId', data.userId)
+          localStorage.setItem('roleId', data.roleId)
           this.$store.dispatch('getRole',data.roleId)
           this.$store.dispatch('getAnyscMenu',this.$store.state.role)
           this.$router.push({path: '/ProductManagementPage'})
