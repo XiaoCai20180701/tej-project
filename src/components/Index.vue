@@ -66,7 +66,7 @@
                             </div>
                             <DropdownMenu slot="list">
                                 <!-- name标识符 -->
-                                <DropdownItem name="1">修改密码</DropdownItem>
+                                <DropdownItem name="1">个人中心</DropdownItem>
                                 <DropdownItem divided  name="2" @click="userOperate('2')">退出登录</DropdownItem>
                             </DropdownMenu>
                         </Dropdown>
@@ -126,21 +126,21 @@ export default {
         // 已经为ajax请求设置了loading 请求前自动调用 请求完成自动结束
         // 添加请求拦截器
         this.$axios.interceptors.request.use(config => {
-            this.showLoading = true
+//            this.showLoading = true
             // 在发送请求之前做些什么
             return config
         }, error => {
-            this.showLoading = false
+//            this.showLoading = false
             // 对请求错误做些什么
             return Promise.reject(error)
         })
         // 添加响应拦截器
         this.$axios.interceptors.response.use(response => {
-            this.showLoading = false
+//            this.showLoading = false
             // 对响应数据做点什么
             return response
         }, error => {
-            this.showLoading = false
+//            this.showLoading = false
             // 对响应错误做点什么
             return Promise.reject(error)
         })
@@ -249,8 +249,12 @@ export default {
             let userId = localStorage.getItem('userId')
             switch(name) {
                 case '1':
-                    // 修改密码
-                    this.gotoPage('password')
+                    // 个人中心
+                   // this.gotoPage('AccountDetailPage')
+                  this.$router.push({
+                    name: 'AccountCenterPage',
+                    params: {userId: userId,isDetail: true}
+                  })
                     break
                 case '2':
                     this.logout(userId)
