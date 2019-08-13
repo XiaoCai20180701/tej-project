@@ -55,6 +55,7 @@
     </slot>
     <div class="tej-table">
       <Table
+        :loading = "showLoading"
         :columns="columnsData"
         :data="tableData"
         v-if="tableData.length >= 0"
@@ -108,6 +109,9 @@
       },
       page: {
         type: Object
+      },
+      showLoading: {  //表格加载状态
+        type: Boolean
       }
     },
     data() {
@@ -175,7 +179,7 @@
           default:
             this.$router.push({
               name: 'AccountDetailPage',
-              params: {userId: row.userId}
+              params: {userId: row.userId, isDetail: true}
             })
         }
       },
