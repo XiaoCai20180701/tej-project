@@ -71,11 +71,6 @@ export const asyncRoutes = {
     name: 'AllOrder',
     component: () => import('@/pages/OrderManagement/AllOrder.vue')
 },
-  'VendorManagementPage': {
-    path: '/VendorManagementPage',
-    name: 'VendorManagementPage',
-    component: () => import('@/pages/VendorManagement/VendorManagementPage.vue')
-  },
   'UnCheckedVendorPage': {
     path: '/UnCheckedVendorPage',
     name: 'UnCheckedVendorPage',
@@ -107,7 +102,7 @@ export const asyncRoutes = {
     component: () => import('@/pages/AccountManagement/AccountManagementPage.vue')
   },
   'AccountDetailPage': {
-    path: '/AccountDetailPage/:userId',
+    path: '/AccountDetailPage/:userId/:isDetail',
     name: 'AccountDetailPage',
     component: () => import('@/pages/AccountManagement/AccountDetailPage.vue')
   },
@@ -115,6 +110,11 @@ export const asyncRoutes = {
     path: '/AccountAddPage',
     name: 'AccountAddPage',
     component: () => import('@/pages/AccountManagement/AccountAddPage.vue')
+  },
+  'AccountCenterPage': {
+    path: '/AccountCenterPage/:userId/:isDetail',
+    name: 'AccountCenterPage',
+    component: () => import('@/pages/AccountManagement/AccountCenterPage.vue')
   },
   'CheckedPage': {
     path: '/CheckedPage',

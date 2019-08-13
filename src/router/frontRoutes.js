@@ -37,7 +37,7 @@ const frontRoutes = [
     }
   },
   {
-    text: '商家',
+    text: '商家管理',
     type: 'icon-icon_zhanghao',
     meta: {
       requireAuth: false
@@ -65,7 +65,7 @@ const frontRoutes = [
   {
     type: '',
     name: 'CheckedDetailPage',
-    text: '商家详情',
+    text: '商家管理详情',
     meta: {
       refreshShow: false
     }
@@ -100,11 +100,6 @@ const frontRoutes = [
         name: 'NotPassVendorPage',
         text: '未通过'
       },
-      {
-        type: '',
-        name: 'VendorManagementPage',
-        text: '全部厂商'
-      }
     ]
   },
   {
@@ -185,6 +180,14 @@ const frontRoutes = [
     name: 'AccountAddPage',
     type: '',
     text: '添加账户',
+    meta: {
+      refreshShow: false
+    }
+  },
+  {
+    name: 'AccountCenterPage',
+    type: '',
+    text: '个人中心',
     meta: {
       refreshShow: false
     }
