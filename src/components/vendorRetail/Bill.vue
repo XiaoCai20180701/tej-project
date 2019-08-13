@@ -52,33 +52,41 @@
       </div>
     </div>
     <div class="modal_center">
-      <div v-for="(item, index) in billList" :key="index" class="bill_list_cell">
-        <!-- Content {{ item }} -->
-        <Row style="border-bottom: #E3E3E3 solid 1px; height: 100%;">
-          <Col span="8" style="height: 100%;">
-          <p style="height: 50%;color: #37AFB8;display: inline-block;line-height: 30px; font-size: 15px;">{{item.statusName}}</p>
-          <p style="margin-top: 5px;">订单编号：{{item.orderId}}</p>
-          </Col>
-          <Col span="8" style="height: 100%;">
-          <p style="margin-top: 39.5px;">时间：{{item.time}}</p>
-          </Col>
-          <Col span="8" style="height: 100%;">
-          <p class="moneyLabType" :style="getStyle(index)">{{item.money}}</p>
-          </Col>
-        </Row>
+      <Spin fix v-if="showLoading"></Spin>
+      <div v-else>
+        <div v-if="billList.length == 0" class="tej-bill-nodata">
+          账单暂无数据
+        </div>
+        <div v-else>
+          <div v-for="(item, index) in billList" :key="index" class="bill_list_cell">
+            <!-- Content {{ item }} -->
+            <Row style="border-bottom: #E3E3E3 solid 1px; height: 100%;">
+              <Col span="8" style="height: 100%;">
+              <p style="height: 50%;color: #37AFB8;display: inline-block;line-height: 30px; font-size: 15px;">{{item.statusName}}</p>
+              <p style="margin-top: 5px;">订单编号：{{item.orderId}}</p>
+              </Col>
+              <Col span="8" style="height: 100%;">
+              <p style="margin-top: 39.5px;">时间：{{item.time}}</p>
+              </Col>
+              <Col span="8" style="height: 100%;">
+              <p class="moneyLabType" :style="getStyle(index)">{{item.money}}</p>
+              </Col>
+            </Row>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="tej-page-box">
-      <Page
-        :total="page.total"
-        :page-size="5"
-        :page-size-opts="pageSizeOpts"
-        show-sizer
-        show-total
-        class="tej-page"
-        @on-change="pageChange"
-        @on-page-size-change="pageSizeChange"/>
-    </div>
+      <div class="tej-page-box">
+        <Page
+          :total="page.total"
+          :page-size="5"
+          :page-size-opts="pageSizeOpts"
+          show-sizer
+          show-total
+          class="tej-page"
+          @on-change="pageChange"
+          @on-page-size-change="pageSizeChange"/>
+      </div>
+      </div>
   </div>
 </template>
 
@@ -91,13 +99,14 @@
       isVendor: {
         type: Boolean
       },
-      id: {
+      id: {   //厂家编号或商家编号，具体看父组件的传值
         type: String,
         required: false
       }
     },
     data() {
       return {
+        showLoading: false,
         page:{
           index: 1,
           size: 5,
@@ -122,6 +131,7 @@
       }
     },
     mounted(){
+      //TODO 组件有太多的v-if v-else，需要优化，可再分成小组件
       this.getBillTypeArray()
       this.getBill()
     },
@@ -183,6 +193,7 @@
         this.getBill()
       },
       getBill(){
+        this.showLoading = true
         let id = this.isVendor ? { vendorId: this.id } : { retailId: this.id}
         let params = {
           ...id,
@@ -196,6 +207,8 @@
         }
         if(this.isVendor){
           postVendorBillList(params).then(res=> {
+//            this.$Spin.hide()
+            this.showLoading = false
             if(res.code != 200){
               this.$Message.warning(res.msg)
               return
@@ -209,10 +222,12 @@
             }
             console.log('厂商账单 list',this.billList)
           }).catch(err => {
+            this.showLoading = false
             this.$Message.error('获取厂商账单失败'+ err)
           })
         }else {
           postRetailBillList(params).then(res=> {
+            this.showLoading = false
             if(res.code != 200){
               this.$Message.warning(res.msg)
               return
@@ -226,6 +241,7 @@
             }
             console.log('零售商账单 list',this.billList)
           }).catch(err => {
+            this.showLoading = false
             this.$Message.error('获取零售商账单失败'+ err)
           })
         }
@@ -284,6 +300,9 @@
     padding: 20px 25px 20px 25px;
   }
 
+  .modal_center {
+    position: relative;
+  }
   .modal_top .btn-group {
     float: right;
   }
@@ -328,5 +347,9 @@
 
   .tej-page-box {
     padding-bottom: 20px;
+  }
+
+  .tej-bill-nodata {
+    padding: 10px 25px;
   }
 </style>
