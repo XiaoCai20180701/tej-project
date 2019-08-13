@@ -3,23 +3,23 @@
     <Tabs size="small" :animated="false" @on-click="tabClick">
       <TabPane label="全站商品销售量" :index="tabIndexObj.two">
         <p class="date">{{ time[0] }}</p>
-        <Table :columns="productSaleColumns" :data="productSalesList"></Table>
+        <Table :loading="showLoading" :columns="productSaleColumns" :data="productSalesList"></Table>
       </TabPane>
       <TabPane label="全站商品访问量" :index="tabIndexObj.one">
         <p class="date">{{ time[1] }}</p>
-        <Table :columns="productTrafficColumns" :data="productTrafficList"></Table>
+        <Table :loading="showLoading"  :columns="productTrafficColumns" :data="productTrafficList"></Table>
       </TabPane>
       <TabPane label="全站畅销厂商" :index="tabIndexObj.three">
         <p class="date">{{ time[2] }}</p>
-        <Table :columns="vendorSaleColumns" :data="vendorSalesList"></Table>
+        <Table :loading="showLoading"  :columns="vendorSaleColumns" :data="vendorSalesList"></Table>
       </TabPane>
       <TabPane label="全站回头客量" :index="tabIndexObj.four">
         <p class="date">{{ time[3] }}</p>
-        <Table :columns="cooperationColumns" :data="cooperationList"></Table>
+        <Table :loading="showLoading"  :columns="cooperationColumns" :data="cooperationList"></Table>
       </TabPane>
       <TabPane label="全站厂商访问量" :index="tabIndexObj.five">
         <p class="date">{{ time[4] }}</p>
-        <Table :columns="vendorTrafficColumns" :data="vendorTrafficList"></Table>
+        <Table :loading="showLoading"  :columns="vendorTrafficColumns" :data="vendorTrafficList"></Table>
       </TabPane>
       <div size="small" slot="extra" class="tej-data-date">
         <DatePicker
@@ -91,6 +91,7 @@
     },
     data() {
       return {
+        showLoading: false,
         dateShow: false,
         weekShow: false,
         monthShow: false,
@@ -236,12 +237,14 @@
         }
       },
       postRanklistFun(startDate, endDate, status) {
+        this.showLoading = true
         postRanklist({
           startTime: startDate,
           endTime: endDate,
           status: status
         })
           .then(res => {
+            this.showLoading = false
             if (res.code != 200) {
               this.$Message.warning(res.msg)
               if(res.code === 9998){
@@ -252,6 +255,7 @@
             this.getData(status, res.data.list)
           })
           .catch(err => {
+            this.showLoading = false
             this.$Message.error('全站销量前十排行榜获取失败', err)
           })
       },
