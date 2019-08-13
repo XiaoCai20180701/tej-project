@@ -1,6 +1,7 @@
 <template>
   <div>
     <TejTable
+      :show-loading="showLoading"
       :columns-data="columnsData"
       :table-data="tableData"
       :page="page"
@@ -45,6 +46,7 @@
     },
     data() {
       return {
+        showLoading: false,
         columnsData: [],
         tableData: [],
         page: {
@@ -95,7 +97,9 @@
           pageSize: this.page.size,
           roleId: this.roleId
         }
+        this.showLoading = true
         postUserList(params).then(res => {
+          this.showLoading = false
           if(res.code != 200){
             this.$Message.warning(res.msg)
             if(res.code === 9998){
@@ -111,6 +115,7 @@
             total: data.total
           }
         }).catch(err => {
+          this.showLoading = false
           this.$Message.error({
             content: '获取账户列表失败'
           })

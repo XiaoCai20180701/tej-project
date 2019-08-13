@@ -1,7 +1,7 @@
 <template>
   <Card class="tej-account-card">
     <p slot="title">账户操作权限管理</p>
-    <div class="head" v-if="roleId == 1">
+    <div class="head" v-if="!isDetail">
       <div class="label">快速配置权限：</div>
       <div class="checked-group">
         <RadioGroup v-model="roleGroup" @on-change="roleChange">
@@ -19,17 +19,19 @@
       </div>
     </div>
     <div class="content">
+      <p><Icon type="ios-information-circle-outline" size="22" style="margin-right: 8px"/>修改操作权限后，请重新登录系统</p>
       <div v-if="menuItems.length == 0">
         菜单信息 — 暂无数据
       </div>
-      <div v-for="(item, index) in menuItems"
+      <div v-for="(item, index) in list"
            :key="index"
            class="item"
            v-else
       >
         <span class="txt">{{item.text}}</span>
         <div v-if="item.status == auth" class="auth-btn">
-          <span class="auth-txt">已授权</span> <span class="cancel-txt" @click="changeAuth(item)">取消授权</span>
+          <span class="auth-txt">已授权</span>
+          <span class="cancel-txt" @click="changeAuth(item)" v-if="!isCenter">取消授权</span>
         </div>
         <div class="auth-btn" v-else>
           <span class="noauth-txt" @click="changeAuth(item)">未授权</span>
@@ -51,7 +53,15 @@
         required: false
       },
       roleList: Array,
-      menuItems: Array
+      menuItems: Array, //全部的菜单
+      isDetail: {    //是否是详情页
+        type: Boolean,
+        required: false
+      },
+      isCenter: {  //是否是个人中心
+        type: Boolean,
+        required: false
+      }
     },
     data() {
       return {
@@ -61,11 +71,25 @@
         role: 1
       }
     },
+    computed:{
+      list(){
+        return this.isCenter ? this.showMenuList(this.menuItems): this.menuItems
+      }
+    },
     methods: {
+      showMenuList(list){
+       return list.filter( (i,v)=> i.status === authType.auth)
+      },
       changeAuth(item){
-        item.status = item.status == 0 ? 1 : 0
-//        this.editPermissions(this.roleGroup,item.menuId,item.status)
-        this.editPermissions(this.roleId,item.menuId,item.status)
+        let roleId = localStorage.getItem('roleId')
+        if(roleId != 1){
+          this.$Message.error('请联系管理员修改权限！')
+          return
+        }else {
+          item.status = item.status == 0 ? 1 : 0
+          this.editPermissions(this.roleId,item.menuId,item.status)
+        }
+
       },
       roleChange(e){
         this.role = e

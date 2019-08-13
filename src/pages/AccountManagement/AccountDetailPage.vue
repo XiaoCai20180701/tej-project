@@ -8,6 +8,7 @@
                       :menu-items="menuItems"
                       @role-change="roleChange"
                       :role-id="baseInfo.roleId"
+                      :is-detail = "isDetail"
       ></AccountSetting>
     </Col>
   </Row>
@@ -28,7 +29,8 @@
       return {
         baseInfo: {},
         roleList: [],
-        menuItems: []
+        menuItems: [],
+        isDetail: true
       }
     },
     mounted(){

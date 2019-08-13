@@ -13,7 +13,7 @@
       <p class="item"><span class="label">联系号码：</span><span>{{info.mobile}}</span></p>
       <p class="item"><span class="label">备注：</span><span>{{info.message}}</span></p>
     </div>
-    <div class="btn">
+    <div class="btn" v-if="isShow">
       <Button type="primary" @click="changePasswordModal = true">密码修改</Button>
       <Modal v-model="changePasswordModal" :closable="false" class="tej-modfiy-modal"
              @on-ok="handleSubmit('changePwdForm')"
@@ -87,7 +87,9 @@
         }
       }
       return {
+        isShow: false,
         loading: true,
+        userNum: null,
         changePasswordModal: false,
         changePwdForm: {
           originalPasswd: '',
@@ -110,6 +112,16 @@
         }
       }
     },
+    watch: {
+      info:{
+        handler: function (newval, oldVal) {
+          console.log(newval)
+          this.userNum = newval.userId
+          this.isShow = newval.userId === localStorage.getItem('userId') ? true : false
+        },
+        deep: true
+      }
+    },
     methods: {
       asyncOK () {
         this.changePwdForm = {
@@ -124,17 +136,17 @@
       },
       handleSubmit(name) {
         console.log('55555522255')
-//        this.modifyPassword()
+        this.modifyPassword()
 //        this.asyncOK()
-        this.$refs[name].validate((valid) => {
-          if (valid) {
-            this.modifyPassword()
-            this.asyncOK()
-          } else {
-            this.loading = false
-            this.changePasswordModal = true
-          }
-        })
+//        this.$refs[name].validate((valid) => {
+//          if (valid) {
+//            this.modifyPassword()
+//           // this.asyncOK()
+//          } else {
+//            this.loading = false
+//            this.changePasswordModal = true
+//          }
+//        })
       },
       handleReset(name) {
         this.$refs[name].resetFields();
@@ -142,12 +154,14 @@
       modifyPassword(){
         console.log('55555555555')
         let params = {
-          oldPassword: this.changePwdForm.originalPasswd,
-          newPassword: this.changePwdForm.passwd,
-          passwdCheck: this.changePwdForm.passwdCheck
+          userId: this.userNum,
+          passWord: this.$md5(this.changePwdForm.passwd),
         }
+        this.loading = true
         putModifyPassword(params).then(res => {
+          this.loading = false
           this.$Message.success('修改成功!')
+          this.changePasswordModal = false
         }).catch(err => {
           this.$Message.error({
             content: '密码修改失败' + err

@@ -9,6 +9,7 @@
                     :menu-items="menuItems"
                     @role-change="roleChange"
                     :role-id="this.$store.state.role"
+                    :is-detail = "false"
     >
       <div slot="add-role" class="tej-addrole-btngroup">
         <Button @click="cancel">取消</Button>
@@ -111,8 +112,9 @@
             }
             return
           }
-          let data = res.data
-          this.roleList = data.list
+          let list = res.data.list.shift()
+          this.roleList = res.data.list
+          console.log('roleList',this.roleList)
         }).catch(err => {
           this.$Message.error({
             content: '获取角色列表失败' + err
