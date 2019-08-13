@@ -1,6 +1,7 @@
 <template>
   <div class="tej-table">
     <Table
+      :loading="showLoading"
       :columns="columnsData"
       :data="tableData"
       v-if="tableData.length >= 0"
@@ -34,6 +35,9 @@
       },
       page: {
         type: Object
+      },
+      showLoading: {
+        type: Boolean
       }
     },
     data() {
@@ -49,8 +53,7 @@
       showDetail(id) {
         this.$router.push({
           name: 'OrderDetailPage',
-          query: {orderId: id},
-          params: {page: 1,pageSize: 10}
+          params: {orderId: id,page: 1,pageSize: 10}
         })
       },
       pageChange(i) {

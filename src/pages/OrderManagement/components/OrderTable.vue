@@ -1,6 +1,6 @@
 <template>
   <div class="tej-order-list">
-    <Table :columns="orderColumnsTable" :data="orderDataTable">
+    <Table :columns="orderColumnsTable" :data="orderDataTable" :loading="showLoading">
       <template slot-scope="{row, index}" slot="action">
         <a @click="showDetail(row.orderId)">查看详情</a>
       </template>
@@ -29,6 +29,9 @@
       },
       page: {
         type: Object
+      },
+      showLoading: {
+        type: Boolean
       }
     },
     data(){

@@ -7,6 +7,7 @@
     <OrderTable :order-columns-table="orderColumns"
                 :order-data-table="orderData"
                 :page="page"
+                :show-loading="showLoading"
                 @page-change-callback="pageChangeCallback"
                 @pageSize-change-callback="pageSizeChangeCallback"
     ></OrderTable>
@@ -25,6 +26,7 @@
     components: { expandRow,OrderSearchForm,OrderTable },
     data() {
       return {
+        showLoading: false,
         page: {
           index: 1,
           size: 10,
@@ -100,6 +102,7 @@
         this.getList()
       },
       getList() {
+        this.showLoading = true
         let params = {
           page: this.page.index,
           pageSize: this.page.size,
@@ -111,6 +114,7 @@
         }
         postOrderList(params).then(res => {
           console.log('未发货订单列表', res.data)
+          this.showLoading = false
           if(res.code != 200){
             this.$Message.warning(res.msg)
             if(res.code === 9998){
@@ -126,6 +130,7 @@
             total: data.total
           }
         }).catch(err => {
+          this.showLoading = false
           this.$Message.error('获取未发货订单列表失败', err)
         })
       }

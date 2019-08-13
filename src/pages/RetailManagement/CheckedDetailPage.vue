@@ -18,6 +18,7 @@
           <RetailTable :columns-data="retailColumns"
                        :table-data="retailData"
                        :page="page"
+                       :show-loading="showLoading"
                        @page-change-callback="pageChange"
                        @pageSize-change-callback="pageSizeChange"
           >
@@ -47,6 +48,7 @@
     },
     data() {
       return {
+        showLoading: false,
         productShow: 0,  //未启用
         environmentImgIndex: 0,
         retailColumns: [
@@ -108,11 +110,13 @@
         this.getList()
       },
       getList() {
+        this.showLoading = true
         postRetailDetail({
           retailId: this.$route.params.retailId,
           page: 1,
           pageSize: 10
         }).then(res => {
+          this.showLoading = false
           if(res.code != 200){
             this.$Message.warning(res.msg)
             if(res.code === 9998){
@@ -130,6 +134,7 @@
             total: data.orderList.total
           }
         }).catch(err => {
+          this.showLoading = false
           this.$Message.error('获取商家详情失败', err)
         })
       }

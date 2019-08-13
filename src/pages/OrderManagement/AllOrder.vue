@@ -7,6 +7,7 @@
     <OrderTable :order-columns-table="orderColumns"
                 :order-data-table="orderData"
                 :page="page"
+                :show-loading="showLoading"
                 @page-change-callback="pageChangeCallback"
                 @pageSize-change-callback="pageSizeChangeCallback"
     ></OrderTable>
@@ -25,6 +26,7 @@
     components: { expandRow,OrderSearchForm,OrderTable },
     data() {
       return {
+        showLoading: false,
         vendorName: '',
         retailName: '',
         startTime: null,
@@ -118,8 +120,10 @@
           startTime: this.startTime,
           endTime: this.endTime
         }
+        this.showLoading = true
         postOrderList(params).then(res => {
           console.log('全部订单列表', res.data)
+          this.showLoading = false
           if(res.code != 200){
             this.$Message.warning(res.msg)
             if(res.code === 9998){
@@ -135,6 +139,7 @@
             total: data.total
           }
         }).catch(err => {
+          this.showLoading = false
           this.$Message.error('获取全部订单列表失败', err)
         })
       }

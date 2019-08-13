@@ -1,6 +1,7 @@
 <template>
   <div class="tej-main">
     <TejTable
+      :show-loading="showLoading"
       :columns-data="columnsData"
       :table-data="tableData"
       :page="page"
@@ -26,6 +27,7 @@
     },
     data(){
       return {
+        showLoading: false,
         columnsData: [],
         tableData: [],
         page: {
@@ -61,6 +63,7 @@
         this.getList()
       },
       getList(){
+        this.showLoading = true
         postRetaillist({
           page: this.page.index,
           pageSize: this.page.size,
@@ -68,6 +71,7 @@
           blockId: this.blockId,
           status: auditType.checked
         }).then(res => {
+          this.showLoading = false
           if(res.code != 200){
             this.$Message.warning(res.msg)
             if(res.code === 9998){
@@ -84,6 +88,7 @@
           }
         })
           .catch(err => {
+            this.showLoading = false
             this.$Message.error('获取商家已审核列表失败',err)
           })
       },

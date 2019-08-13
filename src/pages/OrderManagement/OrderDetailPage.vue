@@ -73,6 +73,7 @@
     },
     data() {
       return {
+        showLoading: false,
         orderDetail: {
           orderId: null,
           orderTime: null,
@@ -95,6 +96,7 @@
     },
     methods: {
       getDetail() {
+        this.showLoading = true
         let id = this.$route.params.orderId
         let page = this.$route.params.page
         let pageSize = this.$route.params.pageSize
@@ -103,6 +105,7 @@
           page: page,
           pageSize: pageSize
         }).then(res => {
+          this.showLoading = false
           if(res.code != 200){
             this.$Message.warning(res.msg)
             if(res.code === 9998){
@@ -113,6 +116,7 @@
           this.orderDetail = res.data
           console.log('oder list', res)
         }).catch(err => {
+          this.showLoading = false
           this.$Message.error('获取订单详情失败', err)
         })
       }

@@ -15,7 +15,8 @@
             </Col>
           </Row>
           <div class="tej-vendor-table">
-            <VendorTable :columns-data="columnsData"
+            <VendorTable  :show-loading="showLoading"
+                      :columns-data="columnsData"
                       :table-data="tableData"
                       :page="page"
                       @page-change-callback="pageChange"
@@ -46,6 +47,7 @@
     },
     data() {
       return {
+        showLoading: false,
         productShow: 0,  //未启用
         environmentImgIndex: 0,
         columnsData: [
@@ -108,11 +110,13 @@
         this.getList()
       },
       getList() {
+        this.showLoading = true
         postVendorDetail({
           vendorId: this.$route.params.vendorId,
           page: 1,
           pageSize: 10
         }).then(res => {
+          this.showLoading = false
           if(res.code != 200){
             this.$Message.warning(res.msg)
             if(res.code === 9998){
@@ -130,6 +134,7 @@
             total: data.productInfo.total
           }
         }).catch(err => {
+          this.showLoading = false
           this.$Message.error('获取厂商详情失败', err)
         })
       }

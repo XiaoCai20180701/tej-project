@@ -1,6 +1,7 @@
 <template>
   <div class="tej-table">
     <Table
+      :loading="showLoading"
       :columns="columnsData"
       :data="tableData"
       v-if="tableData.length >= 0"
@@ -30,6 +31,7 @@
 </template>
 
 <script>
+  import { putProductDetail } from '@/api/api'
   export default {
     props: {
       columnsData: {
@@ -42,6 +44,9 @@
       },
       page: {
         type: Object
+      },
+      showLoading: {
+        type: Boolean
       }
     },
     data() {
@@ -60,13 +65,23 @@
       edit(id){
         this.$router.push({
           name: 'EditProductPage',
-          query: { productId: id },
-          params: { isEdit: true }
+          params: { productId: id,isEdit: true }
         })
       },
       setProductShow(row){
           row.show = !row.show
-        //TODO 请求修改接口
+        this.modifyProduct(row.id,row.show)
+      },
+      modifyProduct(id, show){
+        let params = {
+          productId: id,
+          productShow: show == true ? 1:0
+        }
+        putProductDetail(params).then(res => {
+          this.$Message.success('修改成功')
+        }).catch(err => {
+          this.$Message.error('修改商品状态失败! ' + err)
+        })
       },
       pageChange(i) {
         console.log('page', i)
