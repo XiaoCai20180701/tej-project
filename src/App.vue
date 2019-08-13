@@ -25,6 +25,14 @@
   .tej-product-box {
     margin-bottom: 12px;
   }
+
+  .tej-product-box .symbol {
+    display: inline-block;
+    margin-right: 5px;
+    color: red;
+    font-size: 20px;
+    vertical-align: middle;
+  }
   .tej-product-box p {
     margin-bottom: 5px;
   }
@@ -89,5 +97,8 @@
   }
   .tej-modal .ivu-modal-body{
     padding: 0px;
+  }
+  .ivu-tree-title {
+    cursor: default;
   }
 </style>
