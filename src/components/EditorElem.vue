@@ -10,10 +10,11 @@
     data () {
       return {
         editor: null,
-        editorContent: ''
+        editorContent: '',
+        baseUrl: 'http://47.92.209.177/file/'
       }
     },
-    props: ['catchData', 'content','editorData'],    // 接收父组件的方法
+    props: ['catchData', 'content','editorData','disabled'],    // 接收父组件的方法
     watch: {
       content () {
         this.editor.txt.html(this.content)
@@ -71,7 +72,9 @@
           // 图片上传并返回结果，图片插入成功之后触发
           // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象，result 是服务器端返回的结果
           console.log('图片 success',xhr, editor, result)
-          this.imgUrl = Object.values(result.data).toString()
+//          this.imgUrl = Object.values(result.data).toString()
+          let url = this.baseUrl + result.data
+          this.imgUrl = Object.values(url).toString()
         },
         fail: function (xhr, editor, result) {
           // 图片上传并返回结果，但图片插入错误时触发
@@ -96,7 +99,9 @@
           // insertImg 是插入图片的函数，editor 是编辑器对象，result 是服务器端返回的结果
 
           // 举例：假如上传图片成功后，服务器端返回的是 {url:'....'} 这种格式，即可这样插入图片：
-          let url = Object.values(result.data)      // result.data就是服务器返回的图片名字和链接
+        //  let url = Object.values(this.baseUrl + result.data)      // result.data就是服务器返回的图片名字和链接
+          let url = 'http://47.92.209.177/file/' + result.data
+          console.log('图片 customInsert url!!!!!',url)
        //   JSON.stringify(url)    // 在这里转成JSON格式
           insertImg(url)
           // result 必须是一个 JSON 格式字符串！！！否则报错
@@ -105,6 +110,8 @@
       }
 
       this.editor.create()     // 创建富文本实例
+    //  this.disabled ? this.editor.disable() : this.editor.enable()
+
       let checked = this.$route.params.isEdit
       if(checked){
         this.editor.txt.html(this.editorData)
