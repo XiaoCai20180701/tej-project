@@ -61,7 +61,7 @@ export const postAddProduct = (params) => post(PRODUCT_URL + 'addProduct',params
 
 export const deleteProduct = (productId) => deleteAxios(PRODUCT_URL + 'deleteproduct',productId)
 
-export const putProductDetail = (id) => put(PRODUCT_URL + 'modifyProductDetail',id)
+export const putProductDetail = (id) => put(PRODUCT_URL + 'modifyProductDetail',id)  //修改商品详情
 
 export const getProductDetail = (id) => post(PRODUCT_URL + 'getProductDetail',id)
 
@@ -138,4 +138,4 @@ export const postRolePermissions = (params) => post(USER_URL + 'rolepermissions'
 
 export const postAddRole = (params) => post(USER_URL +'addrole', params)  //新增角色
 
-export const putModifyPassword = (params) => post('/modifyPassword',params)  //修改密码
+export const putModifyPassword = (params) => put( USER_URL + '/editpassword',params)  //修改密码
