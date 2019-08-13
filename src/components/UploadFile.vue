@@ -25,11 +25,11 @@
     :on-exceeded-size="handleMaxSize"
     :before-upload="handleBeforeUpload"
     multiple
-    type="drag"
     :action="actionUrl"
     :data = "uploadData"
-    style="display: inline-block;width:104px;">
-    <div class="tej-upload-txt" ref="uploadTxt">
+    style="display: inline-block"
+  >
+    <div class="tej-upload-txt" ref="uploadTxt" v-if="!disabled">
       <Icon type="md-add" size="20"></Icon>
       <div>上传主图</div>
       <small>注：800x800</small>
@@ -46,6 +46,10 @@
       pictureNum: Number,
       uploadListProps: {
         type: Array,
+        required: false
+      },
+      disabled: {
+        type: Boolean,
         required: false
       }
     },
@@ -76,9 +80,10 @@
         this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
       },
       handleSuccess (res, file) {
-        file.url= file.response.data[0].url
+        let url = file.response.data[0].url
+        file.url= 'http://47.92.209.177/file/' + url
         file.name = file.response.data[0].name
-        this.$emit('main-callback',file.name,file.url)
+        this.$emit('main-callback',file.name,url)
       },
       handleFormatError (file) {
         this.$Notice.warning({
@@ -106,6 +111,7 @@
       let checked = this.$route.params.isEdit
       if (checked) {
         this.defaultList = this.uploadListProps
+        console.log('defaultList',this.defaultList)
       }
     },
     mounted () {
@@ -151,9 +157,12 @@
     margin: 0 2px;
   }
   .tej-upload-txt {
+    border: 1px dashed #ccc;
     width: 104px;
     height: 104px;
     padding: 22px 0;
+    border-radius: 5px;
+    text-align: center;
   }
   .tej-upload-txt small {
     color: #9c9c9c;
