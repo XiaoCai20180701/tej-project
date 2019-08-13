@@ -1,6 +1,7 @@
 <template>
   <div class="tej-main">
     <TejTable
+      :show-loading="showLoading"
       :columns-data="columnsData"
       :table-data="tableData"
       :page="page"
@@ -29,6 +30,7 @@
     },
     data() {
       return {
+        showLoading: false,
         columnsData: [],
         tableData: [],
         page: {
@@ -67,12 +69,14 @@
         this.getList()
       },
       getList() {
+        this.showLoading = true
         getProductList({
           page: this.page.index,
           pageSize: this.page.size,
           blockId: this.regionGroupID,
           keywords: this.keywords
         }).then(res => {
+          this.showLoading = false
           if(res.code != 200){
             this.$Message.warning(res.msg)
             if(res.code === 9998){
@@ -89,6 +93,7 @@
           }
         })
           .catch(err => {
+            this.showLoading = false
             console.log('err', err)
             this.$Message.info({
               content: err

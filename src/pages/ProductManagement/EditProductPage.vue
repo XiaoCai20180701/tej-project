@@ -7,6 +7,7 @@
         v-if="productDetail.classification"
         :classification="productDetail.classification"
         @classification-callback="classificationCallback"
+        :disabled="disabled"
       ></Classification>
 
       <!--商品尺码、颜色-->
@@ -14,12 +15,14 @@
         @feature-callback="featureCallback"
         v-if="productDetail.feature"
         :feature="productDetail.feature"
+        :disabled="disabled"
       ></Feature>
       <!--商品库存、零售价、批发价-->
       <Price
         @price-callback="priceCallback"
         v-if="productDetail.price"
         :price="productDetail.price"
+        :disabled="disabled"
       ></Price>
     </i-col>
     <i-col span="15" offset="1" class="tej-add-product-right">
@@ -29,6 +32,7 @@
         v-if="productDetail.photograph.mainPicture"
         :main-picture-props="productDetail.photograph.mainPicture"
         :img-content-props="productDetail.photograph.imgContent"
+        :disabled="disabled"
       ></Photograph>
       <!--商品使用状态-->
       <Card class="tej-bule-card">
@@ -75,9 +79,11 @@
           photograph: {
             mainPicture: null,
             imgContent: null
-          }
+          },
+          productShow: '0'
         },
-        isEdit: false
+        isEdit: false,
+        disabled: false
       }
     },
     watch: {
@@ -86,6 +92,7 @@
     mounted(){
       this.getClassificationlist()
       console.log('params!!!!!!!!!!!!!',this.$route.params)
+      console.log('route!!!!!!!!!!!!!',this.$route)
       if(this.$route.params.isEdit){
         this.isEdit = true
         this.getProductDetail()
@@ -176,6 +183,8 @@
             mainPicture: data.mainPicture,
             imgContent: data.imgContent
           }
+          this.productShow = data.show.toString()
+          this.disabled = data.show == 0 ? false : true
         }).catch(err => {
           this.$Message.error('获取商品详情失败',err)
         })

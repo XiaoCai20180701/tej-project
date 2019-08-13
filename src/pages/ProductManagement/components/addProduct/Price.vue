@@ -1,15 +1,15 @@
 <template>
   <Card class="tej-bule-card">
     <div class="tej-product-box">
-      <p>商品库存</p>
-      <Input v-model="inventory" type="number" placeholder="请输入库存数量" clearable @on-change="inventoryChange"/>
+      <p><span class="symbol">*</span>商品库存</p>
+      <Input v-model="inventory" type="number" placeholder="请输入库存数量" clearable @on-change="inventoryChange" :disabled="disabled"/>
     </div>
     <div class="tej-product-box">
-      <p>商品零售价</p>
-      <Input v-model="priceSale" type="number" placeholder="请输入商品零售价" clearable @on-change="priceSaleChange"/>
+      <p><span class="symbol">*</span>商品零售价</p>
+      <Input v-model="priceSale" type="number" placeholder="请输入商品零售价" clearable @on-change="priceSaleChange" :disabled="disabled"/>
     </div>
     <div class="tej-product-box">
-      <p>商品批发价</p>
+      <p><span class="symbol">*</span>商品批发价</p>
       <CheckboxGroup v-model="priceWholesaleCheckboxGroup" @on-change="priceWholesaleChange">
         <div v-for="(item, index) in priceWholesaleListDom" :key="index">
           <Checkbox :label="item.start">
@@ -29,11 +29,11 @@
               <span>{{item.priceWholesale}}(元)</span>
             </slot>
           </Checkbox>
-          <b class="tej-delete-txt" @click="deletePriceWholesale(item,index)">删除</b>
+          <b class="tej-delete-txt" @click="deletePriceWholesale(item,index)" v-if="!disabled">删除</b>
           <b class="tej-edit-txt" @click="savePriceWholesale(item)" v-if="item.isEdit">确定</b>
           <b class="tej-edit-txt" @click="editPriceWholesale(item)" v-else>修改</b>
         </div>
-        <div>
+        <div v-if="!disabled">
           <Checkbox>
             <slot>
               <span>
@@ -60,6 +60,10 @@
     props: {
       price: {
         type: Object,
+        required: false
+      },
+      disabled: {
+        type: Boolean,
         required: false
       }
     },

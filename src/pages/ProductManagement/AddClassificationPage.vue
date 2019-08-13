@@ -1,70 +1,70 @@
 <template>
   <Row :gutter="18" style="background:#eee;">
     <Col :xs="24" :sm="24" :md="5" :lg="5">
-      <Card class="tej-card-tree">
-        <p slot="title">已有分类</p>
-        <Tree :data="list"></Tree>
-      </Card>
+    <Card class="tej-card-tree">
+      <p slot="title">已有分类</p>
+      <Tree :data="list"></Tree>
+    </Card>
     </Col>
     <Col :xs="24" :sm="24" :md="19" :lg="19">
-      <Card class="tej-add-classification">
-        <p slot="title">新建分类</p>
-        <Row>
-          <Col span="8">
-          <Card>
-            <p slot="title">一级目录</p>
-            <RadioGroup v-model="checkParent" @on-change="parentChange">
-              <div v-for="(item, index) in parentList" :key="index" class="item">
-                <span @click="radioClick(item.id)"><Radio :label="item.id" @click="">{{item.title}}</Radio></span>
-                <b class="tej-delete-txt" @click="deleteFun(item)">删除</b>
-              </div>
-              <div class="item">
-                <Radio>
-                  <slot>
-                    <Input v-model="newValue"
-                           clearable
-                           placeholder="请输入新分类"
-                           style="width: 160px"
-                           @on-change="getInputValue"
-                           size="small"
-                    />
-                  </slot>
-                </Radio>
-                <b class="tej-add-txt" @click="addParent">新增</b>
-              </div>
-            </RadioGroup>
-          </Card>
-          </Col>
-          <Col span="8" offset="2">
-          <Card>
-            <p slot="title">二级目录</p>
-            <RadioGroup v-model="checkChildren">
-              <div v-for="(child, c) in childrenList" :key="c" class="item">
-                <Radio :label="child.title"></Radio>
-                <b class="tej-delete-txt" @click="deleteFun(child)">删除</b>
-              </div>
-              <div class="item">
-                <Radio>
-                  <slot>
-                    <Input v-model="newChildrenValue"
-                           clearable
-                           placeholder="请输入新分类"
-                           style="width: 160px"
-                           @on-change="getInputChildrenValue"
-                           size="small"
-                    />
-                  </slot>
-                </Radio>
-                <b class="tej-add-txt" @click="addChildren">新增</b>
-              </div>
-            </RadioGroup>
-          </Card>
-          </Col>
-        </Row>
-        <div class="tej-cancel-btngroup">
-          <Button @click="cancel">取消</Button>
-        </div>
-      </Card>
+    <Card class="tej-add-classification">
+      <p slot="title">新建分类</p>
+      <Row>
+        <Col span="8">
+        <Card>
+          <p slot="title">一级目录</p>
+          <RadioGroup v-model="checkParent" @on-change="parentChange">
+            <div v-for="(item, index) in parentList" :key="index" class="item">
+              <span @click="radioClick(item.id)"><Radio :label="index" @click="">{{item.title}}</Radio></span>
+              <b class="tej-delete-txt" @click="deleteFun(item)">删除</b>
+            </div>
+            <div class="item">
+              <Radio>
+                <slot>
+                  <Input v-model="newValue"
+                         clearable
+                         placeholder="请输入新分类"
+                         style="width: 160px"
+                         @on-change="getInputValue"
+                         size="small"
+                  />
+                </slot>
+              </Radio>
+              <b class="tej-add-txt" @click="addParent">新增</b>
+            </div>
+          </RadioGroup>
+        </Card>
+        </Col>
+        <Col span="8" offset="2">
+        <Card>
+          <p slot="title">二级目录</p>
+          <RadioGroup v-model="checkChildren">
+            <div v-for="(child, c) in childrenList" :key="c" class="item">
+              <Radio :label="child.title"></Radio>
+              <b class="tej-delete-txt" @click="deleteFun(child)">删除</b>
+            </div>
+            <div class="item">
+              <Radio>
+                <slot>
+                  <Input v-model="newChildrenValue"
+                         clearable
+                         placeholder="请输入新分类"
+                         style="width: 160px"
+                         @on-change="getInputChildrenValue"
+                         size="small"
+                  />
+                </slot>
+              </Radio>
+              <b class="tej-add-txt" @click="addChildren">新增</b>
+            </div>
+          </RadioGroup>
+        </Card>
+        </Col>
+      </Row>
+      <div class="tej-cancel-btngroup">
+        <Button @click="cancel">取消</Button>
+      </div>
+    </Card>
     </Col>
   </Row>
 </template>
@@ -83,7 +83,8 @@
         newChildrenValue: '',
         checkParent: 1,
         checkChildren: 9,
-        typeParentId: null
+        typeParentId: null,
+        parentIndex: 0
       }
     },
     watch: {
@@ -96,6 +97,11 @@
       radioClick(id){
         console.log('单选')
         this.typeParentId = id
+        // this.typeParentId = e
+        this.parentList.find((item) => {
+          this.childrenList = item.children
+          return item.id == id
+        })
       },
       cancel(){
         this.$router.push({
@@ -104,11 +110,7 @@
       },
       parentChange(e) {
         console.log('parentChange',e)
-        this.typeParentId = e
-        this.parentList.find((item) => {
-          this.childrenList = item.children
-          return item.id == e
-        })
+        this.parentIndex = e
       },
       getInputValue(event) {
         this.newValue = event.target.value
@@ -118,21 +120,27 @@
       },
       //删除目录
       deleteFun(item) {
+        console.log("删除",item.children)
         let content = '当您在删除「' + item.title + '」时，将同时删除「' + item.title + '」中的所有二级目录，请您确认是否执行此操作'
         //删除一级目录设置提示
-        if (item.children) {
-          this.$Modal.confirm({
-            title: '删除目录',
-            content: content,
-            onOk: () => {
-              this.deleteTypeFun(item.id)
-              this.$Message.success('删除成功')
-            },
-            onCancel: () => {
-              this.$Message.info('取消删除')
-            }
-          })
-        } else {
+        if(item.children){
+          if (item.children.length) {
+            this.$Modal.confirm({
+              title: '删除目录',
+              content: content,
+              onOk: () => {
+                this.deleteTypeFun(item.id)
+                this.$Message.success('删除成功')
+              },
+              onCancel: () => {
+                this.$Message.info('取消删除')
+              }
+            })
+          }else{
+            this.deleteTypeFun(item.id)
+            this.$Message.success('删除成功')
+          }
+        }else {
           //直接删除二级目录
           this.deleteTypeFun(item.id)
           this.$Message.success('删除成功')
@@ -197,13 +205,20 @@
             }
             //  this.parentList.push({title: this.newValue})
             if (isParent) {
-              this.list.push({title: this.newValue})
+              this.list.push({title: this.newValue,id:res.data.id,children:[],expand:false})
               this.typeParentId = res.data.id
               this.checkParent = res.data.id
               console.log('checkParent',res.data.id)
               this.newValue = ''
+              this.childrenList = []
+              console.log("新增res.data.id",res.data.id,this.parentList)
             } else {
-              this.childrenList.push({title: this.newChildrenValue})
+              this.childrenList.push({title: this.newChildrenValue,id:res.data.id})
+              this.parentList.map((item) => {
+                if(item.id == this.typeParentId){
+                  item.children = this.childrenList
+                }
+              })
               this.newChildrenValue = ''
             }
           })
@@ -227,8 +242,8 @@
           //页面首次进来之后，二级目录赋值
           data.list.find((item, index) => {
             this.childrenList = item.children
-            this.checkParent = item.id
-            return index == 0
+            this.checkParent = this.parentIndex
+            return index == this.parentIndex
           })
         }).catch(err => {
           this.$Message.error('获取商品分类失败！', err)

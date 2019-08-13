@@ -1,15 +1,15 @@
 <template>
   <Card class="tej-bule-card">
     <div class="tej-product-box">
-      <p>商品尺码</p>
+      <p><span class="symbol">*</span>商品尺码</p>
       <CheckboxGroup v-model="sizeCheckboxGroup" @on-change="sizeChange">
         <span v-for="(item, index) in sizeList" :key="index" class="item">
           <Checkbox :label="item.sizeName">
             <span class="tej-size-name">{{item.sizeName}}</span>
           </Checkbox>
-          <small @click="deleteSize(item.id)" class="tej-close-size ivu-icon"></small>
+          <small @click="deleteSize(item.id)" class="tej-close-size ivu-icon" v-if="!disabled"></small>
         </span>
-        <div class="item">
+        <div class="item" v-if="!disabled">
           <Checkbox>
             <slot>
               <Input v-model="sizeValue" clearable placeholder="请输入新尺码" style="width: 100px" @on-change="getSizeValue"
@@ -21,15 +21,15 @@
       </CheckboxGroup>
     </div>
     <div class="tej-product-box">
-      <p>商品颜色</p>
+      <p><span class="symbol">*</span>商品颜色</p>
       <CheckboxGroup v-model="colorCheckboxGroup" @on-change="colorChange">
         <span v-for="(item, index) in colorList" :key="index" class="item">
           <Checkbox :label="item.colorName">
              <span class="tej-color-name">{{item.colorName}}</span>
           </Checkbox>
-            <small @click="deleteColor(item.colorId)" class="tej-close-color ivu-icon"></small>
+            <small @click="deleteColor(item.colorId)" class="tej-close-color ivu-icon" v-if="!disabled"></small>
         </span>
-        <div class="item">
+        <div class="item" v-if="!disabled">
           <Checkbox>
             <slot>
               <Input v-model="colorValue" clearable placeholder="请输入新颜色" style="width: 100px" @on-change="getColorValue"
@@ -52,6 +52,10 @@
     props: {
       feature: {
         type: Object,
+        required: false
+      },
+      disabled: {
+        type: Boolean,
         required: false
       }
     },

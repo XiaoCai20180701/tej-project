@@ -1,16 +1,18 @@
 <template>
   <Card class="tej-bule-card">
     <div class="tej-product-box">
-      <p>商品主图</p>
+      <p><span class="symbol">*</span>商品主图</p>
       <UploadFile :picture-num="pictureNumber"
                   @main-callback="mainCallback"
                   :upload-list-props="mainPictureProps"
+                  :disabled = "disabled"
       ></UploadFile>
     </div>
     <div class="tej-product-box">
-      <p>商品详情图</p>
+      <p><span class="symbol">*</span>商品详情图</p>
       <EditorElem :catch-data="getEditorContent"
                   :editor-data="imgContentProps"
+                  :disabled = "disabled"
       ></EditorElem>
     </div>
   </Card>
@@ -33,18 +35,25 @@
       imgContentProps: {
         type: String,
         required: false
+      },
+      disabled: {
+        type: Boolean,
+        required: false
       }
     },
     data() {
       return {
         pictureNumber: 6,
-        actionUrl: 'http://192.168.112.1:5354/fileResource/uploadimg',
+//        actionUrl: 'http://192.168.112.1:5354/fileResource/uploadimg',
         mainPictureDom:[],
         imgContent: ''
       }
     },
     mounted(){
       console.log('mainPictureProps',this.mainPictureProps)
+      this.mainPictureProps.map(item => {
+        item.url = 'http://47.92.209.177/file/' + item.url
+      })
     },
     methods: {
       mainCallback(name,url){
