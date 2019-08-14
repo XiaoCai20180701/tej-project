@@ -69,7 +69,7 @@
               <p style="margin-top: 39.5px;">时间：{{item.time}}</p>
               </Col>
               <Col span="8" style="height: 100%;">
-              <p class="moneyLabType" :style="getStyle(index)">{{item.money}}</p>
+              <p class="moneyLabType" :style="getStyle(item.status)">{{item.money}}</p>
               </Col>
             </Row>
           </div>
@@ -136,7 +136,7 @@
       this.getBill()
     },
     methods: {
-      clearAll(){
+      clearAll() {
         this.startTimeValue = ''
         this.endTimeValue = ''
         this.minAmountValue = ''
@@ -144,57 +144,57 @@
         this.billTypeGroup = ''
         this.getBill()
       },
-      search(){
-        if (this.startTimeValue !== ''&&this.endTimeValue == '' ){
+      search() {
+        if (this.startTimeValue !== '' && this.endTimeValue == '') {
           this.$Message.warning("请选择结束时间");
-          console.log('index',this.billTypeGroup)
+          console.log('index', this.billTypeGroup)
           return
         }
-        if (this.endTimeValue !== ''&&this.startTimeValue == '') {
+        if (this.endTimeValue !== '' && this.startTimeValue == '') {
           this.$Message.warning("请选择开始时间");
           return
         }
-        if (this.minAmountValue != ''&&this.maxAmountValue == '') {
+        if (this.minAmountValue != '' && this.maxAmountValue == '') {
           this.$Message.warning("请输入最高金额");
           return
         }
-        if (this.maxAmountValue != ''&&this.minAmountValue == '') {
+        if (this.maxAmountValue != '' && this.minAmountValue == '') {
           this.$Message.warning("请输入最低金额");
           return
         }
-        let startTime =  this.$Moment(this.startTimeValue).valueOf();
+        let startTime = this.$Moment(this.startTimeValue).valueOf();
         let endTime = this.$Moment(this.endTimeValue).valueOf();
-        if(startTime > endTime){
+        if (startTime > endTime) {
           this.$Message.warning("开始时间不能大于结束时间");
           return;
         }
-        if(Number(this.minAmountValue) > Number(this.maxAmountValue)){
+        if (Number(this.minAmountValue) > Number(this.maxAmountValue)) {
           this.$Message.warning("最低金额不能大于最高金额");
           return
         }
         this.getBill()
       },
-      getBillTypeArray(){
-        let vendor = billTypeList.filter((i,v) => i.id < 3 )
-        let retail = billTypeList.filter((i,v) => i.id >= 3)
+      getBillTypeArray() {
+        let vendor = billTypeList.filter((i, v) => i.id < 3)
+        let retail = billTypeList.filter((i, v) => i.id >= 3)
         this.billTypeArray = this.isVendor ? [...this.billTypeIntArray, ...vendor] : [...this.billTypeIntArray, ...retail]
       },
-      typeChange(e){
-        console.log('eeeeeeeeeeee',e)
+      typeChange(e) {
+        console.log('eeeeeeeeeeee', e)
         this.billTypeGroup = e
         this.getBill()
       },
-      pageChange(page){
+      pageChange(page) {
         this.page.index = page
         this.getBill()
       },
-      pageSizeChange(pageSize){
+      pageSizeChange(pageSize) {
         this.page.size = pageSize
         this.getBill()
       },
-      getBill(){
+      getBill() {
         this.showLoading = true
-        let id = this.isVendor ? { vendorId: this.id } : { retailId: this.id}
+        let id = this.isVendor ? {vendorId: this.id} : {retailId: this.id}
         let params = {
           ...id,
           page: this.page.index,
@@ -205,11 +205,11 @@
           endMoney: this.maxAmountValue,
           billStatus: this.billTypeGroup
         }
-        if(this.isVendor){
-          postVendorBillList(params).then(res=> {
+        if (this.isVendor) {
+          postVendorBillList(params).then(res => {
 //            this.$Spin.hide()
             this.showLoading = false
-            if(res.code != 200){
+            if (res.code != 200) {
               this.$Message.warning(res.msg)
               return
             }
@@ -220,15 +220,15 @@
               size: data.pageSize,
               total: data.total
             }
-            console.log('厂商账单 list',this.billList)
+            console.log('厂商账单 list', this.billList)
           }).catch(err => {
             this.showLoading = false
-            this.$Message.error('获取厂商账单失败'+ err)
+            this.$Message.error('获取厂商账单失败' + err)
           })
-        }else {
-          postRetailBillList(params).then(res=> {
+        } else {
+          postRetailBillList(params).then(res => {
             this.showLoading = false
-            if(res.code != 200){
+            if (res.code != 200) {
               this.$Message.warning(res.msg)
               return
             }
@@ -239,10 +239,10 @@
               size: data.pageSize,
               total: data.total
             }
-            console.log('零售商账单 list',this.billList)
+            console.log('零售商账单 list', this.billList)
           }).catch(err => {
             this.showLoading = false
-            this.$Message.error('获取零售商账单失败'+ err)
+            this.$Message.error('获取零售商账单失败' + err)
           })
         }
 
@@ -258,12 +258,10 @@
         this.endTimeValue = date
         console.log('endTimeValue', date)
       },
-      getStyle(index) {
-        switch (index) {
-          case 0:
-            return 'color:#F30000'
-            break;
+      getStyle(status) {
+        switch (status) {
           case 1:
+          case 4:
             return 'color:#F55F00'
             break;
           default:
@@ -305,6 +303,7 @@
   }
   .modal_top .btn-group {
     float: right;
+    margin-right: 45px;
   }
 
   .modal_span {
