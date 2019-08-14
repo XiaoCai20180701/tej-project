@@ -10,12 +10,12 @@
           <small @click="deleteSize(item.id)" class="tej-close-size ivu-icon" v-if="!disabled"></small>
         </span>
         <div class="item" v-if="!disabled">
-          <Checkbox>
+          <!--<Checkbox>-->
             <slot>
               <Input v-model="sizeValue" clearable placeholder="请输入新尺码" style="width: 100px" @on-change="getSizeValue"
                      size="small"/>
             </slot>
-          </Checkbox>
+          <!--</Checkbox>-->
           <b class="tej-add-txt" @click="addSizeClick">新增</b>
         </div>
       </CheckboxGroup>
@@ -30,12 +30,12 @@
             <small @click="deleteColor(item.colorId)" class="tej-close-color ivu-icon" v-if="!disabled"></small>
         </span>
         <div class="item" v-if="!disabled">
-          <Checkbox>
+          <!--<Checkbox>-->
             <slot>
               <Input v-model="colorValue" clearable placeholder="请输入新颜色" style="width: 100px" @on-change="getColorValue"
                      size="small"/>
             </slot>
-          </Checkbox>
+          <!--</Checkbox>-->
           <b class="tej-add-txt" @click="addColorClick">新增</b>
         </div>
       </CheckboxGroup>
@@ -248,6 +248,7 @@
   }
   .tej-product-box .item:last-child {
     display: block;
+    padding-left: 16px;
   }
   .tej-size-name,.tej-color-name {
     padding: 5px 10px;

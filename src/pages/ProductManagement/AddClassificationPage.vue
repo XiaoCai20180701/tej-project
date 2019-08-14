@@ -18,8 +18,8 @@
               <span @click="radioClick(item.id)"><Radio :label="index" @click="">{{item.title}}</Radio></span>
               <b class="tej-delete-txt" @click="deleteFun(item)">删除</b>
             </div>
-            <div class="item">
-              <Radio>
+            <div class="item" style="padding-left: 16px;">
+              <!--<Radio>-->
                 <slot>
                   <Input v-model="newValue"
                          clearable
@@ -29,7 +29,7 @@
                          size="small"
                   />
                 </slot>
-              </Radio>
+              <!--</Radio>-->
               <b class="tej-add-txt" @click="addParent">新增</b>
             </div>
           </RadioGroup>
@@ -40,11 +40,12 @@
           <p slot="title">二级目录</p>
           <RadioGroup v-model="checkChildren">
             <div v-for="(child, c) in childrenList" :key="c" class="item">
-              <Radio :label="child.title"></Radio>
+              <!--<Radio :label="child.title"></Radio>--> <!-- 暂时不实现批量删除，因此不需要选择框-->
+              <span>{{child.title}}</span>
               <b class="tej-delete-txt" @click="deleteFun(child)">删除</b>
             </div>
             <div class="item">
-              <Radio>
+              <!--<Radio>-->
                 <slot>
                   <Input v-model="newChildrenValue"
                          clearable
@@ -54,7 +55,7 @@
                          size="small"
                   />
                 </slot>
-              </Radio>
+              <!--</Radio>-->
               <b class="tej-add-txt" @click="addChildren">新增</b>
             </div>
           </RadioGroup>
@@ -129,7 +130,12 @@
               title: '删除目录',
               content: content,
               onOk: () => {
-                this.parentIndex --
+                //分类删除第一个时判断
+                if (this.parentIndex>0) {
+                  this.parentIndex --
+                } else{
+                  this.parentIndex = 0
+                }
                 this.deleteTypeFun(item.id)
                 this.$Message.success('删除成功')
               },
@@ -138,7 +144,11 @@
               }
             })
           }else{
-            this.parentIndex --
+            if (this.parentIndex>0) {
+              this.parentIndex --
+            } else{
+              this.parentIndex = 0
+            }
             this.deleteTypeFun(item.id)
             this.$Message.success('删除成功')
           }
@@ -210,6 +220,7 @@
               this.list.push({title: this.newValue,id:res.data.id,children:[],expand:false})
               this.typeParentId = res.data.id
               this.checkParent = this.list.length - 1
+              this.parentIndex = this.list.length - 1
               console.log('checkParent',res.data.id)
               this.newValue = ''
               this.childrenList = []

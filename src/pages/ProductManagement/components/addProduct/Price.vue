@@ -33,8 +33,8 @@
           <b class="tej-edit-txt" @click="savePriceWholesale(item)" v-if="item.isEdit">确定</b>
           <b class="tej-edit-txt" v-show="!disabled" @click="editPriceWholesale(item)" v-else>修改</b>
         </div>
-        <div v-if="!disabled">
-          <Checkbox>
+        <div v-if="!disabled" style="padding-left: 16px;">
+          <!--<Checkbox>-->
             <slot>
               <span>
                 <Input v-model="priceWholesale.start"  type="number" style="width: 50px" @on-change="getStartValue" size="small"/>
@@ -46,7 +46,7 @@
                 <Input v-model="priceWholesale.priceWholesale"  type="number" style="width: 40px" @on-change="getPriceValue" size="small"/><span>(元)</span>
               </span>
             </slot>
-          </Checkbox>
+          <!--</Checkbox>-->
           <b class="tej-add-txt" @click="addPriceWholesale">新增</b>
         </div>
       </CheckboxGroup>
@@ -139,9 +139,23 @@
       },
       editPriceWholesale(item){
         item.isEdit = true
+        if(this.priceWholesale.start > this.priceWholesale.end){
+          this.$Message.error('起始件数不能小于结束件数')
+          return
+        }
+        //第一次点击修改，输入框赋值
+        this.priceWholesaleEdit ={
+          start: item.start,
+          end: item.end,
+          priceWholesale: item.priceWholesale
+        }
         this.callback()
       },
       addPriceWholesale(){
+        if(this.priceWholesale.start > this.priceWholesale.end){
+          this.$Message.error('起始件数不能小于结束件数')
+          return
+        }
         //TODO 不可重复添加
         this.priceWholesaleListDom.push({
           index: this.index++,
