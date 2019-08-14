@@ -1,7 +1,7 @@
 <template>
   <div>
     <slot name="form">
-      <Form :label-width="56" class="tej-form">
+      <Form :label-width="56" class="tej-form" @submit.native.prevent>
         <FormItem label="筛选：" class="tej-label">
           <div>
             <slot name="area">
@@ -38,8 +38,13 @@
             <Col span="19">
             <slot name="search">
               <div class="tej-table-search-box">
-                <Input v-model="keywords" :placeholder="inputText" class="tej-search-input" clearable
-                       @on-change="inputChange"/>
+                <Input v-model="keywords"
+                       :placeholder="inputText"
+                       class="tej-search-input"
+                       clearable
+                       @on-change="inputChange"
+                       @keyup.enter.native="searchClick(keywords)"
+                />
                 <Button type="primary" class="tej-search-btn" @click="searchClick(keywords)">搜索</Button>
               </div>
             </slot>
