@@ -31,7 +31,7 @@
           </Checkbox>
           <b class="tej-delete-txt" @click="deletePriceWholesale(item,index)" v-if="!disabled">删除</b>
           <b class="tej-edit-txt" @click="savePriceWholesale(item)" v-if="item.isEdit">确定</b>
-          <b class="tej-edit-txt" @click="editPriceWholesale(item)" v-else>修改</b>
+          <b class="tej-edit-txt" v-show="!disabled" @click="editPriceWholesale(item)" v-else>修改</b>
         </div>
         <div v-if="!disabled">
           <Checkbox>

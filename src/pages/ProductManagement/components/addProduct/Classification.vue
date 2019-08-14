@@ -35,6 +35,7 @@
 
 <script>
   import {getVendorList} from '@/api/api'
+  import bus  from '@/utils/bus'
 
   export default {
     name: 'Classification',
@@ -87,11 +88,14 @@
       classificationChange(value) {
         this.typeChildId = value[1]
 //        console.log('选择商品分类 typeChildId', this.typeChildId)
+        //传递给父级组件
         this.$emit('classification-callback', {
           productVendorId: this.productVendorId,
           typeChildId: value[1],
           productName: this.productName
         })
+        //将typeChildId传递给兄弟组件(feature)，尺码新增需要typeChildId
+        bus.$emit('classification-brother-callback',value[1])
       },
       //获取厂商列表
       getVendorList() {

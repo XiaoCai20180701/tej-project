@@ -51,9 +51,12 @@
     },
     mounted(){
       console.log('mainPictureProps',this.mainPictureProps)
-      this.mainPictureProps.map(item => {
-        item.url = 'http://47.92.209.177/file/' + item.url
-      })
+      let checked = this.$route.params.isEdit
+      if (checked) {
+        this.mainPictureProps.map(item => {
+          item.url = 'http://47.92.209.177/file/' + item.url
+        })
+      }
     },
     methods: {
       mainCallback(name,url){

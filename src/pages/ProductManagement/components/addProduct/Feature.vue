@@ -16,7 +16,7 @@
                      size="small"/>
             </slot>
           </Checkbox>
-          <b class="tej-add-txt" @click="addSize">新增</b>
+          <b class="tej-add-txt" @click="addSizeClick">新增</b>
         </div>
       </CheckboxGroup>
     </div>
@@ -46,6 +46,7 @@
 
 <script>
   import {addSize, addColor, getColorList} from '@/api/api'
+  import bus from '@/utils/bus'
 
   export default {
     name: 'Feature',
@@ -68,15 +69,19 @@
         colorList: [],
         colorCheckboxGroup: [],
         sizeIndex: 0,
-        colorIndex: 0
+        colorIndex: 0,
+        typeChildId: null
       }
     },
     mounted() {
       console.log('feature props', this.feature)
-      this.getDefaultColorList()
+      this.getTypeChildId()
+      console.log('this.$route.params',this.$route.params)
       let checked = this.$route.params.isEdit
       if (checked) {
         this.editInitData()
+      }else {
+        this.getDefaultColorList()
       }
     },
     methods: {
@@ -93,6 +98,12 @@
           if (item.colorIsShow == 1) {
             this.colorCheckboxGroup.push(item.colorName)
           }
+        })
+      },
+      getTypeChildId(){
+        bus.$on('classification-brother-callback',(data)=>{
+          console.log('id!!!',data)
+          this.typeChildId = data
         })
       },
       callback() {
@@ -163,7 +174,11 @@
         })
         this.colorCheckboxGroup = [...new Set(list)]   //数组去重,但为什么新增的时候会出现重复，这个问题还不明白？
       },
-      addSize() {
+      addSizeClick() {
+        if(this.typeChildId == undefined){
+          this.$Message.error('请先选择商品分类')
+          return
+        }
         if (this.sizeValue == '') {
           this.$Message.error('新增尺码不能为空')
           return
@@ -179,17 +194,18 @@
           sizeName: this.sizeValue,
           sizeIsShow: 1
         })
+        this.sizeValue = ''
         this.$emit('feature-callback', {
           colorList: this.colorList,
           sizeList: this.sizeList,
-          typeChildId: this.feature.typeChildId,
+          typeChildId: this.typeChildId,
         })
-        this.sizeValue = ''
         let list = []
         this.sizeList.map(item => {
           list.push(item.sizeName)
         })
         this.sizeCheckboxGroup = [...new Set(list)]
+        this.sizeValue = ''
       },
       getDefaultColorList() {
         getColorList('').then(res => {
@@ -203,21 +219,21 @@
           this.$Message.error('获取颜色列表失败', err)
         })
       },
-      postAddSize() {
-        addSize().catch(err => {
-          this.$Message.error('新增尺寸失败', err)
-        })
-      },
-      postAddColor(productColor) {
-        addColor({productColor: productColor})
-          .then(res => {
-            console.log('新增商品颜色 请求', res.data.colorId)
-            return res.data.colorId
-          })
-          .catch(err => {
-            this.$Message.error('新增颜色失败', err)
-          })
-      }
+//      postAddSize() {
+//        addSize().catch(err => {
+//          this.$Message.error('新增尺寸失败', err)
+//        })
+//      },
+//      postAddColor(productColor) {
+//        addColor({productColor: productColor})
+//          .then(res => {
+//            console.log('新增商品颜色 请求', res.data.colorId)
+//            return res.data.colorId
+//          })
+//          .catch(err => {
+//            this.$Message.error('新增颜色失败', err)
+//          })
+//      }
     }
   }
 </script>

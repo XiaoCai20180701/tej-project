@@ -34,6 +34,7 @@
   import Feature from './components/addProduct/Feature'
   import Price from './components/addProduct/Price'
   import { getClassificationlist, postAddProduct, getProductDetail } from '@/api/api'
+  import { AddProductParams } from '@/api/tableData'
   export default {
     name: 'AddProductPage',
     components: {
@@ -69,19 +70,23 @@
         let productShow = {productShow: Number(this.productShow)}
         let params = {...this.photograph, ...this.price, ...this.feature, ...this.classification, ...productShow}
         console.log('新增商品 params!!!!!!',params)
-        postAddProduct(params).then(res => {
-          if(res.code != 200){
-            this.$Message.warning(res.msg)
-            if(res.code === 9998){
-              this.$router.push({path: '/login'})
+        //先判断商品属性是否填写完整，再请求接口
+        if(this.validationParamFun(params)){
+          postAddProduct(params).then(res => {
+            if(res.code != 200){
+              this.$Message.warning(res.msg)
+              if(res.code === 9998){
+                this.$router.push({path: '/login'})
+              }
+              return
             }
-            return
-          }
-          this.$Message.success('成功新增商品')
-          this.$router.push({ name: 'ProductManagementPage'})
-        }).catch(err => {
-          this.$Message.error('新增商品失败',err)
-        })
+            this.$Message.success('成功新增商品')
+            this.$router.push({ name: 'ProductManagementPage'})
+          }).catch(err => {
+            this.$Message.error('新增商品失败',err)
+          })
+        }
+
       },
       photographCallback(data){
         console.log('商品主图、详情图回调',data)
@@ -117,7 +122,20 @@
         }).catch(err => {
           this.$Message.error('获取商品分类失败！',err)
         })
-      }
+      },
+      //验证新增商品属性是否填写完整的方法
+      validationParamFun(params){
+        let paramsProps = Object.getOwnPropertyNames(params)
+        let referenceProps = Object.getOwnPropertyNames(AddProductParams)
+        console.log('paramsProps',paramsProps)
+        console.log('referenceProps',referenceProps)
+        //判断属性名的length是否一致
+        if(paramsProps.length != referenceProps.length){
+          this.$Message.error('请填写全部信息')
+          return false
+        }
+        return true
+      },
     }
   }
 </script>

@@ -37,10 +37,15 @@
       <!--商品使用状态-->
       <Card class="tej-bule-card">
         <p slot="title">使用状态</p>
-        <RadioGroup v-model="productShow" @on-change="productShowChange">
-          <Radio label="1">启用</Radio>
-          <Radio label="0">未启用</Radio>
-        </RadioGroup>
+        <div v-if="disabled">
+          {{productShowStatus}}
+        </div>
+        <div v-else>
+          <RadioGroup v-model="productShow" @on-change="productShowChange">
+            <Radio label="1">启用</Radio>
+            <Radio label="0">未启用</Radio>
+          </RadioGroup>
+        </div>
       </Card>
       <div>
         <Button @click="cancel">取消</Button>
@@ -86,8 +91,13 @@
         disabled: false
       }
     },
+    computed:{
+      productShowStatus(){
+        return this.disabled == 0 ? '未启用' : '启用'
+      }
+    },
     watch: {
-      '$route': 'getProductDetail'
+      '$route': 'getProductDetail',
     },
     mounted(){
       this.getClassificationlist()
