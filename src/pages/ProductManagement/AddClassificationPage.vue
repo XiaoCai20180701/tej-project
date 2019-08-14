@@ -129,6 +129,7 @@
               title: '删除目录',
               content: content,
               onOk: () => {
+                this.parentIndex --
                 this.deleteTypeFun(item.id)
                 this.$Message.success('删除成功')
               },
@@ -137,6 +138,7 @@
               }
             })
           }else{
+            this.parentIndex --
             this.deleteTypeFun(item.id)
             this.$Message.success('删除成功')
           }
@@ -207,11 +209,11 @@
             if (isParent) {
               this.list.push({title: this.newValue,id:res.data.id,children:[],expand:false})
               this.typeParentId = res.data.id
-              this.checkParent = res.data.id
+              this.checkParent = this.list.length - 1
               console.log('checkParent',res.data.id)
               this.newValue = ''
               this.childrenList = []
-              console.log("新增res.data.id",res.data.id,this.parentList)
+              console.log("新增res.data.id",res.data.id,this.checkParent)
             } else {
               this.childrenList.push({title: this.newChildrenValue,id:res.data.id})
               this.parentList.map((item) => {
