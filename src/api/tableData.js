@@ -520,11 +520,20 @@ export const billTypeList = [
     'name': '余额提现'
   }
 ]
-// {
-//   'orderIncome': 1,
-//   'withdrawal': 2,
-//   'OrderDeductions': 3,
-//   'accountsPrepaid': 4,
-//   'balanceWithdrawal': 5
-// }
 
+/**
+ * 新增商品
+ * */
+export const AddProductParams = {
+  'typeChildId': '',
+  'productName': '',
+  'productVendorId': null,
+  'sizeList': [],  //sizeList有默认值，就不需要判断了
+  'colorList': [],
+  'inventory': null,
+  'priceSale': null,
+  'productWholesaleList': [],
+  'mainPicture': [],
+  'imgContent': '',
+  'productShow': null
+}
