@@ -110,11 +110,12 @@
       }
 
       this.editor.create()     // 创建富文本实例
-    //  this.disabled ? this.editor.disable() : this.editor.enable()
 
       let checked = this.$route.params.isEdit
       if(checked){
         this.editor.txt.html(this.editorData)
+        console.log('this.editor',this.editor)
+        this.editor.$textElem.attr('contenteditable', false)
       }else {
         if (!this.content) {
           this.editor.txt.html('请编辑内容1')
@@ -127,5 +128,8 @@
 <style>
   #wangeditor {
     width: auto;
+  }
+  div[contenteditable="false"] {
+    cursor: not-allowed;
   }
 </style>
