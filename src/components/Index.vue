@@ -123,7 +123,7 @@
         // 当前显示页面
         currentPage: '',
         // openMenus: [], // 要打开的菜单名字 name属性
-        openMenus: JSON.parse(localStorage.getItem('openMenu')),
+        openMenus: JSON.parse(localStorage.getItem('openMenu'))? JSON.parse(localStorage.getItem('openMenu')): [],
         menuCache: [], // 缓存已经打开的菜单
         showLoading: false, // 是否显示loading
         isShowRouter: true,
@@ -193,9 +193,6 @@
       // }
     },
     watch: {
-//      openMenus(){
-//        return JSON.parse(localStorage.getItem('openMenu'))
-//      },
       $route(to, from) {
         const name = to.name
 
@@ -363,7 +360,11 @@
       // 菜单栏改变事件
       menuChange(data) {
         console.log('菜单栏改变事件', data)
-        localStorage.setItem('openMenu', JSON.stringify(data))
+        if(data.length == 0){
+
+        }else {
+          localStorage.setItem('openMenu', JSON.stringify(data))
+        }
       },
       processNameToTitle(obj, data, text) {
         if (data.name) {
