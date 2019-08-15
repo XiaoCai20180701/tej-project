@@ -24,46 +24,151 @@ export const asyncRoutes = {
   'ProductManagementPage': {
     path: '/ProductManagementPage',
     name: 'ProductManagementPage',
+    meta: {
+      requireAuth: true,
+      breadcrumb:[
+        {
+          title:'商品管理',
+          to:'/ProductManagementPage'
+        },
+      ]
+    },
     component: () => import('@/pages/ProductManagement/ProductManagementPage.vue')
   },
   'AddClassificationPage': {
     path: '/AddClassificationPage',
     name: 'AddClassificationPage',
+    meta: {
+      breadcrumb:[
+        {
+          title:'商品管理',
+          to:'/ProductManagementPage'
+        },
+        {
+          title:'新增分类',
+          to:'/AddClassificationPage'
+        }
+      ]
+    },
     component: () => import('@/pages/ProductManagement/AddClassificationPage.vue')
   },
   'AddProductPage': {
     path: '/AddProductPage',
     name: 'AddProductPage',
+    meta: {
+      breadcrumb:[
+        {
+          title:'商品管理',
+          to:'/ProductManagementPage'
+        },
+        {
+          title:'新增商品',
+          to:'/AddProductPage'
+        }
+      ],
+    },
     component: () => import('@/pages/ProductManagement/AddProductPage.vue')
   },
   'EditProductPage': {
     path: '/EditProductPage/:productId/:isEdit',
     name: 'EditProductPage',
+    meta: {
+      breadcrumb:[
+        {
+          title:'商品管理',
+          to:'/ProductManagementPage'
+        },
+        {
+          title:'编辑商品信息',
+          to:'/EditProductPage'
+        }
+      ]
+    },
     component: EditProductPage
   },
   'OrderDetailPage': {
     path: '/OrderDetailPage/:orderId/:page/:pageSize',
     name: 'OrderDetailPage',
+    meta: {
+      breadcrumb:[
+        {
+          title:'订单管理',
+          to:'/...'
+        },
+        {
+          title:'订单详情',
+          to:'/OrderDetailPage'
+        }
+      ]
+    },
     component: () => import('@/pages/OrderManagement/OrderDetailPage.vue')
   },
   'NonPayment': {
     path: '/NonPayment',
     name: 'NonPayment',
+    meta: {
+      breadcrumb:[
+        {
+          title:'订单管理',
+          to:'/NonPayment'
+        },
+        {
+          title:'未付款',
+          to:'/NonPayment'
+        }
+      ]
+    },
     component: () => import('@/pages/OrderManagement/NonPayment.vue')
   },
   'Unshipped': {
     path: '/Unshipped',
     name: 'Unshipped',
+    meta: {
+      breadcrumb:[
+        {
+          title:'订单管理',
+          to:'/Unshipped'
+        },
+        {
+          title:'未发货',
+          to:'/Unshipped'
+        }
+      ],
+    },
     component: () => import('@/pages/OrderManagement/Unshipped.vue')
   },
   'Shipped': {
     path: '/Shipped',
     name: 'Shipped',
+    meta: {
+      breadcrumb:[
+        {
+          title:'订单管理',
+          to:'/Shipped'
+        },
+        {
+          title:'已发货',
+          to:'/Shipped'
+        }
+      ]
+    },
     component: () => import('@/pages/OrderManagement/Shipped.vue')
   },
   'AfterProcessing': {
     path: '/AfterProcessing',
     name: 'AfterProcessing',
+    meta: {
+      breadcrumb:[
+        {
+          title:'订单管理',
+          to:'/AfterProcessing'
+        },
+        {
+          title:'售后处理',
+          to:'/AfterProcessing'
+        }
+      ]
+    },
     component: () => import('@/pages/OrderManagement/AfterProcessing.vue')
   },
   'AllOrder': {
@@ -74,71 +179,243 @@ export const asyncRoutes = {
   'UnCheckedVendorPage': {
     path: '/UnCheckedVendorPage',
     name: 'UnCheckedVendorPage',
+    meta: {
+      breadcrumb:[
+        {
+          title:'厂家管理',
+          to:'/UnCheckedVendorPage'
+        },
+        {
+          title:'待审核',
+          to:'/UnCheckedVendorPage'
+        }
+      ]
+    },
     component: () => import('@/pages/VendorManagement/UnCheckedVendorPage.vue')
   },
   'NotPassVendorPage': {
     path: '/NotPassVendorPage',
     name: 'NotPassVendorPage',
+    meta: {
+      breadcrumb:[
+        {
+          title:'厂家管理',
+          to:'/NotPassVendorPage'
+        },
+        {
+          title:'未通过',
+          to:'/NotPassVendorPage'
+        }
+      ]
+    },
     component: () => import('@/pages/VendorManagement/NotPassVendorPage.vue')
   },
   'CheckedVendorPage': {
     path: '/CheckedVendorPage',
     name: 'CheckedVendorPage',
+    meta: {
+      breadcrumb:[
+        {
+          title:'厂家管理',
+          to:'/CheckedVendorPage'
+        },
+        {
+          title:'已通过',
+          to:'/CheckedVendorPage'
+        }
+      ]
+    },
     component: () => import('@/pages/VendorManagement/CheckedVendorPage.vue')
   },
   'CheckedVendorDetailPage': {
     path: '/CheckedVendorDetailPage/:vendorId',
     name: 'CheckedVendorDetailPage',
+    meta: {
+      breadcrumb:[
+        {
+          title:'厂家管理',
+          to:'/CheckedVendorPage'
+        },
+        {
+          title:'已通过',
+          to:'/CheckedVendorPage'
+        },
+        {
+          title:'厂家详情',
+          to:'/CheckedVendorDetailPage'
+        }
+      ]
+    },
     component: () => import('@/pages/VendorManagement/CheckedVendorDetailPage.vue')
   },
   'DataManagementPage': {
     path: '/DataManagementPage',
     name: 'DataManagementPage',
+    meta: {
+     breadcrumb:[
+       {
+         title:'数据管理',
+         to:'/DataManagementPage'
+       }
+     ]
+   },
     component: () => import('@/pages/DataManagement/DataManagementPage.vue')
   },
   'AccountManagementPage': {
     path: '/AccountManagementPage',
     name: 'AccountManagementPage',
+    meta: {
+      breadcrumb:[
+        {
+          title:'账户管理',
+          to:'/AccountManagementPage'
+        }
+      ]
+    },
     component: () => import('@/pages/AccountManagement/AccountManagementPage.vue')
   },
   'AccountDetailPage': {
     path: '/AccountDetailPage/:userId/:isDetail',
     name: 'AccountDetailPage',
+    meta: {
+      breadcrumb:[
+        {
+          title:'账户管理',
+          to:'/AccountManagementPage'
+        },
+        {
+          title:'账户详情',
+          to:'/AccountDetailPage'
+        }
+      ],
+    },
     component: () => import('@/pages/AccountManagement/AccountDetailPage.vue')
   },
   'AccountAddPage': {
     path: '/AccountAddPage',
     name: 'AccountAddPage',
+    meta: {
+      breadcrumb:[
+        {
+          title:'账户管理',
+          to:'/AccountManagementPage'
+        },
+        {
+          title:'添加账户',
+          to:'/AccountAddPage'
+        }
+      ],
+    },
     component: () => import('@/pages/AccountManagement/AccountAddPage.vue')
   },
   'AccountCenterPage': {
     path: '/AccountCenterPage/:userId/:isDetail',
     name: 'AccountCenterPage',
+    meta: {
+      breadcrumb:[
+        // {
+        //   title:'账户管理',
+        //   to:'/AccountManagementPage'
+        // },
+        {
+          title:'个人中心',
+          to:'/AccountCenterPage'
+        }
+      ],
+    },
     component: () => import('@/pages/AccountManagement/AccountCenterPage.vue')
   },
   'CheckedPage': {
     path: '/CheckedPage',
     name: 'CheckedPage',
+    meta: {
+      breadcrumb:[
+        {
+          title:'商家管理',
+          to:'/CheckedVendorPage'
+        },
+        {
+          title:'已通过',
+          to:'/CheckedVendorPage'
+        }
+      ]
+    },
     component: () => import('@/pages/RetailManagement/CheckedPage.vue')
   },
   'CheckedDetailPage': {
     path: '/CheckedDetailPage/:retailId',
     name: 'CheckedDetailPage',
+    meta: {
+      breadcrumb:[
+        {
+          title:'商家管理',
+          to:'/CheckedVendorPage'
+        },
+        {
+          title:'已通过',
+          to:'/CheckedVendorPage'
+        },
+        {
+          title:'商家详情',
+          to:'/CheckedVendorDetailPage'
+        }
+      ]
+    },
     component: () => import('@/pages/RetailManagement/CheckedDetailPage.vue')
   },
   'UnCheckedPage': {
     path: '/UnCheckedPage',
     name: 'UnCheckedPage',
+    meta: {
+      breadcrumb:[
+        {
+          title:'商家管理',
+          to:'/UnCheckedPage'
+        },
+        {
+          title:'待审核',
+          to:'/UnCheckedPage'
+        },
+      ]
+    },
     component: () => import('@/pages/RetailManagement/UnCheckedPage.vue')
   },
   'NotPassPage': {
     path: '/NotPassPage',
     name: 'NotPassPage',
+    meta: {
+      breadcrumb:[
+        {
+          title:'商家管理',
+          to:'/NotPassPage'
+        },
+        {
+          title:'未通过',
+          to:'/NotPassPage'
+        },
+      ]
+    },
     component: () => import('@/pages/RetailManagement/NotPassPage.vue')
   },
   'AuditStatusPage': {
     path: '/AuditStatusPage/:id/:isVendor/:isAudit',
     name: 'AuditStatusPage',
+    meta: {
+      breadcrumb:[
+        {
+          title:'商家管理',
+          to:'/UnCheckedPage.'
+        },
+        {
+          title:'待审核',
+          to:'/UnCheckedPage'
+        },
+        {
+          title:'审核页面',
+          to:'/AuditStatusPage'
+        },
+      ]
+    },
     component: AuditStatusPage
   },
   'password': {

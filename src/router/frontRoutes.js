@@ -8,7 +8,8 @@ const frontRoutes = [
     type: 'icon-gongnengdingyi', // icon类型
     text: '商品管理', // 文本内容,
     meta: {
-      requireAuth: true
+      requireAuth: true,
+      title: '商品管理'
     }
   },
   {
@@ -16,7 +17,8 @@ const frontRoutes = [
     type: '', // icon类型
     text: '新增商品分类', // 文本内容,
     meta: {
-      refreshShow: false
+      refreshShow: false,
+      title: '新增商品分类'
     }
   },
   {
@@ -24,7 +26,8 @@ const frontRoutes = [
     type: '', // icon类型
     text: '新增商品', // 文本内容,
     meta: {
-      refreshShow: false
+      refreshShow: false,
+      title: '新增商品'
     }
   },
   {
@@ -33,7 +36,8 @@ const frontRoutes = [
     type: '', // icon类型
     text: '编辑商品', // 文本内容,
     meta: {
-      refreshShow: false
+      refreshShow: false,
+      title: '编辑商品'
     }
   },
   {
@@ -79,7 +83,7 @@ const frontRoutes = [
     }
   },
   {
-    text: '厂商管理',
+    text: '厂家管理',
     type: 'icon-yuanquyunwei',
     meta: {
       requireAuth: false
@@ -105,7 +109,7 @@ const frontRoutes = [
   {
     type: '',
     name: 'CheckedVendorDetailPage',
-    text: '厂商详情',
+    text: '厂家详情',
     meta: {
       refreshShow: false
     }
