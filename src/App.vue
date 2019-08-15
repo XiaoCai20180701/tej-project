@@ -99,6 +99,6 @@
     padding: 0px;
   }
   .ivu-tree-title {
-    cursor: default;
+    cursor: default !important;
   }
 </style>
