@@ -27,6 +27,7 @@ Vue.prototype.$md5 = md5
 Vue.prototype.$Message = Message
 Vue.prototype.$Modal = Modal
 Vue.prototype.$Moment = Moment
+Vue.prototype.$IMG_URL = 'http://47.92.209.177/file/'
 
 //注册过滤器
 for (const key in filter) {
