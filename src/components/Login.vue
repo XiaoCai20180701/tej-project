@@ -85,7 +85,7 @@
             return
           }
           // 登陆成功 设置用户信息
-          localStorage.setItem('userImg', data.avatar)
+          localStorage.setItem('userImg', this.$IMG_URL + data.avatar)
           localStorage.setItem('userName', data.userName)
           localStorage.setItem('token', data.token)
           localStorage.setItem('userId', data.userId)
