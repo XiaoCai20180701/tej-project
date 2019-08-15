@@ -123,7 +123,7 @@
         // 当前显示页面
         currentPage: '',
         // openMenus: [], // 要打开的菜单名字 name属性
-        openMenus: JSON.parse(localStorage.getItem('openMenu'))? JSON.parse(localStorage.getItem('openMenu')): [],
+        openMenus: JSON.parse(localStorage.getItem('openMenus'))?JSON.parse(localStorage.getItem('openMenus')):[],
         menuCache: [], // 缓存已经打开的菜单
         showLoading: false, // 是否显示loading
         isShowRouter: true,
@@ -360,11 +360,7 @@
       // 菜单栏改变事件
       menuChange(data) {
         console.log('菜单栏改变事件', data)
-        if(data.length == 0){
-
-        }else {
-          localStorage.setItem('openMenu', JSON.stringify(data))
-        }
+        localStorage.setItem('openMenus', JSON.stringify(data))
       },
       processNameToTitle(obj, data, text) {
         if (data.name) {

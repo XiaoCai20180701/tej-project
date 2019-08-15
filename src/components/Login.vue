@@ -24,6 +24,7 @@
 
 <script>
   import { login } from '@/api/api'
+  import {menusToRoutes} from '@/utils/index'
 
   export default {
     name: 'login',
@@ -92,12 +93,19 @@
           this.$store.dispatch('getRole',data.roleId)
           this.$store.dispatch('getAnyscMenu',this.$store.state.role)
           this.$router.push({path: '/ProductManagementPage'})
+        //  this.addRouterFun()
           this.$Message.success("登录成功")
         }).catch(err => {
           this.loading = false
-          this.$Message.info("登录失败", err)
+          this.$Message.info("登录失败" + err)
         })
       },
+      addRouterFun(){
+        const r = localStorage.getItem('menuItems')
+        const routes = menusToRoutes(r)
+        // 动态添加路由
+        this.$router.addRoutes(routes)
+      }
     }
   }
 </script>
