@@ -69,13 +69,14 @@
           <span>已上传</span><a class="tej-look-txt" @click="viewImg(row.licenceImg)">查看</a>
         </template>
         <template slot-scope="{ row }" slot="vendorEnvironmentImg">
-          <span>已上传</span><a class="tej-look-txt" @click="viewImgList()">查看</a>
+          <span>已上传</span><a class="tej-look-txt" @click="viewImgList(row.vendorEnvironmentImg)">查看</a>
         </template>
         <template slot-scope="{ row }" slot="trademarkImg">
           <span>已上传</span><a class="tej-look-txt" @click="viewImg(row.trademarkImg)">查看</a>
         </template>
         <template slot-scope="{ row, index }" slot="action">
-          <a style="margin-right: 5px" @click="showDetail(row)">查看详情</a>
+          <!--<a style="margin-right: 5px" @click="showDetail(row)">查看详情</a>-->
+          <!-- -->
           <slot name="action-btn" :row="row"></slot>
         </template>
       </Table>
@@ -126,7 +127,7 @@
         checkedAllArea: 999,
         checkedArea: 0,
         checkedAge: 0,
-        keywords: ''
+        keywords: '',
       }
     },
     created() {
@@ -136,58 +137,6 @@
       console.log('路由', this.$route.name)
     },
     methods: {
-      showDetail(row) {
-        console.log('查看详情', row)
-        switch (this.$route.name) {
-          case 'CheckedPage':
-            this.$router.push({
-              name: 'CheckedDetailPage',
-              params: { retailId: row.id }
-            })
-            break
-          case 'UnCheckedPage':
-            this.$router.push({
-              name: 'AuditStatusPage',
-              params: { id: row.id,isVendor: false, isAudit: 0 }
-            })
-            break
-          case 'NotPassPage':
-            this.$router.push({
-              name: 'AuditStatusPage',
-              params: { id: row.id,isVendor: false, isAudit: 1 }
-            })
-            break
-          case 'ProductManagementPage':
-            this.$router.push({
-              name: 'EditProductPage',
-              params: {productId: row.id,isEdit: true}
-            })
-            break
-          case 'CheckedVendorPage':
-            this.$router.push({
-              name: 'CheckedVendorDetailPage',
-              params: {vendorId: row.id}
-            })
-            break
-          case 'UnCheckedVendorPage':
-            this.$router.push({
-              name: 'AuditStatusPage',
-              params: {id: row.id,isVendor: true, isAudit: 0}
-            })
-            break
-          case 'NotPassVendorPage':
-            this.$router.push({
-              name: 'AuditStatusPage',
-              params: {id: row.id,isVendor: true, isAudit: 1}
-            })
-            break
-          default:
-            this.$router.push({
-              name: 'AccountDetailPage',
-              params: {userId: row.userId, isDetail: true}
-            })
-        }
-      },
       searchClick() {
         this.$emit('keywords-change-callback', this.keywords)
       },
@@ -235,7 +184,7 @@
           render: (h) => {
             return h('img', {
               domProps: {
-                src: imgurl,
+                src: this.$IMG_URL + imgurl,
                 width: 375
               }
             }
@@ -243,12 +192,12 @@
           }
         })
       },
-      viewImgList(){
-        let imgList = [
-          {name: '11',path: 'http://192.168.1.102:8080/tej/image/20190731/20190731160200032.png'},
-          {name: '22',path: 'http://192.168.1.102:8080/tej/image/20190731/20190731160200032.png'},
-          {name: '33',path: 'http://192.168.1.102:8080/tej/image/20190731/20190731160200032.png'},
-        ]
+      viewImgList(imgList){
+//        let imgList = [
+//          {name: '11',path: 'http://192.168.1.102:8080/tej/image/20190731/20190731160200032.png'},
+//          {name: '22',path: 'http://192.168.1.102:8080/tej/image/20190731/20190731160200032.png'},
+//          {name: '33',path: 'http://192.168.1.102:8080/tej/image/20190731/20190731160200032.png'},
+//        ]
         this.$Modal.info({
           width: 700,
           render: (h, params)=> {

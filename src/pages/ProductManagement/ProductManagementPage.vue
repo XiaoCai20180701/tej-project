@@ -10,6 +10,14 @@
       @area-change-callback="areaChange"
       @keywords-change-callback="keywordsChange"
     >
+      <template slot-scope="{ row, index }" slot="action-btn">
+        <a style="margin-right: 5px" @click="showDetail(row)" v-if="row.show == enable">查看详情</a>
+        <a @click="showDetail(row)" v-else>编辑详情</a>
+        <a style="margin-right: 5px" @click="setProductShow(row)">
+          {{row.show == enable ? '已启用' : '未启用'}}
+        </a>
+      </template>
+
       <div slot="btn">
         <Button type="primary" @click="gotoAddClassification">新增商品分类</Button>
         <Button type="primary" @click="gotoAddProduct">新增商品</Button>
@@ -19,7 +27,7 @@
 </template>
 
 <script>
-  import {getProductList} from '@/api/api'
+  import {getProductList, putProductDetail} from '@/api/api'
   import {productManagementTable} from '@/api/tableData'
   import TejTable from '@/components/TejTable'
 
@@ -39,7 +47,8 @@
           total: 10
         },
         regionGroupID: 1,
-        keywords: ''
+        keywords: '',
+        enable: 1, //商品启用
       }
     },
     watch: {
@@ -50,6 +59,27 @@
       this.getList()
     },
     methods: {
+      showDetail(row,isEdit) {
+        this.$router.push({
+          name: 'EditProductPage',
+          params: {productId: row.id, isEdit: true}
+        })
+      },
+      setProductShow(row) {
+        row.show = !row.show
+        this.modifyProduct(row.id, row.show)
+      },
+      modifyProduct(id, show) {
+        let params = {
+          productId: id,
+          productShow: show == true ? 1 : 0
+        }
+        putProductDetail(params).then(res => {
+          this.$Message.success('修改成功')
+        }).catch(err => {
+          this.$Message.error('修改商品状态失败! ' + err)
+        })
+      },
       keywordsChange(keywords) {
         console.log('keywords 回调', keywords)
         this.keywords = keywords
@@ -77,9 +107,9 @@
           keywords: this.keywords
         }).then(res => {
           this.showLoading = false
-          if(res.code != 200){
+          if (res.code != 200) {
             this.$Message.warning(res.msg)
-            if(res.code === 9998){
+            if (res.code === 9998) {
               this.$router.push({path: '/login'})
             }
             return

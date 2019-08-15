@@ -11,6 +11,9 @@
       @area-change-callback="areaChange"
       @keywords-change-callback="keywordsChange"
     >
+      <template slot-scope="{ row, index }" slot="action-btn">
+        <a style="margin-right: 5px" @click="showDetail(row.id)">查看详情</a>
+      </template>
       <div slot="age"></div>
     </TejTable>
   </div>
@@ -44,6 +47,12 @@
       this.getList()
     },
     methods: {
+      showDetail(id){
+        this.$router.push({
+          name: 'AuditStatusPage',
+          params: {id: id,isVendor: true, isAudit: 1}
+        })
+      },
       keywordsChange(keywords) {
         console.log('keywords 回调', keywords)
         this.keywords = keywords

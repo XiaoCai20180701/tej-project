@@ -23,13 +23,15 @@
       <div slot="btn">
         <Button type="primary" class="tej-addrole-btn" @click="addUser">添加账户</Button>
       </div>
-      <a slot="action-btn"
-         slot-scope="props"
-         @click="disableUser(props.row)"
-      >
-        <span v-if="props.row.isUsed == userStatus">已启用</span>
-        <span class="tej-disable-txt" v-else >未启用</span>
-      </a>
+
+      <template slot-scope="{ row, index }" slot="action-btn">
+        <a style="margin-right: 5px" @click="showDetail(row.userId)">查看详情</a>
+        <a @click="disableUser(row)">
+          <span v-if="row.isUsed == userStatus">已启用</span>
+          <span class="tej-disable-txt" v-else >未启用</span>
+        </a>
+      </template>
+
     </TejTable>
   </div>
 </template>
@@ -77,6 +79,12 @@
       disableUser(row) {
         row.isUsed = row.isUsed == 0 ? 1 : 0
         this.editUserStatus(row.userId, row.isUsed)
+      },
+      showDetail(userId){
+        this.$router.push({
+          name: 'AccountDetailPage',
+          params: {userId: userId, isDetail: true}
+        })
       },
       roleChange(e) {
         console.log('角色change', e)
