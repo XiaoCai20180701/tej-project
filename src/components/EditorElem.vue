@@ -11,7 +11,6 @@
       return {
         editor: null,
         editorContent: '',
-        baseUrl: 'http://47.92.209.177/file/'
       }
     },
     props: ['catchData', 'content','editorData','disabled'],    // 接收父组件的方法
@@ -73,7 +72,7 @@
           // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象，result 是服务器端返回的结果
           console.log('图片 success',xhr, editor, result)
 //          this.imgUrl = Object.values(result.data).toString()
-          let url = this.baseUrl + result.data
+          let url = this.$IMG_URL + result.data
           this.imgUrl = Object.values(url).toString()
         },
         fail: function (xhr, editor, result) {
@@ -100,7 +99,7 @@
 
           // 举例：假如上传图片成功后，服务器端返回的是 {url:'....'} 这种格式，即可这样插入图片：
         //  let url = Object.values(this.baseUrl + result.data)      // result.data就是服务器返回的图片名字和链接
-          let url = 'http://47.92.209.177/file/' + result.data
+          let url = this.$IMG_URL + result.data
           console.log('图片 customInsert url!!!!!',url)
        //   JSON.stringify(url)    // 在这里转成JSON格式
           insertImg(url)
@@ -111,14 +110,15 @@
 
       this.editor.create()     // 创建富文本实例
 
+      console.log('this.editor!!!!!!!!!!!!',this.editor)
       let checked = this.$route.params.isEdit
       if(checked){
         this.editor.txt.html(this.editorData)
-        console.log('this.editor',this.editor)
+        //商品处于详情时，编辑器禁用
         this.editor.$textElem.attr('contenteditable', false)
       }else {
         if (!this.content) {
-          this.editor.txt.html('请编辑内容1')
+          this.editor.txt.html('')
         }
       }
 
