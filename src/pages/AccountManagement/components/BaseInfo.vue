@@ -135,24 +135,12 @@
         }, 2000)
       },
       handleSubmit(name) {
-        console.log('55555522255')
         this.modifyPassword()
-//        this.asyncOK()
-//        this.$refs[name].validate((valid) => {
-//          if (valid) {
-//            this.modifyPassword()
-//           // this.asyncOK()
-//          } else {
-//            this.loading = false
-//            this.changePasswordModal = true
-//          }
-//        })
       },
       handleReset(name) {
         this.$refs[name].resetFields();
       },
       modifyPassword(){
-        console.log('55555555555')
         let params = {
           userId: this.userNum,
           passWord: this.$md5(this.changePwdForm.passwd),
@@ -160,6 +148,13 @@
         this.loading = true
         putModifyPassword(params).then(res => {
           this.loading = false
+          if(res.code != 200){
+            this.$Message.error(res.msg)
+            if(res.code === 9998){
+              localStorage.clear()
+              this.$router.push({path: '/login'})
+            }
+          }
           this.$Message.success('修改成功!')
           this.changePasswordModal = false
         }).catch(err => {

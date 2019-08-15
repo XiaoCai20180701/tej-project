@@ -301,7 +301,6 @@
         this.currentPage = name
         this.crumbs = this.paths[name]
         this.$router.replace({name, params})
-
       },
       // 用户操作
       userOperate(name) {
@@ -364,9 +363,7 @@
       // 菜单栏改变事件
       menuChange(data) {
         console.log('菜单栏改变事件', data)
-        //  this.openMenus = data
         localStorage.setItem('openMenu', JSON.stringify(data))
-//          this.currentPage = this.$route.name
       },
       processNameToTitle(obj, data, text) {
         if (data.name) {
@@ -385,12 +382,6 @@
           userId: userId
         }).then(res => {
           // 退出登陆 清除用户资料
-//          localStorage.setItem('token', '')
-//          localStorage.setItem('userImg', '')
-//          localStorage.setItem('userName', '')
-//          localStorage.setItem('userId', null)
-//          localStorage.setItem('roleId', null)
-//          localStorage.setItem('openMenu', null)
           localStorage.clear()
           this.$router.replace({name: 'login'})
         }).catch(err => {

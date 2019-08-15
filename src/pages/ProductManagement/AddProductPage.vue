@@ -80,7 +80,8 @@
           postAddProduct(params).then(res => {
             if (res.code != 200) {
               this.$Message.warning(res.msg)
-              if (res.code === 9998) {
+              if(res.code === 9998){
+                localStorage.clear()
                 this.$router.push({path: '/login'})
               }
               return
@@ -116,7 +117,8 @@
         getClassificationlist('').then(res => {
           if (res.code != 200) {
             this.$Message.warning(res.msg)
-            if (res.code === 9998) {
+            if(res.code === 9998){
+              localStorage.clear()
               this.$router.push({path: '/login'})
             }
             return

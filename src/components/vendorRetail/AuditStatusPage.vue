@@ -63,6 +63,10 @@
           console.log('厂商审核详情',res)
           if(res.code != 200){
             this.$Message.warning(res.msg)
+            if(res.code === 9998){
+              localStorage.clear()
+              this.$router.push({path: '/login'})
+            }
             return
           }
           this.info = res.data
@@ -80,6 +84,10 @@
             console.log('零售商审核详情',res)
             if(res.code != 200){
               this.$Message.warning(res.msg)
+              if(res.code === 9998){
+                localStorage.clear()
+                this.$router.push({path: '/login'})
+              }
               return
             }
             this.info = res.data
@@ -106,6 +114,10 @@
               console.log('厂家审核通过', res)
               if(res.code != 200){
                 this.$Message.warning(res.msg)
+                if(res.code === 9998){
+                  localStorage.clear()
+                  this.$router.push({path: '/login'})
+                }
                 return
               }
               status == 0 ? this.fail() : this.success()
@@ -119,6 +131,10 @@
               console.log('零售商审核通过', res)
               if(res.code != 200){
                 this.$Message.warning(res.msg)
+                if(res.code === 9998){
+                  localStorage.clear()
+                  this.$router.push({path: '/login'})
+                }
                 return
               }
               status == 0 ? this.fail() : this.success()

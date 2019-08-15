@@ -135,6 +135,10 @@
         putProductDetail(params).then(res => {
           if(res.code != 200){
             this.$Message.warning(res.msg)
+            if(res.code === 9998){
+              localStorage.clear()
+              this.$router.push({path: '/login'})
+            }
             return
           }
           this.$Message.success('成功修改商品')
@@ -169,6 +173,10 @@
           console.log('获取商品详情',res)
           if(res.code != 200){
             this.$Message.warning(res.msg)
+            if(res.code === 9998){
+              localStorage.clear()
+              this.$router.push({path: '/login'})
+            }
             return
           }
           let data = res.data

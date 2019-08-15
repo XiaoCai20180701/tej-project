@@ -44,6 +44,7 @@
             if (res.code != 200) {
               this.$Message.warning(res.msg)
               if(res.code === 9998){
+                localStorage.clear()
                 this.$router.push({path: '/login'})
               }
               return
@@ -65,6 +66,7 @@
           if (res.code != 200) {
             this.$Message.warning(res.msg)
             if(res.code === 9998){
+              localStorage.clear()
               this.$router.push({path: '/login'})
             }
             return

@@ -211,6 +211,10 @@
             this.showLoading = false
             if (res.code != 200) {
               this.$Message.warning(res.msg)
+              if(res.code === 9998){
+                localStorage.clear()
+                this.$router.push({path: '/login'})
+              }
               return
             }
             let data = res.data
@@ -230,6 +234,10 @@
             this.showLoading = false
             if (res.code != 200) {
               this.$Message.warning(res.msg)
+              if(res.code === 9998){
+                localStorage.clear()
+                this.$router.push({path: '/login'})
+              }
               return
             }
             let data = res.data

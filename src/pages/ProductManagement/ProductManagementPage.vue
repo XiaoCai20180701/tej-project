@@ -75,6 +75,14 @@
           productShow: show == true ? 1 : 0
         }
         putProductDetail(params).then(res => {
+          if(res.code != 200){
+            this.$Message.error(res.msg)
+            if(res.code === 9998){
+              localStorage.clear()
+              this.$router.push({path: '/login'})
+            }
+            return
+          }
           this.$Message.success('修改成功')
         }).catch(err => {
           this.$Message.error('修改商品状态失败! ' + err)
@@ -109,7 +117,8 @@
           this.showLoading = false
           if (res.code != 200) {
             this.$Message.warning(res.msg)
-            if (res.code === 9998) {
+            if(res.code === 9998){
+              localStorage.clear()
               this.$router.push({path: '/login'})
             }
             return
