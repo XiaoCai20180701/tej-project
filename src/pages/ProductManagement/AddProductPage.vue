@@ -33,8 +33,9 @@
   import Photograph from './components/addProduct/Photograph'
   import Feature from './components/addProduct/Feature'
   import Price from './components/addProduct/Price'
-  import { getClassificationlist, postAddProduct, getProductDetail } from '@/api/api'
-  import { AddProductParams } from '@/api/tableData'
+  import {getClassificationlist, postAddProduct, getProductDetail} from '@/api/api'
+  import {AddProductParams} from '@/api/tableData'
+
   export default {
     name: 'AddProductPage',
     components: {
@@ -46,96 +47,108 @@
     data() {
       return {
         list: [],
-        photograph:null,
+        photograph: null,
         price: null,
         feature: null,
         classification: null,
         productShow: '0'
       }
     },
-    watch:{
+    watch: {
       '$route': 'getClassificationlist'
     },
-    mounted(){
+    mounted() {
       this.getClassificationlist()
     },
     methods: {
       cancel() {
         this.$router.push({name: 'ProductManagementPage'})
       },
-      review(){
+      review() {
         this.$Message.info('跳转到 前台页面')
       },
-      saveAddProduct(){
+      saveAddProduct() {
         let productShow = {productShow: Number(this.productShow)}
         let params = {...this.photograph, ...this.price, ...this.feature, ...this.classification, ...productShow}
-        console.log('新增商品 params!!!!!!',params)
+        console.log('新增商品 params!!!!!!', params)
         //先判断商品属性是否填写完整，再请求接口
-        if(this.validationParamFun(params)){
+        if (this.validationParamFun(params)) {
+          if (this.objectKeyIsEmpty(params)) {
+            this.$Message.error('请填写全部信息')
+            return false
+          }
           postAddProduct(params).then(res => {
-            if(res.code != 200){
+            if (res.code != 200) {
               this.$Message.warning(res.msg)
-              if(res.code === 9998){
+              if (res.code === 9998) {
                 this.$router.push({path: '/login'})
               }
               return
             }
             this.$Message.success('成功新增商品')
-            this.$router.push({ name: 'ProductManagementPage'})
+            this.$router.push({name: 'ProductManagementPage'})
           }).catch(err => {
-            this.$Message.error('新增商品失败',err)
+            this.$Message.error('新增商品失败', err)
           })
         }
 
       },
-      photographCallback(data){
-        console.log('商品主图、详情图回调',data)
+      photographCallback(data) {
+        console.log('商品主图、详情图回调', data)
         this.photograph = data
       },
-      priceCallback(data){
-        console.log('库存、零售价、批发价 回调',data)
+      priceCallback(data) {
+        console.log('库存、零售价、批发价 回调', data)
         this.price = data
       },
-      featureCallback(data){
-        console.log('商品颜色、尺寸回调 data',data)
+      featureCallback(data) {
+        console.log('商品颜色、尺寸回调 data', data)
         this.feature = data
       },
-      classificationCallback(data){
-        console.log('商品选择分类回调 data',data)
+      classificationCallback(data) {
+        console.log('商品选择分类回调 data', data)
         this.classification = data
       },
-      productShowChange(i){
-        console.log('使用状态 ',Number(i))
+      productShowChange(i) {
+        console.log('使用状态 ', Number(i))
       },
       getClassificationlist() {
         getClassificationlist('').then(res => {
-          if(res.code != 200){
+          if (res.code != 200) {
             this.$Message.warning(res.msg)
-            if(res.code === 9998){
+            if (res.code === 9998) {
               this.$router.push({path: '/login'})
             }
             return
           }
-          let labelList= JSON.parse(JSON.stringify(res.data.list).replace(/title/g,"label"))
-          let list = JSON.parse(JSON.stringify(labelList).replace(/id/g,"value"))
+          let labelList = JSON.parse(JSON.stringify(res.data.list).replace(/title/g, "label"))
+          let list = JSON.parse(JSON.stringify(labelList).replace(/id/g, "value"))
           this.list = list
         }).catch(err => {
-          this.$Message.error('获取商品分类失败！',err)
+          this.$Message.error('获取商品分类失败！', err)
         })
       },
       //验证新增商品属性是否填写完整的方法
-      validationParamFun(params){
+      validationParamFun(params) {
         let paramsProps = Object.getOwnPropertyNames(params)
         let referenceProps = Object.getOwnPropertyNames(AddProductParams)
-        console.log('paramsProps',paramsProps)
-        console.log('referenceProps',referenceProps)
+        console.log('paramsProps', paramsProps)
+        console.log('referenceProps', referenceProps)
         //判断属性名的length是否一致
-        if(paramsProps.length != referenceProps.length){
+        if (paramsProps.length != referenceProps.length) {
           this.$Message.error('请填写全部信息')
           return false
         }
         return true
       },
+      //属性值是否为空
+      objectKeyIsEmpty(obj) {
+        for (const key in obj) {
+          if (obj[key] === null || obj[key] === '' || obj[key] === NaN) {
+            return true
+          }
+        }
+      }
     }
   }
 </script>
@@ -144,13 +157,15 @@
   .tej-add-product {
     background: #fff;
   }
+
   .tej-bule-card {
     border-left: 5px solid #2d8cf0;
     border-top: none;
     border-bottom: none;
     borer-right: none;
   }
-  .tej-add-product-left, .tej-add-product-right{
+
+  .tej-add-product-left, .tej-add-product-right {
     padding: 20px;
     background: #fff;
   }
