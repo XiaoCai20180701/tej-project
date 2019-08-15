@@ -42,14 +42,14 @@
             <span class="s-text">{{isVendor ? '厂商生产许可证' : '零售商生产许可证'}}：</span>
             <span class="link" @click="showBigImg(info.brandImg)">查看大图</span>
           <div>
-            <img :src="info.brandImg" class="img"/>
+            <img :src="infoImg(info.brandImg)" class="img"/>
           </div>
           </p>
           <p class="p-text">
             <span class="s-text">{{isVendor ? '厂商商标' : '零售商商标'}}：</span>
             <span class="link" @click="showBigImg(info.licenceImg)">查看大图</span>
           <div>
-            <img :src="info.licenceImg" class="img"/>
+            <img :src="infoImg(info.licenceImg)" class="img"/>
           </div>
           </p>
         </div>
@@ -98,8 +98,12 @@
         // isVendor: true
       }
     },
-    created() {
-
+    computed:{
+      infoImg(){
+        return function(val){
+          return this.$IMG_URL +  val
+        }
+      }
     },
     mounted() {
 
@@ -127,7 +131,7 @@
             render: (h) => {
               return h('img', {
                 domProps: {
-                  src: imgurl,
+                  src: this.$IMG_URL + imgurl,
                   width: 375
                 }
               })
