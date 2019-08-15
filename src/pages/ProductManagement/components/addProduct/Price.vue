@@ -12,7 +12,7 @@
       <p><span class="symbol">*</span>商品批发价</p>
       <CheckboxGroup v-model="priceWholesaleCheckboxGroup" @on-change="priceWholesaleChange">
         <div v-for="(item, index) in priceWholesaleListDom" :key="index">
-          <Checkbox :label="item.start">
+          <Checkbox :label="item.start" :disabled="unChecked">
             <slot v-if="item.isEdit">
               <span>
                 <Input v-model="priceWholesaleEdit.start"  type="number" style="width: 50px" @on-change="getStartEditValue" size="small"/>
@@ -84,7 +84,8 @@
         },
         priceWholesaleListDom: [],
         isEdit: false,
-        index: 0
+        index: 0,
+        unChecked: false
       }
     },
     mounted(){
@@ -92,6 +93,9 @@
       let checked = this.$route.params.isEdit
       if (checked) {
         this.editInitData()
+        if(this.disabled){
+          this.unChecked = true
+        }
       }
     },
     methods: {

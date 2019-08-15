@@ -109,6 +109,7 @@
       }
     },
     methods: {
+      //返回上一页
       cancel(){
         if (window.history.length <= 1) {
           this.$router.push({
@@ -137,6 +138,7 @@
             return
           }
           this.$Message.success('成功修改商品')
+          this.cancel()
         }).catch(err => {
           this.$Message.error('修改商品失败',err)
         })

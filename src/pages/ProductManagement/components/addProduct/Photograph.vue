@@ -5,14 +5,14 @@
       <UploadFile :picture-num="pictureNumber"
                   @main-callback="mainCallback"
                   :upload-list-props="mainPictureProps"
-                  :disabled = "disabled"
+                  :disabled="disabled"
       ></UploadFile>
     </div>
     <div class="tej-product-box">
       <p><span class="symbol">*</span>商品详情图</p>
       <EditorElem :catch-data="getEditorContent"
                   :editor-data="imgContentProps"
-                  :disabled = "disabled"
+                  :disabled="disabled"
       ></EditorElem>
     </div>
   </Card>
@@ -21,6 +21,7 @@
 <script>
   import UploadFile from '@/components/UploadFile'
   import EditorElem from '@/components/EditorElem'
+
   export default {
     name: 'Photograph',
     components: {
@@ -44,36 +45,35 @@
     data() {
       return {
         pictureNumber: 6,
-//        actionUrl: 'http://192.168.112.1:5354/fileResource/uploadimg',
-        mainPictureDom:[],
+        mainPictureDom: [],
         imgContent: ''
       }
     },
-    mounted(){
-      console.log('mainPictureProps',this.mainPictureProps)
+    mounted() {
+      console.log('mainPictureProps', this.mainPictureProps)
       let checked = this.$route.params.isEdit
       if (checked) {
         this.mainPictureProps.map(item => {
-          item.url = 'http://47.92.209.177/file/' + item.url
+          item.url = this.$IMG_URL + item.url
         })
       }
     },
     methods: {
-      mainCallback(name,url){
-        console.log('mainCallbackmainCallback',name,url)
+      mainCallback(name, url) {
+        console.log('mainCallbackmainCallback', name, url)
         this.mainPictureDom.push({
           name: name,
           url: url
         })
-        this.$emit('photograph-callback',{
+        this.$emit('photograph-callback', {
           mainPicture: this.mainPictureDom,
           imgContent: this.imgContent
         })
       },
-      getEditorContent(content){
-        console.log('content!!!!!!!!',content)
+      getEditorContent(content) {
+        console.log('content!!!!!!!!', content)
         this.imgContent = content
-        this.$emit('photograph-callback',{
+        this.$emit('photograph-callback', {
           mainPicture: this.mainPictureDom,
           imgContent: this.imgContent
         })
@@ -83,6 +83,15 @@
 </script>
 
 <style scoped>
+  .tej-editor-input {
+    z-index: 9999;
+    position: relative;
+    top: 60px;
+    left: 15px;
+    border: 0;
+    outline: none;
+    background-color: rgba(0, 0, 0, 0);
+  }
 </style>
 
 

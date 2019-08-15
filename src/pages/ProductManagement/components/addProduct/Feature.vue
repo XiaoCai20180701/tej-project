@@ -4,7 +4,7 @@
       <p><span class="symbol">*</span>商品尺码</p>
       <CheckboxGroup v-model="sizeCheckboxGroup" @on-change="sizeChange">
         <span v-for="(item, index) in sizeList" :key="index" class="item">
-          <Checkbox :label="item.sizeName">
+          <Checkbox :label="item.sizeName" :disabled="unChecked">
             <span class="tej-size-name">{{item.sizeName}}</span>
           </Checkbox>
           <small @click="deleteSize(item.id)" class="tej-close-size ivu-icon" v-if="!disabled"></small>
@@ -24,7 +24,7 @@
       <p><span class="symbol">*</span>商品颜色</p>
       <CheckboxGroup v-model="colorCheckboxGroup" @on-change="colorChange">
         <span v-for="(item, index) in colorList" :key="index" class="item">
-          <Checkbox :label="item.colorName">
+          <Checkbox :label="item.colorName" :disabled="unChecked">
              <span class="tej-color-name">{{item.colorName}}</span>
           </Checkbox>
             <small @click="deleteColor(item.colorId)" class="tej-close-color ivu-icon" v-if="!disabled"></small>
@@ -70,7 +70,8 @@
         colorCheckboxGroup: [],
         sizeIndex: 0,
         colorIndex: 0,
-        typeChildId: null
+        typeChildId: null,
+        unChecked: false
       }
     },
     mounted() {
@@ -80,6 +81,11 @@
       let checked = this.$route.params.isEdit
       if (checked) {
         this.editInitData()
+        //商品编辑状态且启用时，选择框禁用
+        console.log('状态',this.disabled)
+        if(this.disabled){
+          this.unChecked = true
+        }
       }else {
         this.getDefaultColorList()
       }
