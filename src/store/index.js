@@ -8,7 +8,7 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
     state: {
         // 左侧菜单栏数据 (前端路由表)
-        menuItems: frontRoutes,
+        menuItems: JSON.parse(localStorage.getItem('menuItems')),
         role: 1
     },
     mutations: {
@@ -25,7 +25,7 @@ const store = new Vuex.Store({
                 let menuItems = res.data.menuItems
                 console.log('menu',menuItems)
                 //将前后端匹配的路由存放在localStorage,将menuItems对象转换为字符串
-               // localStorage.setItem('menuItems', JSON.stringify(menuItems))
+                localStorage.setItem('menuItems', JSON.stringify(menuItems))
                 commit('SET_MENUS',menuItems)
             }).catch(err => {
                 console.log('get res fail',err)
