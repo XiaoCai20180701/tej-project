@@ -537,3 +537,126 @@ export const AddProductParams = {
   'imgContent': '',
   'productShow': null
 }
+
+/**
+ * 设置订单详情的面包屑
+ * */
+export const NonPaymentCrumb = [
+  {
+    title:'订单管理',
+    to:'/NonPayment'
+  },
+  {
+    title:'未付款',
+    to:'/NonPayment'
+  },
+  {
+    title:'订单详情',
+    to:'/OrderDetailPage'
+  }
+]
+
+export const UnshippedCrumb = [
+  {
+    title:'订单管理',
+    to:'/Unshipped'
+  },
+  {
+    title:'未发货',
+    to:'/Unshipped'
+  },
+  {
+    title:'订单详情',
+    to:'/OrderDetailPage'
+  }
+]
+
+export const ShippedCrumb = [
+  {
+    title:'订单管理',
+    to:'/Shipped'
+  },
+  {
+    title:'已发货',
+    to:'/Shipped'
+  },
+  {
+    title:'订单详情',
+    to:'/OrderDetailPage'
+  }
+]
+
+export const AfterProcessingCrumb = [
+  {
+    title:'订单管理',
+    to:'/AfterProcessing'
+  },
+  {
+    title:'售后处理',
+    to:'/AfterProcessing'
+  },
+  {
+    title:'订单详情',
+    to:'/OrderDetailPage'
+  }
+]
+
+export const UnCheckedVendorCrumb = [
+  {
+    title:'厂家管理',
+    to:'/UnCheckedVendorPage'
+  },
+  {
+    title:'待审核',
+    to:'/UnCheckedVendorPage'
+  },
+  {
+    title:'审核详情',
+    to:'/...'
+  }
+]
+
+export const NotPassVendorCrumb = [
+  {
+    title:'厂家管理',
+    to:'/NotPassVendorPage'
+  },
+  {
+    title:'未通过',
+    to:'/NotPassVendorPage'
+  },
+  {
+    title:'审核详情',
+    to:'/...'
+  }
+]
+
+export const  UnCheckedCrumb = [
+  {
+    title:'商家管理',
+    to:'/UnCheckedPage'
+  },
+  {
+    title:'待审核',
+    to:'/UnCheckedPage'
+  },
+  {
+    title:'审核详情',
+    to:'/...'
+  }
+]
+
+export const  NotPassCrumb = [
+  {
+    title:'商家管理',
+    to:'/NotPassPage'
+  },
+  {
+    title:'未通过',
+    to:'/NotPassPage'
+  },
+  {
+    title:'审核详情',
+    to:'/...'
+  }
+]
