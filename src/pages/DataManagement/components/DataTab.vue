@@ -164,6 +164,8 @@
               return
             }
             this.dateShow = false
+            //点击确认之后，将选择的时间置空
+            this.dateValue = ''
             break
           case 'week':
             if(this.weekValue == ''){
@@ -171,6 +173,7 @@
               return
             }
             this.weekShow = false
+            this.weekValue = ''
             break
           case 'month':
             if(this.monthValue == ''){
@@ -178,6 +181,7 @@
               return
             }
             this.monthShow = false
+            this.monthValue = ''
             break
         }
         this.postRanklistFun(this.startTime, this.endTime, this.tabIndex)
