@@ -72,8 +72,8 @@
     },
     methods: {
       handleView (url) {
-        this.imgUrl = url[0];
-        this.visible = true;
+        this.imgUrl = url
+        this.visible = true
       },
       handleRemove (file) {
         const fileList = this.$refs.upload.fileList;
@@ -81,7 +81,7 @@
       },
       handleSuccess (res, file) {
         let url = file.response.data[0].url
-        file.url= 'http://47.92.209.177/file/' + url
+        file.url= this.$IMG_URL + url
         file.name = file.response.data[0].name
         this.$emit('main-callback',file.name,url)
       },
