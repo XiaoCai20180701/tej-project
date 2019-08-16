@@ -104,10 +104,12 @@
         this.priceSale = this.price.priceSale
         this.priceWholesaleListDom = this.price.priceWholesaleList
         this.priceWholesaleListDom.map(item => {
-          console.log('item!!!!',item.isShow,item.start)
+          console.log('item!!!!show',item.isShow,item.start)
           if(item.isShow == 1){
             this.priceWholesaleCheckboxGroup.push(item.start)
           }
+          //编辑详情页首次进来，
+          item.isEdit = false
         })
       },
       callback(){
@@ -138,11 +140,13 @@
         item.start = this.priceWholesaleEdit.start
         item.end = this.priceWholesaleEdit.end
         item.priceWholesale = this.priceWholesaleEdit.priceWholesale
+        this.$forceUpdate() //isEdit值改变后，页面视图并没有更新，因此强制刷新
         this.callback()
         console.log('this.priceWholesaleList 修改后',this.priceWholesaleListDom)
       },
       editPriceWholesale(item){
         item.isEdit = true
+        this.$forceUpdate()  //isEdit值改变后，页面视图并没有更新，因此强制刷新
         if(this.priceWholesale.start > this.priceWholesale.end){
           this.$Message.error('起始件数不能小于结束件数')
           return
