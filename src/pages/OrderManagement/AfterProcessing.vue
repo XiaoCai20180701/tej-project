@@ -15,15 +15,15 @@
 </template>
 
 <script>
-  import { postOrderList} from '@/api/api'
-  import { orderType } from '@/api/tableData'
+  import {postOrderList} from '@/api/api'
+  import {orderType} from '@/api/tableData'
   import OrderSearchForm from './components/OrderSearchForm'
   import OrderTable from './components/OrderTable'
   import expandRow from './components/OrderItemExpand'
 
   export default {
     name: 'AfterProcessing',
-    components: { expandRow,OrderSearchForm,OrderTable },
+    components: {expandRow, OrderSearchForm, OrderTable},
     data() {
       return {
         showLoading: false,
@@ -74,31 +74,41 @@
             slot: 'action'
           }
         ],
-        orderData: []
+        orderData: [],
+        vendorName: '',
+        retailName: '',
+        startTime: null,
+        endTime: null
       }
     },
     mounted() {
       this.getList()
     },
     methods: {
-      pageChangeCallback(data){
-        console.log('page callback',data)
+      pageChangeCallback(data) {
+        console.log('page callback', data)
         this.getList()
       },
-      pageSizeChangeCallback(data){
-        console.log('pageSize callback',data)
+      pageSizeChangeCallback(data) {
+        console.log('pageSize callback', data)
         this.getList()
       },
-      searchCallback(data){
-        console.log('确认 回调',data)
+      searchCallback(data) {
+        console.log('确认 回调', data)
+        this.vendorName = data.vendorName
+        this.retailName = data.retailName
+        this.startTime = data.startTime
+        this.endTime = data.endTime
         this.getList()
       },
-      vendorCallback(data){
-        console.log('厂商历史记录点击 回调',data)
+      vendorCallback(data) {
+        console.log('厂商历史记录点击 回调', data)
+        this.vendorName = data
         this.getList()
       },
-      retailCallback(data){
-        console.log('零售商历史记录点击 回调',data)
+      retailCallback(data) {
+        console.log('零售商历史记录点击 回调', data)
+        this.retailName = data
         this.getList()
       },
       getList() {
@@ -111,13 +121,14 @@
           startTime: this.startTime,
           endTime: this.endTime
         }
+        console.log('params!!!!!!!!',params)
         this.showLoading = true
         postOrderList(params).then(res => {
           console.log('售后处理订单列表', res.data)
           this.showLoading = false
-          if(res.code != 200){
+          if (res.code != 200) {
             this.$Message.warning(res.msg)
-            if(res.code === 9998){
+            if (res.code === 9998) {
               localStorage.clear()
               this.$router.push({path: '/login'})
             }

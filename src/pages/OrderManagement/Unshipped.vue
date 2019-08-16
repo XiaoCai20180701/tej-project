@@ -91,14 +91,20 @@
       },
       searchCallback(data){
         console.log('确认 回调',data)
+        this.vendorName = data.vendorName
+        this.retailName = data.retailName
+        this.startTime = data.startTime
+        this.endTime = data.endTime
         this.getList()
       },
       vendorCallback(data){
         console.log('厂商历史记录点击 回调',data)
+        this.vendorName = data
         this.getList()
       },
       retailCallback(data){
         console.log('零售商历史记录点击 回调',data)
+        this.retailName = data
         this.getList()
       },
       getList() {

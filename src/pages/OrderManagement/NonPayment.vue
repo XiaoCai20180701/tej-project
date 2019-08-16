@@ -91,6 +91,10 @@
       },
       searchCallback(data){
         console.log('确认 回调',data)
+        this.vendorName = data.vendorName
+        this.retailName = data.retailName
+        this.startTime = data.startTime
+        this.endTime = data.endTime
         this.getList()
       },
       vendorCallback(data){
