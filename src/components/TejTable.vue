@@ -68,11 +68,11 @@
         <template slot-scope="{ row }" slot="licenceImg">
           <span>已上传</span><a class="tej-look-txt" @click="viewImg(row.licenceImg)">查看</a>
         </template>
-        <template slot-scope="{ row }" slot="vendorEnvironmentImg">
-          <span>已上传</span><a class="tej-look-txt" @click="viewImgList(row.vendorEnvironmentImg)">查看</a>
+        <template slot-scope="{ row }" slot="environmentImgList">
+          <span>已上传</span><a class="tej-look-txt" @click="viewImgList(row.environmentImgList)">查看</a>
         </template>
-        <template slot-scope="{ row }" slot="trademarkImg">
-          <span>已上传</span><a class="tej-look-txt" @click="viewImg(row.trademarkImg)">查看</a>
+        <template slot-scope="{ row }" slot="brandImg">
+          <span>已上传</span><a class="tej-look-txt" @click="viewImg(row.brandImg)">查看</a>
         </template>
         <template slot-scope="{ row, index }" slot="action">
           <!--<a style="margin-right: 5px" @click="showDetail(row)">查看详情</a>-->
@@ -193,26 +193,26 @@
         })
       },
       viewImgList(imgList){
-//        let imgList = [
-//          {name: '11',path: 'http://192.168.1.102:8080/tej/image/20190731/20190731160200032.png'},
-//          {name: '22',path: 'http://192.168.1.102:8080/tej/image/20190731/20190731160200032.png'},
-//          {name: '33',path: 'http://192.168.1.102:8080/tej/image/20190731/20190731160200032.png'},
-//        ]
-        this.$Modal.info({
-          width: 700,
-          render: (h, params)=> {
-            console.log('params!!!!!!',params)
-            return h('div',imgList.map(item => {
-              return h('img',{
-                domProps: {
-                  src: item.path,
-                  width: 200,
-                  height: 200
-                }
-              })
-            }))
-          }
-        })
+        if(imgList == []){
+          this.$Message.warning('没有上传图片')
+          return
+        }else {
+          this.$Modal.info({
+            width: 700,
+            render: (h, params)=> {
+              console.log('params!!!!!!',params)
+              return h('div',imgList.map(item => {
+                return h('img',{
+                  domProps: {
+                    src: this.$IMG_URL + item,
+                    width: 200,
+                    height: 200
+                  }
+                })
+              }))
+            }
+          })
+        }
       }
     }
   }
