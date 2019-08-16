@@ -110,12 +110,12 @@ export const unCheckedRetailTable = [
   {
     'title': '生产环境',
     'key': 'environmentImgList',
-    'slot': 'vendorEnvironmentImg'
+    'slot': 'environmentImgList'
   },
   {
     'title': '店铺商标',
     'key': 'brandImg',
-    'slot': 'trademarkImg'
+    'slot': 'brandImg'
   },
   {
     title: '操作',
@@ -232,13 +232,13 @@ export const unCheckedVendorTable = [
   },
   {
     'title': '生产环境',
-    'key': 'vendorEnvironmentImg',
-    'slot': 'vendorEnvironmentImg'
+    'key': 'environmentImgList',
+    'slot': 'environmentImgList'
   },
   {
     'title': '品牌商标',
-    'key': 'trademarkImg',
-    'slot': 'trademarkImg'
+    'key': 'brandImg',
+    'slot': 'brandImg'
   },
   {
     title: '操作',
