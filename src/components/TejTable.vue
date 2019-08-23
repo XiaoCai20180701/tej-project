@@ -1,38 +1,42 @@
 <template>
   <div>
+    <!-- 替换页面中 表格上面的整个搜索区域的插槽form,默认是显示-->
     <slot name="form">
       <Form :label-width="56" class="tej-form" @submit.native.prevent>
-        <FormItem label="筛选：" class="tej-label">
-          <div>
-            <slot name="area">
-              <RadioGroup v-model="checkedArea" @on-change="areaChange">
-                <!--<Radio v-model="checkedAllArea">全部</Radio>-->
-                <Radio v-for="(item, index) in area"
-                       :key="index"
-                       :label="item.id"
-                       class="tej-radio"
-                >{{item.name}}
-                </Radio>
-              </RadioGroup>
-            </slot>
-          </div>
-          <div>
-            <slot name="extra"></slot>
-          </div>
-          <!--<div>-->
-          <!--<slot name="age">-->
-          <!--<RadioGroup v-model="checkedAge" @on-change="ageChange">-->
-          <!--<Radio v-for="(item, index) in age"-->
-          <!--:key="index"-->
-          <!--:label="item.id"-->
-          <!--class="tej-radio"-->
-          <!--&gt;{{item.name}}-->
-          <!--</Radio>-->
-          <!--</RadioGroup>-->
-          <!--</slot>-->
-          <!--</div>-->
-        </FormItem>
-        <Divider/>
+        <!-- 替换页面中 筛选条件的插槽filter,默认是显示-->
+        <slot name="filter">
+          <FormItem label="筛选：" class="tej-label">
+            <div>
+              <slot name="area">
+                <RadioGroup v-model="checkedArea" @on-change="areaChange">
+                  <!--<Radio v-model="checkedAllArea">全部</Radio>-->
+                  <Radio v-for="(item, index) in area"
+                         :key="index"
+                         :label="item.id"
+                         class="tej-radio"
+                  >{{item.name}}
+                  </Radio>
+                </RadioGroup>
+              </slot>
+            </div>
+            <div>
+              <slot name="extra"></slot>
+            </div>
+            <!--<div>-->
+            <!--<slot name="age">-->
+            <!--<RadioGroup v-model="checkedAge" @on-change="ageChange">-->
+            <!--<Radio v-for="(item, index) in age"-->
+            <!--:key="index"-->
+            <!--:label="item.id"-->
+            <!--class="tej-radio"-->
+            <!--&gt;{{item.name}}-->
+            <!--</Radio>-->
+            <!--</RadioGroup>-->
+            <!--</slot>-->
+            <!--</div>-->
+          </FormItem>
+          <Divider/>
+        </slot>
         <div class="tej-table-extra">
           <Row>
             <Col span="19">
