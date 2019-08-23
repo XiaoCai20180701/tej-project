@@ -195,7 +195,44 @@ const frontRoutes = [
     meta: {
       refreshShow: false
     }
-  }
+  },
+  {
+    type: 'icon-gaojingkongxin',
+    text: '投诉管理',
+    meta: {
+      requireAuth: false
+    },
+    children: [
+      {
+        name: 'PlatformPage',
+        type: '',
+        text: '平台问题',
+      },
+      {
+        name: 'ProductPage',
+        type: '',
+        text: '商品问题',
+      },
+      {
+        name: 'ServicePage',
+        type: '',
+        text: '服务投诉',
+      },
+      // {
+      //   name: 'AllComplaintPage',
+      //   type: '',
+      //   text: '全部投诉',
+      // },
+    ]
+  },
+  {
+    name: 'FrontManagementPage',
+    type: 'icon-shebeizhuangtai',
+    text: '前台管理',
+    meta: {
+      requireAuth: true
+    }
+  },
 ]
 
 export default frontRoutes

@@ -418,6 +418,70 @@ export const asyncRoutes = {
     },
     component: AuditStatusPage
   },
+  'PlatformPage': {
+    path: '/PlatformPage',
+    name: 'PlatformPage',
+    meta: {
+      breadcrumb:[
+        {
+          title:'投诉管理',
+          to:'/PlatformPage'
+        },
+        {
+          title:'平台问题',
+          to:'/PlatformPage'
+        },
+      ]
+    },
+    component: () => import('@/pages/ComplaintManagement/PlatformPage.vue')
+  },
+  'ProductPage': {
+    path: '/ProductPage',
+    name: 'ProductPage',
+    meta: {
+      breadcrumb:[
+        {
+          title:'投诉管理',
+          to:'/ProductPage'
+        },
+        {
+          title:'商品问题',
+          to:'/ProductPage'
+        }
+      ]
+    },
+    component: () => import('@/pages/ComplaintManagement/ProductPage.vue')
+  },
+  'ServicePage': {
+    path: '/ServicePage',
+    name: 'ServicePage',
+    meta: {
+      breadcrumb:[
+        {
+          title:'投诉管理',
+          to:'/ServicePage'
+        },
+        {
+          title:'服务投诉',
+          to:'/ServicePage'
+        }
+      ]
+    },
+    component: () => import('@/pages/ComplaintManagement/ServicePage.vue')
+  },
+  'FrontManagementPage': {
+    path: '/FrontManagementPage',
+    name: 'FrontManagementPage',
+    meta: {
+      breadcrumb:[
+        {
+          title:'前台管理',
+          to:'/FrontManagementPage'
+        }
+      ]
+    },
+    component: () => import('@/pages/FrontManagement/FrontManagementPage.vue')
+  },
   'password': {
     path: 'password',
     name: 'password',
