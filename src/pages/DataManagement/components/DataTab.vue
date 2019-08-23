@@ -9,7 +9,7 @@
         <p class="date">{{ time[1] }}</p>
         <Table :loading="showLoading"  :columns="productTrafficColumns" :data="productTrafficList"></Table>
       </TabPane>
-      <TabPane label="全站畅销厂商" :index="tabIndexObj.three">
+      <TabPane label="全站畅销厂家" :index="tabIndexObj.three">
         <p class="date">{{ time[2] }}</p>
         <Table :loading="showLoading"  :columns="vendorSaleColumns" :data="vendorSalesList"></Table>
       </TabPane>
@@ -17,7 +17,7 @@
         <p class="date">{{ time[3] }}</p>
         <Table :loading="showLoading"  :columns="cooperationColumns" :data="cooperationList"></Table>
       </TabPane>
-      <TabPane label="全站厂商访问量" :index="tabIndexObj.five">
+      <TabPane label="全站厂家访问量" :index="tabIndexObj.five">
         <p class="date">{{ time[4] }}</p>
         <Table :loading="showLoading"  :columns="vendorTrafficColumns" :data="vendorTrafficList"></Table>
       </TabPane>
