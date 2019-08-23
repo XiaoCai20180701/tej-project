@@ -98,12 +98,12 @@
         this.getList()
       },
       vendorCallback(data){
-        console.log('厂商历史记录点击 回调',data)
+        console.log('厂家历史记录点击 回调',data)
         this.vendorName = data
         this.getList()
       },
       retailCallback(data){
-        console.log('零售商历史记录点击 回调',data)
+        console.log('商家历史记录点击 回调',data)
         this.retailName = data
         this.getList()
       },

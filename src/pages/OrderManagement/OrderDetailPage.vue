@@ -12,12 +12,12 @@
     <Row :gutter="12">
       <Col span="13">
         <PartDom people="收件人"
-                 txt="零售商"
+                 txt="商家"
                  :data="orderDetail.retailInfo"
                  :id="orderDetail.retailInfo.retailId"
         ></PartDom>
         <PartDom people="发件人"
-                 txt="厂商"
+                 txt="厂家"
                  :data="orderDetail.vendorInfo"
                  :id="orderDetail.vendorInfo.vendorId"
         ></PartDom>

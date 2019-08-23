@@ -1,9 +1,9 @@
 <template>
   <Form :label-width="80" class="tej-order-search-form">
-    <FormItem label="厂商：">
+    <FormItem label="厂家：">
       <Input type="text"
              class="tej-order-search-input"
-             placeholder="请输入厂商名称"
+             placeholder="请输入厂家名称"
              v-model="vendorName"
              @on-change="vendorNameChange"
              clearable
@@ -14,10 +14,10 @@
             @click="vendorClick(item)"
       >{{item}}</span>
     </FormItem>
-    <FormItem label="零售商：">
+    <FormItem label="商家：">
       <Input type="text"
              class="tej-order-search-input"
-             placeholder="请输入零售商名称"
+             placeholder="请输入商家名称"
              v-model="retailName"
              @on-change="retailNameChange"
              clearable
@@ -88,11 +88,11 @@
       },
       vendorNameChange(e) {
         this.vendorName = e.target.value
-        console.log('厂商名称', e.target.value)
+        console.log('厂家名称', e.target.value)
       },
       retailNameChange(e) {
         this.retailName = e.target.value
-        console.log('零售商名称', e.target.value)
+        console.log('商家名称', e.target.value)
       },
       startTimeChange(startTime) {
         this.startTime = startTime
