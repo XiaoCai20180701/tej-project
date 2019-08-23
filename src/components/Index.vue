@@ -10,28 +10,40 @@
       <Menu ref="asideMenu" theme="light" width="100%" @on-select="gotoPage"
             accordion :open-names="openMenus" :active-name="currentPage" @on-open-change="menuChange">
         <!-- 动态菜单 -->
-        <div v-for="(item, index) in menuItems" :key="index">
-          <Submenu v-if="!item.meta.requireAuth && item.children" :name="index">
+        <div v-for="(item, index) in menuItems"
+             :key="index"
+             :class="shrinkClassName"
+             @mouseover="changeActive(index)"
+             @mouseout="removeActive()">
+          <Submenu v-if="!item.meta.requireAuth && item.children" :name="index" >
             <template slot="title">
               <Icon :custom="getIcon(item.type)" :size="iconSize"/>
-              <span v-show="isShowAsideTitle">{{item.text}}</span>
+              <span  v-show="isShowAsideTitle">{{item.text}}</span>
             </template>
-            <div v-for="(subItem, i) in item.children" :key="index + i">
-              <Submenu v-if="subItem.children > 0 && !item.children.meta.requireAuth" :name="subItem.name">
+            <div>
+              <p class="tej-shrink-title" v-if="!isShowAsideTitle">{{item.text}}</p>
+              <div v-for="(subItem, i) in item.children" :key="index + i" >
+              <Submenu v-if="subItem.children > 0 && !item.children.meta.requireAuth" :name="subItem.name" >
                 <template slot="title">
                   <Icon :custom="getIcon(subItem.type)" :size="iconSize"/>
-                  <span v-show="isShowAsideTitle">{{subItem.text}}</span>
+                  <span >{{subItem.text}}</span>
                 </template>
                 <MenuItem class="menu-level-3" v-for="(threeItem, k) in subItem.children" :name="threeItem.name"
                           :key="index + i + k">
                   <Icon :size="iconSize" :type="threeItem.type"/>
-                  <span v-show="isShowAsideTitle">{{threeItem.text}}</span>
+                  <span>{{threeItem.text}}</span>
                 </MenuItem>
               </Submenu>
               <MenuItem v-else v-show="isShowAsideTitle" :name="subItem.name">
                 <Icon :custom="getIcon(subItem.type)" :size="iconSize"/>
-                <span v-show="isShowAsideTitle">{{subItem.text}}</span>
+                <span>{{subItem.text}}</span>
               </MenuItem>
+              <!-- 菜单折叠时，二级子菜单-->
+              <MenuItem v-show="!isShowAsideTitle" :name="subItem.name" >
+                <Icon :custom="getIcon(subItem.type)" :size="iconSize"/>
+                <span>{{subItem.text}}</span>
+              </MenuItem>
+            </div>
             </div>
           </Submenu>
           <MenuItem v-else :name="item.name">
@@ -130,13 +142,14 @@
         tagsArry: [],
         arrowUp: false, // 用户详情向上箭头
         arrowDown: true, // 用户详情向下箭头
-        isShowAsideTitle: true, // 是否展示侧边栏内容
+        isShowAsideTitle: true, // 是否展示侧边栏内容,
         main: null, // 页面主要内容区域
         asideClassName: 'aside-big', // 控制侧边栏宽度变化
+        subMenuShrinkClassName: '',  //侧边子菜单折叠时的显示
+        shrinkClassName: '', //侧边一级菜单折叠时的显示
         asideArrowIcons: [], // 缓存侧边栏箭头图标 收缩时用
-        // 面包屑
-        crumbs: '商品管理',
-        crumbsList: JSON.parse(localStorage.getItem('crumbsList')),
+        crumbs: '商品管理',  // 面包屑(废弃)
+        crumbsList: JSON.parse(localStorage.getItem('crumbsList')), // 面包屑
         userName: '',
         userImg: '',
         iconClass: 'iconfont ',
@@ -167,13 +180,10 @@
       })
     },
     mounted() {
+      console.log('是我')
       // 第一个标签
       const name = this.$route.name
       this.currentPage = name
-      this.tagsArry.push({
-        text: this.nameToTitle[name],
-        name: name
-      })
 
       // 设置用户信息
       this.userName = localStorage.getItem('userName')
@@ -195,8 +205,6 @@
     watch: {
       $route(to, from) {
         const name = to.name
-
-
         //TODO 设置面包屑后期优化
         if (to.name == 'OrderDetailPage') {
           this.currentPage = from.name
@@ -244,18 +252,6 @@
           this.crumbs = '404'
           return
         }
-
-        if (!this.keepAliveData.includes(name)) {
-          // 如果标签超过8个 则将第一个标签删除
-          if (this.tagsArry.length == 8) {
-            this.tagsArry.shift()
-          }
-          this.tagsArry.push({name, text: this.nameToTitle[name]})
-        }
-
-        setTimeout(() => {
-          this.crumbs = this.paths[name]
-        }, 0)
       }
     },
     computed: {
@@ -272,22 +268,27 @@
         })
         return list
       },
-      // 需要缓存的路由
-      keepAliveData() {
-        return this.tagsArry.map(item => item.name)
-      },
-      // 由于iView的导航菜单比较坑 只能设定一个name参数
-      // 所以需要在这定义组件名称和标签栏标题的映射表 有多少个页面就有多少个映射条数
-      nameToTitle() {
-        const obj = {}
-        this.menuItems.forEach(e => {
-          this.processNameToTitle(obj, e)
-        })
-
-        return obj
-      },
     },
     methods: {
+      changeActive(index){
+        this.openMenus = [index]
+        //折叠菜单时，才执行鼠标事件
+        if(!this.isShowAsideTitle){
+          localStorage.setItem('openMenus', JSON.stringify(this.openMenus))
+          this.$nextTick(() => {
+            this.$refs.asideMenu.updateOpened() //手动展开二级菜单
+          })
+        }
+      },
+      removeActive(){
+        if(!this.isShowAsideTitle){
+          this.openMenus = []
+          this.$refs.asideMenu.$children.opened = false
+          this.$nextTick(() => {
+            this.$refs.asideMenu.updateOpened()
+          })
+        }
+      },
       getIcon(type) {
         return this.iconClass + type
       },
@@ -295,6 +296,14 @@
       gotoPage(name, params) {
         console.log('跳转路由 name', name)
         console.log('跳转路由 params', this.$route)
+        //折叠菜单的情况下，选择后收起菜单
+        if(!this.isShowAsideTitle){
+          this.$refs.asideMenu.$children.opened = false
+          this.$nextTick(() => {
+            this.$refs.asideMenu.updateOpened()
+          })
+        }
+        //正常情况下，菜单赋值
         this.currentPage = name
         this.crumbs = this.paths[name]
         this.$router.replace({name, params})
@@ -339,8 +348,11 @@
         })
         setTimeout(() => {
           this.asideClassName = ''
+          this.shrinkClassName = 'tej-shrink-aside'
+          this.subMenuShrinkClassName = 'tej-shrink-submenu'
           this.main.style.width = 'calc(100% - 80px)'
         }, 0)
+        console.log('收缩',this.shrinkClassName)
       },
       // 展开
       expandAside() {
@@ -355,24 +367,16 @@
           })
         }, 200)
         this.asideClassName = 'aside-big'
+        this.shrinkClassName = ''
+        this.subMenuShrinkClassName = ''
         this.main.style.width = 'calc(100% - 220px)'
+        console.log('展开菜单！！！！！！',)
       },
       // 菜单栏改变事件
       menuChange(data) {
         console.log('菜单栏改变事件', data)
+//        this.menuCache = data
         localStorage.setItem('openMenus', JSON.stringify(data))
-      },
-      processNameToTitle(obj, data, text) {
-        if (data.name) {
-          obj[data.name] = data.text
-          this.paths[data.name] = text ? `${text} / ${data.text}` : data.text
-        }
-        if (data.children) {
-          data.children.forEach(e => {
-            this.processNameToTitle(obj, e, text ? `${text} / ${data.text}` : data.text)
-          })
-        }
-
       },
       logout(userId) {
         postLogout({
@@ -391,7 +395,7 @@
   }
 </script>
 
-<style scoped>
+<style >
   .index-vue {
     height: 100vh;
     display: flex;
@@ -406,7 +410,7 @@
     background: #fff;
     height: 100%;
     transition: all .5s;
-    overflow: auto;
+    /*overflow: auto;*/
     box-shadow: 3px 0 3px rgba(0, 0, 0, .05);
   }
 
@@ -515,19 +519,8 @@
   }
 
   a {
-    color: #666;
+    /*color: #666;*/
     transition: none;
-  }
-
-  .li-a {
-    max-width: 80px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
-
-  .ul-c .ivu-icon {
-    margin-left: 6px;
   }
 
   .active {
@@ -541,6 +534,17 @@
 
   .active .ivu-icon {
     color: #fff;
+  }
+
+  .li-a {
+    max-width: 80px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .ul-c .ivu-icon {
+    margin-left: 6px;
   }
 
   /* 主要内容区域 */
@@ -587,5 +591,27 @@
 
   .ivu-menu-vertical.ivu-menu-light:after {
     background: transparent !important;
+  }
+
+  .tej-shrink-aside .ivu-menu{
+    position: absolute;
+    top: 50px;
+    left: 90px;
+    width: 160px;
+    z-index: 3333;
+    background: #fff;
+    border-radius: 6px;
+    box-shadow: 3px 3px 5px #ddd;
+  }
+
+  .tej-shrink-aside .ivu-menu  .ivu-menu-item {
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+
+  .tej-shrink-aside .tej-shrink-title {
+    padding: 15px;
+    text-align: center;
+    font-weight: bold;
   }
 </style>
