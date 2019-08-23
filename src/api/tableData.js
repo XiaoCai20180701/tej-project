@@ -35,7 +35,7 @@ export const productManagementTable = [
     'sortable': true
   },
   {
-    'title': '厂商',
+    'title': '厂家',
     'key': 'vendorName'
   },
   {
@@ -154,7 +154,7 @@ export const notPassRetailTable = [
 ]
 
 /**
- * 厂商、商家管理 => 审核状态
+ * 厂家、商家管理 => 审核状态
  * 1:已审核  2:待审核 3:未通过
  * */
 export const auditType = {
@@ -164,7 +164,7 @@ export const auditType = {
 }
 
 /**
- * 厂商管理 => 已审核列表
+ * 厂家管理 => 已审核列表
  * */
 export const checkedVendorTable = [
   {
@@ -206,7 +206,7 @@ export const checkedVendorTable = [
 ]
 
 /**
- * 厂商管理 => 待审核列表
+ * 厂家管理 => 待审核列表
  * */
 export const unCheckedVendorTable = [
   {
@@ -247,7 +247,7 @@ export const unCheckedVendorTable = [
 ]
 
 /**
- * 厂商管理 => 未通过列表
+ * 厂家管理 => 未通过列表
  * */
 export const notPassVendorTable = [
   {
@@ -289,7 +289,7 @@ export const productSaleTable = [
     'key': 'productName'
   },
   {
-    'title': '厂商',
+    'title': '厂家',
     'key': 'vendorName'
   },
   {
@@ -311,7 +311,7 @@ export const productTrafficTable = [
     'key': 'productName'
   },
   {
-    'title': '厂商',
+    'title': '厂家',
     'key': 'vendorName'
   },
   {
@@ -325,7 +325,7 @@ export const productTrafficTable = [
 ]
 
 /**
- * 数据管理 => 畅销厂商
+ * 数据管理 => 畅销厂家
  * */
 export const vendorSaleTable = [
   {
@@ -333,7 +333,7 @@ export const vendorSaleTable = [
     'key': 'vendorId'
   },
   {
-    'title': '厂商',
+    'title': '厂家',
     'key': 'vendorName'
   },
   {
@@ -347,7 +347,7 @@ export const vendorSaleTable = [
 ]
 
 /**
- * 数据管理 => 厂商访问量
+ * 数据管理 => 厂家访问量
  * */
 export const vendorTrafficTable = [
   {
@@ -355,7 +355,7 @@ export const vendorTrafficTable = [
     'key': 'vendorId'
   },
   {
-    'title': '厂商',
+    'title': '厂家',
     'key': 'vendorName'
   },
   {
@@ -370,7 +370,7 @@ export const vendorTrafficTable = [
 
 
 /**
- * 数据管理 => 全站前十厂商、商家合作次数(回头客)
+ * 数据管理 => 全站前十厂家、商家合作次数(回头客)
  * */
 export const cooperationTable = [
   {
@@ -378,7 +378,7 @@ export const cooperationTable = [
     'key': 'vendorId'
   },
   {
-    'title': '厂商',
+    'title': '厂家',
     'key': 'vendorName'
   },
   {
@@ -484,7 +484,7 @@ export const stationStatus = [
 
 /**
  * 数据管理 => 排行榜统一
- * 1:商品销量 2:商品访问量 3.厂商销量 4.厂商、商家合作排行 5.厂商访问量
+ * 1:商品销量 2:商品访问量 3.厂家销量 4.厂家、商家合作排行 5.厂家访问量
  * */
 export const dataStatus = {
   'commoditySales': 1,
@@ -527,6 +527,7 @@ export const billTypeList = [
 export const AddProductParams = {
   'typeChildId': '',
   'productName': '',
+  'productNo': '',
   'productVendorId': null,
   'sizeList': [],  //sizeList有默认值，就不需要判断了
   'colorList': [],
@@ -660,3 +661,102 @@ export const  NotPassCrumb = [
     to:'/...'
   }
 ]
+
+/**
+ * 新增商品参数
+ * */
+export const  isTrousersType = ['pantsLength','openFiles','pantsWaist','pantsPlacket']
+
+export const  isCoatType = ['collarType','clothingLength','sleeveLength']
+
+export const  isSuitType = ['pantsLength','openFiles','pantsWaist','pantsPlacket',
+  'collarType','clothingLength','sleeveLength','suitNumber','suitType'
+]
+
+
+/**
+ * 投诉状态
+ * */
+export const complainStatus = {
+  'processed': 1,
+  'unprocessed': 0
+}
+
+/**
+ * 投诉类型
+ * */
+export const complainType = {
+  'platform': 0,
+  'product': 1,
+  'service': 2
+}
+
+/**
+ * 前台管理商品列表
+ * */
+export const frontProductTable = [
+  {
+    'title': '编号',
+    'key': 'id'
+  },
+  {
+    'title': '商品类别',
+    'key': 'typeName'
+  },
+  {
+    'title': '商品名称',
+    'key': 'name'
+  },
+  {
+    'title': '零售价',
+    'key': 'priceSale'
+  },
+  {
+    'title': '库存',
+    'key': 'inventory'
+  },
+  {
+    'title': '访问量',
+    'key': 'access'
+  },
+  {
+    'title': '销量',
+    'key': 'numberSale'
+  },
+  {
+    'title': '最低批发价',
+    'key': 'minWholesale'
+  },
+  {
+    'title': '最高批发价',
+    'key': 'maxWholesale'
+  },
+  {
+    'title': '状态',
+    'key': 'addStatus',
+    render: (h, params) => {
+      let checked = params.row.addStatus === 0
+      let status = checked ? '未添加':'已添加'
+      return h('div', [
+        h('Tag', {
+          props: {
+            color: checked ? 'orange': 'cyan',
+          },
+        },status)
+      ]);
+    }
+  },
+  {
+    title: '操作',
+    slot: 'action',
+  }
+]
+
+/**
+ * 前台管理商品列表
+ * */
+export const addStatus = {
+  'added': 1,
+  'notAdded': 0
+}
+
