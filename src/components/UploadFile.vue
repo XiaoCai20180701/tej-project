@@ -31,8 +31,8 @@
   >
     <div class="tej-upload-txt" ref="uploadTxt" v-if="!disabled">
       <Icon type="md-add" size="20"></Icon>
-      <div>上传主图</div>
-      <small>注：800x800</small>
+      <div>{{uploadText}}</div>
+      <small>{{note}}</small>
     </div>
   </Upload>
   <Modal title="查看原图" v-model="visible">
@@ -51,6 +51,16 @@
       disabled: {
         type: Boolean,
         required: false
+      },
+      note: {
+        type: String,
+        required: false,
+        default: '注：800x800'
+      },
+      uploadText: {
+        type: String,
+        required: false,
+        default: '上传主图'
       }
     },
     data () {
