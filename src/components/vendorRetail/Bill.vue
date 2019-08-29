@@ -224,10 +224,10 @@
               size: data.pageSize,
               total: data.total
             }
-            console.log('厂商账单 list', this.billList)
+            console.log('厂家账单 list', this.billList)
           }).catch(err => {
             this.showLoading = false
-            this.$Message.error('获取厂商账单失败' + err)
+            this.$Message.error('获取厂家账单失败' + err)
           })
         } else {
           postRetailBillList(params).then(res => {
@@ -247,10 +247,10 @@
               size: data.pageSize,
               total: data.total
             }
-            console.log('零售商账单 list', this.billList)
+            console.log('商家账单 list', this.billList)
           }).catch(err => {
             this.showLoading = false
-            this.$Message.error('获取零售商账单失败' + err)
+            this.$Message.error('获取商家账单失败' + err)
           })
         }
 
