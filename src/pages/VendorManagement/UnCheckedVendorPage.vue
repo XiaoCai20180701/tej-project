@@ -5,7 +5,7 @@
       :columns-data="columnsData"
       :table-data="tableData"
       :page="page"
-      input-text="请输入厂商名称/联系人/联系号码"
+      input-text="请输入厂家名称/联系人/联系号码"
       @page-change-callback="pageChange"
       @pageSize-change-callback="pageSizeChange"
       @area-change-callback="areaChange"
@@ -99,7 +99,7 @@
         })
           .catch(err => {
             this.showLoading = false
-            this.$Message.error('获取厂商待审核列表失败',err)
+            this.$Message.error('获取厂家待审核列表失败',err)
           })
       },
     }
