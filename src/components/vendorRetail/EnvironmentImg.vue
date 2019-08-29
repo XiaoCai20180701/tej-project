@@ -3,7 +3,7 @@
     <swiper :options="swiperOption">
       <swiper-slide v-for="(item,index) in imgList" :key="index">
         <div>
-          <img :src="item.path" class="img" />
+          <img :src="baseUrl + item.path" class="img" />
           <p class="title">{{item.name}}</p>
         </div>
       </swiper-slide>
@@ -20,6 +20,7 @@
     },
     data() {
       return {
+        baseUrl: this.$IMG_URL,
         swiperOption: {
           slidesPerView: 3,
           spaceBetween: 30,
