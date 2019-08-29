@@ -277,6 +277,87 @@ export const notPassVendorTable = [
 ]
 
 /**
+ * 厂家管理 => 厂家详情表格(平台)
+ * */
+export const vendorPlatformTable = [
+  {
+    'title': '编号',
+    'key': 'productId'
+  },
+  {
+    'title': '商品类别',
+    'key': 'typeName'
+  },
+  {
+    'title': '商品名称',
+    'key': 'name'
+  },
+  {
+    'title': '商品货号',
+    'key': 'productNo'
+  },
+  {
+    'title': '零售价',
+    'key': 'priceSale'
+  },
+  {
+    'title': '库存',
+    'key': 'inventory'
+  },
+  {
+    'title': '访问量',
+    'key': 'access'
+  },
+  {
+    'title': '销量',
+    'key': 'numberSale'
+  },
+  {
+    title: '操作',
+    slot: 'action',
+  }
+]
+
+/**
+ * 厂家管理 => 厂家详情表格(厂家操作版)
+ * */
+export const vendorTable = [
+  {
+    'title': '商品货号',
+    'key': 'productNo'
+  },
+  {
+    'title': '商品类别',
+    'key': 'typeName'
+  },
+  {
+    'title': '商品名称',
+    'key': 'name'
+  },
+  {
+    'title': '零售价',
+    'key': 'priceSale'
+  },
+  {
+    'title': '库存',
+    'key': 'inventory'
+  },
+  {
+    'title': '访问量',
+    'key': 'access'
+  },
+  {
+    'title': '销量',
+    'key': 'numberSale'
+  },
+  {
+    title: '操作',
+    slot: 'action',
+  }
+]
+
+
+/**
  * 数据管理 => 全站商品销售量
  * */
 export const productSaleTable = [
@@ -428,10 +509,12 @@ export const accountTable = [
 export const orderType = {
   'nonPayment': 0,
   'unshipped': 1,
-  'payment': 2,
+ // 'payment': 2,
+  'received': 2,
   'shipped': 3,
-  'evaluate': 4,
-  'afterProcessing': 5
+  'evaluate': 3,   //待评价页面
+  'afterProcessing': 5,
+  'Waitting': 2
 }
 /**
  * 账户管理 => 角色
@@ -663,18 +746,6 @@ export const  NotPassCrumb = [
 ]
 
 /**
- * 新增商品参数
- * */
-export const  isTrousersType = ['pantsLength','openFiles','pantsWaist','pantsPlacket']
-
-export const  isCoatType = ['collarType','clothingLength','sleeveLength']
-
-export const  isSuitType = ['pantsLength','openFiles','pantsWaist','pantsPlacket',
-  'collarType','clothingLength','sleeveLength','suitNumber','suitType'
-]
-
-
-/**
  * 投诉状态
  * */
 export const complainStatus = {
@@ -760,3 +831,128 @@ export const addStatus = {
   'notAdded': 0
 }
 
+
+/**
+ * 营销管理 优惠券列表
+ * */
+export const CouponTable = [
+  {
+    title: '优惠劵名称',
+    key: 'couponName'
+  },
+  {
+    title: '使用门槛',
+    key: 'couponThreshold'
+  },
+  {
+    title: '优惠金额',
+    key: 'couponPrice',
+  },
+  {
+    title: '使用期限',
+    key: 'endurance',
+    render: (h, params) => {
+      return h('div', [
+        h('span',params.row.startTime),
+        h('b','/'),
+        h('span',params.row.endTime)
+      ]);
+    }
+  },
+  {
+    title: '领取数量(张)',
+    key: 'receiveNum',
+  },
+  {
+    title: '使用数量(张)',
+    key: 'useNum',
+  },
+  {
+    title: '操作',
+    slot: 'action',
+  }
+]
+/**
+ * 营销管理 优惠券详情商品列表
+ * */
+export const CouponDetailTable = [
+  {
+    title: '商品编号',
+    key: 'productId'
+  },
+  {
+    title: '商品名称',
+    key: 'productName'
+  },
+  {
+    title: '商品库存(件)',
+    key: 'inventory',
+  },
+  {
+    title: '活动期间销量(件)',
+    key: 'saleNum'
+  },
+  {
+    title: '使用次数(次)',
+    key: 'useNum',
+  },
+]
+
+/**
+ * 营销管理 厂家折扣列表
+ * */
+export const DiscountTable = [
+  {
+    title: '商品编号',
+    key: 'productId'
+  },
+  {
+    title: '商品名称',
+    key: 'productName'
+  },
+  {
+    title: '折扣',
+    key: 'discount',
+  },
+  {
+    title: '使用期限',
+    key: 'endurance',
+    render: (h, params) => {
+      return h('div', [
+        h('span',params.row.startTime),
+        h('b','/'),
+        h('span',params.row.endTime)
+      ]);
+    }
+  },
+  {
+    title: '能否与优惠券共用',
+    key: 'shareStatus',
+  },
+  {
+    title: '激活状态',
+    key: 'activationStatus',
+    render: (h, params) => {
+      let checked =  params.row.activationStatus === '已激活'
+      return h('div', [
+        h('span', {
+          style: {
+            color: checked ? '#00818C': '#FF7903'
+          }
+        },params.row.activationStatus)
+      ])
+    }
+  }
+]
+
+export const StytemRole = {
+  'vendor': 0,   //厂家操作系统
+  'back': 1    //童e家操作系统
+}
+
+export const userType = {
+  'vendor': 1,   //厂家操作系统
+  'platform': 2    //童e家操作系统
+}
+
+export const payType = ['支付宝','微信','银联']
