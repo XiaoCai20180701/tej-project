@@ -6,7 +6,7 @@
       <h2 class="title">{{detailData.name}}</h2>
       <div>
         <p class="item">
-          <span class="label">{{detailData.vendorId ? '厂商' : '商家'}}编号：</span>
+          <span class="label">{{detailData.vendorId ? '厂家' : '商家'}}编号：</span>
           <span>{{detailData.vendorId ? detailData.vendorId : detailData.retailId}}</span>
         </p>
         <p class="item"><span class="label">联系人：</span><span>{{detailData.contact}}</span></p>
@@ -16,15 +16,16 @@
       </div>
     </div>
     <div class="tej-bill-box">
-      <p class="item">
-        <span class="label">账户余额：</span><span>{{detailData.balance}}元</span>
-      </p>
+      <div class="item">
+        <p><span class="label">收款账号：</span><span>{{detailData.shroffAccount}}</span></p>
+        <p><span class="label">账户余额：</span><span>{{detailData.balance}}元</span></p>
+      </div>
       <p class="item" v-if="!isVendor">
         <span class="label">积分余额：</span><span>{{detailData.balanceIntegration}}点</span>
       </p>
       <div class="btn">
         <Button type="primary" @click="modal = true">
-          {{isVendor ? '厂商' : '商家'}}账单
+          {{isVendor ? '厂家' : '商家'}}账单
         </Button>
       </div>
       <Modal v-model="modal"
@@ -68,7 +69,7 @@
         console.log('checked!!!', checked)
         return checked ? true : false
       },
-      id: function(){
+      id: function () {
         let checked = this.detailData.hasOwnProperty('vendorId')
         console.log('checked!!!', checked)
         return checked ? this.detailData.vendorId : this.detailData.retailId
@@ -107,6 +108,7 @@
     margin: 10px 0;
     font-size: 14px;
   }
+
   .tej-bill-box .item {
     margin-top: 20px;
     margin-bottom: 20px;
@@ -125,18 +127,20 @@
     margin-top: -21px;
   }
 
-  .tej-bill-box{
+  .tej-bill-box {
     padding: 10px;
     background: #fff;
     margin-top: 20px;
   }
 
-  .tej-bill-box p + p,.tej-bill-box p + button {
+  .tej-bill-box p + p, .tej-bill-box p + button {
     margin-top: 20px;
   }
+
   .tej-bill-box p + button {
     text-align: center;
   }
+
   .tej-bill-box .btn {
     margin-top: 20px;
     text-align: center;
