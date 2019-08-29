@@ -12,19 +12,24 @@ const USER_URL = '/userResource/'
 const STATISTICS_URL = '/statisticsResource/'
 const COMPLAINT_URL = '/complainResource/'
 const FRONT_URL = '/frontResource/'
+const MARKETING_URL = '/marketingResource/'
 
 
 /**
  * 登录接口
  */
-export const login = (userName, passWord) => post(LOGIN_URL + 'login', userName, passWord)  //登录
+export const login = (userName, passWord) => post(LOGIN_URL + 'login', userName, passWord)  //平台用户登录
+
+export const vendorLogin = (userName, passWord) => post(LOGIN_URL + 'login-vendor', userName, passWord)  //厂家用户登录
 
 export const postLogout = (userId) => post(LOGIN_URL + 'logout', userId)  //退出登录
+
+export const postCode = (mobile) => post(LOGIN_URL + 'getcode',mobile) //获取忘记密码验证码
 
 /**
  * 获取页面菜单权限接口
  */
-export const getRes = (roleId) => post('/loginResource/menu', roleId)  //菜单权限
+export const getRes = (roleId,menuType) => post('/loginResource/menu', roleId,menuType)  //菜单权限
 
 /**
  * 上传图片接口
@@ -75,6 +80,8 @@ export const getProductFilter = () => get(PRODUCT_URL + 'searchData')
 
 export const postSpecByTypeId = (typeId) => post(PRODUCT_URL + 'specificationByTypeId', typeId)   //获取商品规格参数模板
 
+export const postSpecificationByProductId = (productId) => post(PRODUCT_URL + 'getSpecificationByProductId',productId) //获取商品详细规格参数
+
 /**
  * 零售商管理相关的接口
  */
@@ -112,9 +119,11 @@ export const postVendorBillList = (params) => post(VENDOR_URL + 'vendorBillList'
  */
 export const postOrderDetail = (ordeId) => post(ORDER_URL + 'orderDetail', ordeId)  //订单详情
 
-export const getHistoryList = () => get(ORDER_URL + 'historyList')  //获取历史记录列表
+export const getHistoryList = () => post(ORDER_URL + 'historyList')  //获取历史记录列表
 
 export const postOrderList = (params) => post(ORDER_URL + 'orderList', params)  //订单列表
+
+export const putUpdateOrder = (params)=> put(ORDER_URL + 'updateOrder',params)  //修改订单信息（发货）（退货）（换货）
 
 /**
  * 数据管理相关的接口
@@ -164,5 +173,13 @@ export const getFrontList = () => get(FRONT_URL + 'frontList')  //获取前台�
 
 export const putUpdateFront = (params)=> put( FRONT_URL+ 'updateFront', params) //修改前台管理信息
 
+/**
+ * 营销管理相关的接口
+ */
+export const postCouponList = (params)=> post(MARKETING_URL + 'couponlist',params)   //获取优惠券列表
+
+export const postDiscountList = (params)=> post(MARKETING_URL + 'discountlist',params)  //获取折扣商品列表
+
+export const postCouponDetails = (params)=> post(MARKETING_URL + 'coupondetails',params)  //获取优惠券详情
 
 
