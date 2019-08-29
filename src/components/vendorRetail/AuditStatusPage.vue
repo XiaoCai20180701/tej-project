@@ -48,10 +48,10 @@
         //TODO 测试完成后，需要替换
 //        this.isVendor ? this.getVendorInfo() : this.getAuditInfo()
         if(this.isVendor){
-          console.log('厂商审核详情11111')
+          console.log('厂家审核详情11111')
          this.getVendorInfo()
         }else {
-          console.log('零售商审核详情11111')
+          console.log('商家审核详情11111')
           this.getAuditInfo()
         }
       },
@@ -60,7 +60,7 @@
 //          vendorId: this.$route.params.vendorId
           vendorId: this.$route.params.id
         }).then(res => {
-          console.log('厂商审核详情',res)
+          console.log('厂家审核详情',res.data)
           if(res.code != 200){
             this.$Message.warning(res.msg)
             if(res.code === 9998){
@@ -81,7 +81,7 @@
           retailId: this.$route.params.id
         })
           .then(res => {
-            console.log('零售商审核详情',res)
+            console.log('商家审核详情',res)
             if(res.code != 200){
               this.$Message.warning(res.msg)
               if(res.code === 9998){
@@ -128,7 +128,7 @@
         }else {
           putSaveAudit(params)
             .then(res => {
-              console.log('零售商审核通过', res)
+              console.log('商家审核通过', res)
               if(res.code != 200){
                 this.$Message.warning(res.msg)
                 if(res.code === 9998){
@@ -147,16 +147,16 @@
       fail(){
         if (this.isVendor) {
           this.$Modal.warning({
-            title: '已拒绝该厂商的审核',
-            content: '厂商将受到审核失败的理由。',
+            title: '已拒绝该厂家的审核',
+            content: '厂家将受到审核失败的理由。',
             onOk: ()=>{
               this.$router.push({ name: 'NotPassVendorPage'})
             }
           })
         } else {
           this.$Modal.warning({
-            title: '已拒绝该零售商的审核',
-            content: '零售商将受到审核失败的理由。',
+            title: '已拒绝该商家的审核',
+            content: '商家将受到审核失败的理由。',
             onOk: ()=>{
               console.log('gikkkkkkkk')
               this.$router.push({ name: 'NotPassPage'})
@@ -167,7 +167,7 @@
       success(){
         if(this.isVendor) {
           this.$Modal.success({
-            title: this.isVendor?'厂商商标':'零售商商标',
+            title: this.isVendor?'厂家商标':'商家商标',
             content: '审核成功',
             onOk: ()=> {
               this.$router.push({ name: 'CheckedVendorPage'})
@@ -175,7 +175,7 @@
           })
         }else {
           this.$Modal.success({
-            title: this.isVendor?'厂商商标':'零售商商标',
+            title: this.isVendor?'厂家商标':'商家商标',
             content: '审核成功',
             onOk: ()=> {
               this.$router.push({ name: 'CheckedPage'})
