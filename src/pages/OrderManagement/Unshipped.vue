@@ -10,16 +10,18 @@
                 :show-loading="showLoading"
                 @page-change-callback="pageChangeCallback"
                 @pageSize-change-callback="pageSizeChangeCallback"
+                @ok-callback="okCallback"
     ></OrderTable>
   </div>
 </template>
 
 <script>
-  import { postOrderList} from '@/api/api'
+  import { postOrderList, putUpdateOrder} from '@/api/api'
   import { orderType } from '@/api/tableData'
   import OrderSearchForm from './components/OrderSearchForm'
   import OrderTable from './components/OrderTable'
   import expandRow from './components/OrderItemExpand'
+  import bus from '@/utils/bus'
 
   export default {
     name: 'Unshipped',
@@ -74,13 +76,44 @@
             slot: 'action'
           }
         ],
-        orderData: []
+        orderData: [],
+        retailName: '',
+        vendorName: '',
+        startTime: null,
+        endTime: null,
+        formLogistics: {}
       }
     },
     mounted() {
       this.getList()
+      this.formLogisticsCallback()
     },
     methods: {
+      formLogisticsCallback(){
+        bus.$on('formLogistics-callback',(data)=>{
+          this.formLogistics = {
+            orderLogisticsId: data.orderLogisticsId,
+            orderLogisticsName: data.orderLogisticsName
+          }
+        })
+      },
+      okCallback(orderId){
+        this.updateOrder(orderId)
+      },
+      updateOrder(orderId){
+        let params = {
+          orderId: orderId,
+          orderLogisticsId: this.formLogistics.orderLogisticsId,
+          orderLogisticsName: this.formLogistics.orderLogisticsName,
+          orderType: orderType.received  //待发货到已发货，状态值需要传2
+        }
+        putUpdateOrder(params).then(res => {
+          this.$Message.success('修改成功')
+          this.getList()
+        }).catch(err => {
+          this.$Message.error('修改失败')
+        })
+      },
       pageChangeCallback(data){
         console.log('page callback',data)
         this.getList()
@@ -116,7 +149,8 @@
           vendorName: this.vendorName,
           retailName: this.retailName,
           startTime: this.startTime,
-          endTime: this.endTime
+          endTime: this.endTime,
+          vendorId: localStorage.getItem('vendorId')
         }
         postOrderList(params).then(res => {
           console.log('未发货订单列表', res.data)
