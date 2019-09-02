@@ -116,11 +116,12 @@
         let params = {
           page: this.page.index,
           pageSize: this.page.size,
-//          orderType: orderType.afterProcessing, //获取全部订单时，无需传此参数
+          orderType: null, //获取全部订单时，无需传此参数
           vendorName: this.vendorName,
           retailName: this.retailName,
           startTime: this.startTime,
-          endTime: this.endTime
+          endTime: this.endTime,
+          vendorId: localStorage.getItem('vendorId')
         }
         this.showLoading = true
         postOrderList(params).then(res => {
