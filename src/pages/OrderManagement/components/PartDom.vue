@@ -3,17 +3,17 @@
     <Card class="tej-part-card">
       <p slot="title">
         <span>{{ people }}详情 </span>
-        <span>{{txt}}名称：{{data.name}}</span>
+        <span class="txt">{{txt}}名称：{{data.name}}</span>
         <span class="number">{{txt}}编号：{{id}}</span>
       </p>
       <p class="item">
-        <span class="label">{{people}}：</span><span>{{data.contact}}</span>
+        <span class="label">{{people}}：</span><span class="txt">{{data.contact}}</span>
       </p>
       <p class="item">
-        <span class="label">{{people}}号码：</span><span>{{data.mobile}}</span>
+        <span class="label">{{people}}号码：</span><span class="txt">{{data.mobile}}</span>
       </p>
       <p class="item">
-        <span class="label">{{people}}地址：</span><span>{{data.address}}</span>
+        <span class="label">{{people}}地址：</span><span class="txt">{{data.address}}</span>
       </p>
     </Card>
   </div>
@@ -67,7 +67,7 @@
   margin-right: 10px;
   text-align: right;
 }
-  .tej-part-card span + span {
+  .tej-part-card .txt:first-child {
     margin-left: 15px;
   }
   .tej-part-card .number {
