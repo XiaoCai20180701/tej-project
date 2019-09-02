@@ -3,6 +3,13 @@
     <Table :columns="orderColumnsTable" :data="orderDataTable" :loading="showLoading">
       <template slot-scope="{row, index}" slot="action">
         <a @click="showDetail(row.orderId)">查看详情</a>
+        <a @click="showDeliveryModal = true" v-if="!showBtn && row.orderType== '未发货'">发货</a>
+        <Modal v-model="showDeliveryModal"
+               title="填写发货信息"
+               @on-ok="ok(row.orderId)"
+        >
+          <DeliveryModal></DeliveryModal>
+        </Modal>
       </template>
     </Table>
     <div class="tej-page-box">
@@ -18,8 +25,14 @@
 </template>
 
 <script>
+  import { userType,orderType } from '@/api/tableData'
+  import DeliveryModal from './DeliveryModal'
+
   export default {
     name: 'OrderTable',
+    components: {
+      DeliveryModal
+    },
     props: {
       orderColumnsTable: {
         type: Array
@@ -34,12 +47,23 @@
         type: Boolean
       }
     },
+    computed:{
+      showBtn(){
+        let checked = localStorage.getItem('userType') == userType.platform
+        return checked ? true :false
+      }
+    },
     data(){
       return {
-
+        showDeliveryModal: false,
+        formLogistics: {},
+        orderId: null
       }
     },
     methods: {
+      ok(orderId){
+        this.$emit('ok-callback',orderId)
+      },
       pageChange(i) {
         console.log('page', i)
         this.page.index = i
@@ -51,6 +75,7 @@
         this.$emit('pageSize-change-callback', this.page)
       },
       showDetail(orderId) {
+        this.orderId = orderId
         this.$router.push({
           name: 'OrderDetailPage',
           params: {orderId: orderId,page: 1,pageSize: 10}

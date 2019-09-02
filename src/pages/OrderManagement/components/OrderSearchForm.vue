@@ -1,6 +1,6 @@
 <template>
   <Form :label-width="80" class="tej-order-search-form">
-    <FormItem label="厂家：">
+    <FormItem label="厂家：" v-if="showVendorInput">
       <Input type="text"
              class="tej-order-search-input"
              placeholder="请输入厂家名称"
@@ -51,6 +51,7 @@
 
 <script>
   import {getHistoryList} from '@/api/api'
+  import { userType } from '@/api/tableData'
   export default {
     name: 'OrderSearchForm',
     data(){
@@ -60,10 +61,17 @@
         startTime: null,
         endTime: null,
         vendorList: [],
-        retailList: [],
+        retailList: []
+      }
+    },
+    computed:{
+      showVendorInput(){
+        let checked = localStorage.getItem('userType') == userType.platform
+        return checked ? true :false
       }
     },
     mounted() {
+      console.log('yyyyyyyyyyy',)
       this.getHistoryListFun()
     },
     methods: {
