@@ -119,7 +119,8 @@
           vendorName: this.vendorName,
           retailName: this.retailName,
           startTime: this.startTime,
-          endTime: this.endTime
+          endTime: this.endTime,
+          vendorId: localStorage.getItem('vendorId')
         }
         console.log('params!!!!!!!!',params)
         this.showLoading = true
