@@ -1,8 +1,8 @@
 <template>
   <Form :model="formLogistics" label-position="right" :label-width="100">
     <FormItem label="物流公司：">
-      <Input v-model="formLogistics.orderLogisticsName" @on-change="orderLogisticsNameChange"/>
-      <!--<Delivery></Delivery>-->
+      <!--<Input v-model="formLogistics.orderLogisticsName" @on-change="orderLogisticsNameChange"/>-->
+      <Delivery @logistics-name-callback="logisticsNameCallback"></Delivery>
     </FormItem>
     <FormItem label="物流单号：">
       <Input v-model="formLogistics.orderLogisticsId" @on-change="orderLogisticsIdChange"/>
@@ -27,10 +27,10 @@
       }
     },
     methods: {
-      orderLogisticsNameChange(e){
-        this.formLogistics.orderLogisticsName = e.target.value
+      logisticsNameCallback(val){
+        this.formLogistics.orderLogisticsName = val
         bus.$emit('formLogistics-callback',{
-          orderLogisticsName: e.target.value,
+          orderLogisticsName: val,
           orderLogisticsId: this.formLogistics.orderLogisticsId
         })
       },

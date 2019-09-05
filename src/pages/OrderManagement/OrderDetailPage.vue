@@ -5,6 +5,15 @@
         <div class="tej-order-detail-box">
           <span><span v-if="showCard">原</span>订单编号：{{orderDetail.orderId}}</span>
           <span>下单时间：{{orderDetail.orderTime}}</span>
+          <!-- 待发货 显示-->
+          <Button type="primary" v-if="showDelivery" @click="showDeliveryModal = true"> 发货</Button>
+          <Modal v-model="showDeliveryModal"
+                 title="填写发货信息"
+                 @on-ok="ok(orderDetail.orderId)"
+          >
+            <DeliveryModal></DeliveryModal>
+          </Modal>
+          <!-- 待发货 显示 end-->
           <Button class="number"
                   @click="printClick(orderDetail)"
                   type="primary">
@@ -83,16 +92,19 @@
 <script>
   import PartDom from './components/PartDom'
   import ProductItem from '@/components/ProductItem'
+  import DeliveryModal from './components/DeliveryModal'
   import {postOrderDetail, putUpdateOrder} from '@/api/api'
   import {payType, userType,orderType} from '@/api/tableData'
   import TejTimeline from '@/components/TejTimeline'
+  import bus from '@/utils/bus'
 
   export default {
     name: 'OrderDetailPage',
     components: {
       'PartDom': PartDom,
       'ProductItem': ProductItem,
-      'TejTimeline': TejTimeline
+      'TejTimeline': TejTimeline,
+      'DeliveryModal': DeliveryModal
     },
     computed: {
       price() {
@@ -111,6 +123,10 @@
       },
       showCard(){
         let checked = localStorage.getItem('userType') == userType.vendor && this.orderDetail.orderType == orderType.afterProcessing || this.orderDetail.orderType == orderType.agreeReturn
+        return checked ? true : false
+      },
+      showDelivery(){
+        let checked = localStorage.getItem('userType') == userType.vendor && this.orderDetail.orderType == orderType.unshipped
         return checked ? true : false
       }
     },
@@ -136,27 +152,50 @@
           orderProductPrice: null,
           logisticsInfo: {}
         },
+        showDeliveryModal: false,
+        formLogistics: {}
       }
     },
     mounted() {
       this.getDetail()
     },
     methods: {
+      formLogisticsCallback(){
+        bus.$on('formLogistics-callback',(data)=>{
+          this.formLogistics = {
+            orderLogisticsId: data.orderLogisticsId,
+            orderLogisticsName: data.orderLogisticsName
+          }
+        })
+      },
+      ok(orderId){
+        this.formLogisticsCallback()
+        //发货,待发货到已发货，状态值需要传2
+        this.updateOrder(orderId,orderType.received)
+      },
       returnBtnClick(){
         let id = this.$route.params.orderId
         this.$Modal.success({
           title: '已同意商家的退货申请',
           content: '等待商家填写物流信息',
           onOk: () => {
-            this.updateOrder(id)
+            //退货,同意退货，状态值传6
+            this.updateOrder(id,orderType.agreeReturn)
           },
         })
       },
-      updateOrder(orderId){
+      updateOrder(orderId,type){
+        let logisticsInfo = {
+          orderLogisticsId: this.formLogistics.orderLogisticsId,
+          orderLogisticsName: this.formLogistics.orderLogisticsName
+        }
+        let extra = type == orderType.unshipped ? logisticsInfo : null
         let params = {
           orderId: orderId,
-          orderType: orderType.agreeReturn  //同意退货，状态值传6
+          orderType: type,
+          ...extra
         }
+        console.log('update',params)
         putUpdateOrder(params).then(res => {
           if (res.code != 200) {
             this.$Message.warning(res.msg)

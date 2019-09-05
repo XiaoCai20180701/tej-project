@@ -4,6 +4,7 @@
                      @retail-callback="retailCallback"
                      @ok-callback="searchCallback"
     ></OrderSearchForm>
+   <Delivery></Delivery>
     <OrderTable :order-columns-table="orderColumns"
                 :order-data-table="orderData"
                 :page="page"
@@ -22,10 +23,11 @@
   import OrderTable from './components/OrderTable'
   import expandRow from './components/OrderItemExpand'
   import bus from '@/utils/bus'
+  import Delivery from '@/components/Delivery'
 
   export default {
     name: 'Unshipped',
-    components: { expandRow,OrderSearchForm,OrderTable },
+    components: { expandRow,OrderSearchForm,OrderTable,Delivery },
     data() {
       return {
         showLoading: false,
@@ -86,7 +88,6 @@
     },
     mounted() {
       this.getList()
-      this.formLogisticsCallback()
     },
     methods: {
       formLogisticsCallback(){
@@ -98,6 +99,7 @@
         })
       },
       okCallback(orderId){
+        this.formLogisticsCallback()
         this.updateOrder(orderId)
       },
       updateOrder(orderId){
@@ -108,6 +110,14 @@
           orderType: orderType.received  //待发货到已发货，状态值需要传2
         }
         putUpdateOrder(params).then(res => {
+          if(res.code != 200){
+            this.$Message.warning(res.msg)
+            if(res.code === 9998){
+              localStorage.clear()
+              this.$router.push({path: '/login'})
+            }
+            return
+          }
           this.$Message.success('修改成功')
           this.getList()
         }).catch(err => {

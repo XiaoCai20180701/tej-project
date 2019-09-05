@@ -3,7 +3,7 @@
     <Table :columns="orderColumnsTable" :data="orderDataTable" :loading="showLoading">
       <template slot-scope="{row, index}" slot="action">
         <a @click="showDetail(row.orderId)">查看详情</a>
-        <a @click="showDeliveryModal = true" v-if="!showBtn && row.orderType== '未发货'">发货</a>
+        <a @click="showDeliveryModal = true" v-if="!showBtn && row.orderType== '待发货'">发货</a>
         <Modal v-model="showDeliveryModal"
                title="填写发货信息"
                @on-ok="ok(row.orderId)"
