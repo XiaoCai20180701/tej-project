@@ -15,12 +15,15 @@ import Moment from 'moment'
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
 import '@/assets/iconfont/iconfont.css'
+import Print from 'vue-print-nb'
+
 
 Vue.config.productionTip = false
 Vue.use(VueRouter)
 Vue.use(Vuex)
 Vue.use(iview)
 Vue.use(VueAwesomeSwiper)
+Vue.use(Print)
 
 Vue.prototype.$axios = axios
 Vue.prototype.$md5 = md5
