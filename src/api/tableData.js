@@ -504,7 +504,7 @@ export const accountTable = [
 
 /**
  * 订单管理 => 订单状态
- * 0:未付款  1:未发货  2:已收货 3:已发货 4:已评价 5:退换货
+ * 0:未付款  1:未发货  2:已发货 3:已收货 4:已评价 5:退换货 6:同意退货 7.厂家确认收到退货
  * */
 export const orderType = {
   'nonPayment': 0,
