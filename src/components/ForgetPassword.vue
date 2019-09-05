@@ -3,20 +3,20 @@
         :label-width="75">
 
     <FormItem label="手机号码:" prop="phone">
-      <Input v-model="forgotPwdForm.phone" placeholder="请输入手机号码"/>
+      <Input v-model="forgotPwdForm.phone" placeholder="请输入手机号码" @on-change="phoneChange"/>
     </FormItem>
-    <FormItem label="验证码:" prop="phoneCode" inline>
+    <FormItem label="验证码:" prop="code" inline>
       <Row>
         <i-col span="16">
-          <Input v-model="forgotPwdForm.phoneCode" placeholder="请输入验证码"/>
+          <Input v-model="forgotPwdForm.code" placeholder="请输入验证码" @on-change="codeChange"/>
         </i-col>
         <i-col span="3" offset="1">
           <Button type="primary" @click="handleCode">验证码</Button>
         </i-col>
       </Row>
     </FormItem>
-    <FormItem label="新密码:" prop="passwd">
-      <Input type="password" v-model="forgotPwdForm.passwd" placeholder="请输入新密码"/>
+    <FormItem label="新密码:" prop="passWord">
+      <Input type="password" v-model="forgotPwdForm.passWord" placeholder="请输入新密码" @on-change="passWordChange"/>
     </FormItem>
     <FormItem label="再输一次" prop="passwdCheck">
       <Input type="password" v-model="forgotPwdForm.passwdCheck" placeholder="请再输一次"/>
@@ -27,7 +27,7 @@
 <script>
   import { postCode } from  '@/api/api'
   export default {
-    name: 'ForgetPasswordModal',
+    name: 'ForgetPassword',
     data() {
       const validatePhone = (rule, value, callback) => {
         if (value === '') {
@@ -42,7 +42,7 @@
           callback();
         }
       };
-      const validatePhoneCode = (rule, value, callback) => {
+      const validatecode = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请输入验证码'));
         } else if (value.length !== 6) {
@@ -75,8 +75,8 @@
         forgotPasswordModal: false,
         forgotPwdForm: {
           phone: '',
-          phoneCode: '',
-          passwd: '',
+          code: '',
+          passWord: '',
           passwdCheck: ''
         },
         forgotPwdFormRules: {
@@ -84,11 +84,11 @@
             validator: validatePhone,
             trigger: 'blur'
           }],
-          phoneCode: [{
-            validator: validatePhoneCode,
+          code: [{
+            validator: validatecode,
             trigger: 'blur'
           }],
-          passwd: [{
+          passWord: [{
             validator: validateForgotPass,
             trigger: 'blur'
           }],
@@ -100,6 +100,25 @@
       }
     },
     methods: {
+      callback(){
+        this.$emit('forgot-password-callback',{
+          phone: this.forgotPwdForm.phone,
+          code: this.forgotPwdForm.code,
+          passWord: this.forgotPwdForm.passWord
+        })
+      },
+      passWordChange(e){
+        this.forgotPwdForm. passWord = e.target.value
+        this.callback()
+      },
+      codeChange(e){
+        this.forgotPwdForm.code = e.target.value
+        this.callback()
+      },
+      phoneChange(e){
+        this.forgotPwdForm.phone = e.target.value
+        this.callback()
+      },
       handleCode() {
         postCode({
           mobile: this.forgotPwdForm.phone
