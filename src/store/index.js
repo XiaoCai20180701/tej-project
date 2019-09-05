@@ -9,7 +9,8 @@ const store = new Vuex.Store({
     state: {
         // 左侧菜单栏数据 (前端路由表)
         menuItems: JSON.parse(localStorage.getItem('menuItems')),
-        role: 1
+        role: 1,
+        userType: 2  //1厂家操作后台，2平台后台
     },
     mutations: {
         SET_MENUS(state, items) {
@@ -17,7 +18,10 @@ const store = new Vuex.Store({
         },
         SET_ROLE(state, role){
             state.role = role
-        }
+        },
+       SET_USER_TYPE(state,userType){
+          state.userType = userType
+       }
     },
     actions: {
         getAnyscMenu({commit},role){
@@ -33,7 +37,10 @@ const store = new Vuex.Store({
         },
         getRole({commit},role){
           commit('SET_ROLE',role)
-        }
+        },
+       getUserType({commit},userType){
+          commit('SET_USER_TYPE',userType)
+       }
     }
 
 })
