@@ -2,7 +2,9 @@
   <div>
     <StationData :all-data="allData"
                  @date-callback="dateCallback"
-    ></StationData>
+                 v-if="show"
+    >
+    </StationData>
     <DataTab></DataTab>
   </div>
 </template>
@@ -12,7 +14,8 @@
   import StationData from './components/StationData'
   import {
     dataStatus,
-    stationStatus
+    stationStatus,
+    userType
   } from '@/api/tableData'
   import {getStationdata, postRanklist, getRankAllList} from '@/api/api'
 
@@ -25,7 +28,13 @@
     data() {
       return {
         allData: [],
-        stationInfo: {}
+        stationInfo: {},
+      }
+    },
+    computed: {
+      show(){
+        let checked = localStorage.getItem('userType') == userType.platform
+        return checked ? true : false
       }
     },
     mounted() {
