@@ -24,7 +24,7 @@
                  class="tej-modfiy-modal"
                  @on-ok="forgetOkFun"
           >
-            <ForgetPasswordModal></ForgetPasswordModal>
+            <ForgetPassword></ForgetPassword>
           </Modal>
         </FormItem>
         <FormItem class="tej-login-btn">
@@ -40,12 +40,12 @@
   import {login, vendorLogin} from '@/api/api'
   import {menusToRoutes} from '@/utils/index'
   import {userType} from '@/api/tableData'
-  import ForgetPasswordModal from './ForgetPasswordModal'
+  import ForgetPassword from './ForgetPassword'
 
   export default {
     name: 'login',
     components: {
-      ForgetPasswordModal
+      ForgetPassword
     },
     data() {
       const validatePhone = (rule, value, callback) => {
