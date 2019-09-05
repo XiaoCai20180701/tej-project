@@ -1,41 +1,34 @@
 <template>
   <div>
     <div style="background: white; padding: 20px 40px 20px 35px;">
-      <div  v-if="isAdmin == 1">
+      <div v-if="show">
         <Row :gutter="8">
-          <Col span="8">
+          <i-col span="8">
             <Vendor :vendor-list="vendorList" @vendor-change-callback="vendorChangeCallback"></Vendor>
-          </Col>
-          <Col span="4" style="text-align: left">
-             <Button type="primary" @click="searchClick">搜索</Button>
-          </Col>
+          </i-col>
+          <i-col span="4" style="text-align: left">
+            <Button type="primary" @click="searchClick">搜索</Button>
+          </i-col>
         </Row>
       </div>
       <div v-else>
-        <Button icon="md-add" type="primary" @click = "modal = true"> 新增折扣商品</Button>
-        <Modal class="tej-modal" v-model="modal" :closable="false" :mask-closable="false" width=80vw>
-          <div v-if="modal == true">
-            <AddCouponProduct
-                style="padding: 10px;min-height: 450px;max-height: 750px;overflow: auto;"
-                :is-discount= "isDiscount" ></AddCouponProduct>
-          </div>
-          <div slot="footer" style="text-align: center;padding: 20px;">
-            <Button class="b_style" @click="modalCancel">取消</Button>
-            <Button class="b_style" style="color: white; background: #409EFF;margin-left: 25px;" @click="modalOk">确认
-            </Button>
-          </div>
-        </Modal>
-        <Button icon="ios-trash-outline" style="margin-left: 15px;" @click = "batchDelete">批量删除折扣商品</Button>
+        <Button icon="md-add" type="primary" @click="addDiscount"> 新增折扣商品</Button>
+        <Button icon="ios-trash-outline" style="margin-left: 15px;" @click="batchDelete">批量删除折扣商品</Button>
       </div>
 
     </div>
     <div style="background: white; margin-top: 10px;height: 85vh;">
       <div style="padding: 10px;">折扣商品列表</div>
       <Table :columns="columns"
-             :data="data"
-             :loading="showLoading">
+             :data="list"
+             :loading="showLoading"
+             @on-selection-change="sectionChange"
+      >
+        <template slot-scope="{ row, index }" slot="action">
+          <Tag :color="tagColor(row.activationStatus)">{{row.activationStatus}}</Tag>
+        </template>
       </Table>
-      <div class="tej-page-box" v-if="data.length != 0">
+      <div class="tej-page-box" v-if="list.length != 0">
         <Page
           :total="page.total"
           show-sizer
@@ -49,82 +42,126 @@
 </template>
 
 <script>
-  import AddCouponProduct from './AddCouponProduct'
-  import { StytemRole, DiscountTable } from '@/api/tableData'
-  import  Vendor from '@/components/Vendor'
-  import { getVendorList,postDiscountList } from  '@/api/api'
+  import AddDiscountProduct from './components/AddDiscountProduct'
+  import {userType, DiscountTable, activityType} from '@/api/tableData'
+  import Vendor from '@/components/Vendor'
+  import {getVendorList, postDiscountList, postAddDiscount, deleteDiscount} from '@/api/api'
 
   export default {
     name: "MarketingDiscountPage",
     components: {
-      AddCouponProduct,
+      AddDiscountProduct,
       Vendor
     },
     data() {
       return {
-        isAdmin: StytemRole.back,
-        keywords:'',
+        isAdmin: userType.platform,
+        vendorId: '',
         vendorList: [],
-        isDiscount: 1,
-        modal: false,
-        selectColumns:[],
+        isDiscount: activityType.discount,
+        //  modal: false,
+        selectColumns: [],
         columns: [],
-        data: [],
+        list: [],
         page: {
           index: 1,
           size: 10,
           total: 10
         },
-        showLoading: false
+        showLoading: false,
+        addIds: [],
+        discountInfo: {}
+      }
+    },
+    computed: {
+      show() {
+        let checked = localStorage.getItem('userType') == userType.platform
+        return checked ? true : false
+      },
+      tagColor() {
+        return function (status) {
+          return status == '未激活' ? '#FF7903' : '#00818C'
+        }
       }
     },
     mounted() {
       this.columns = DiscountTable
       this.getVendorList()
+      this.getList()
     },
     methods: {
+
       pageChange(page) {
         this.page.index = page
         this.getList()
       },
       pageSizeChange(page) {
         this.page.size = page
-        console.log('pageSize',page)
+        console.log('pageSize', page)
         this.getList()
       },
-      vendorChangeCallback(val){
-        console.log('厂家列表回调',val)
-        this.keywords = val
+      vendorChangeCallback(val) {
+        console.log('厂家列表回调', val)
+        this.vendorId = val
       },
-      searchClick(){
+      searchClick() {
         this.getList()
       },
-      modalOk() {
-        // console.log('ok value', this.value)
-        this.modal = false
+      sectionChange(item) {
+        console.log("section", item)
+        let ids = []
+        ids.push(item.map(item => item.discountId))
+        console.log('ids', ids)
+        this.selectColumns = ids.toString()
       },
-      modalCancel() {
-        console.log('cancel')
-        this.modal = false
+      batchDelete() {
+        console.log("批量删除折扣 selectColumns", this.selectColumns)
+        if (this.selectColumns.length == 0) {
+          this.$Message.error('请先选择要删除的折扣')
+          return
+        }
+        this.cancelDiscount(this.selectColumns)
       },
 
-        sectionChange(item){
-          console.log("section",item);
-          this.selectColumns = item;
-        },
-        batchDelete(){
-          console.log("selectColumns",this.selectColumns);
-        },
-        deleteAction(item){
-          console.log("delete",item);
-        },
-        showDetail(item){
-          console.log("show",item);
-          this.$router.push({
-            name: 'CouponDetail',
-            params: item
-          })
-        },
+      showDetail(item) {
+        console.log("show", item);
+        this.$router.push({
+          name: 'CouponDetail',
+          params: item
+        })
+      },
+      cancelDiscount(discountId) {
+        deleteDiscount({discountId: discountId}).then(res => {
+          this.$Message.success('删除折扣成功')
+          this.getList()
+        }).catch(err => {
+          this.$Message.error('删除折扣失败' + err)
+        })
+      },
+      addDiscount() {
+        this.$router.push({name: 'AddDiscount'})
+      },
+//      addDiscount(){
+//          let params = {
+//            discountInfo: this.discountInfo,
+//            addIds: this.addIds,
+//            editIds: []
+//          }
+//        postAddDiscount(params).then(res => {
+//          if (res.code != 200) {
+//            this.$Message.warning(res.msg)
+//            if (res.code === 9998) {
+//              localStorage.clear()
+//              this.$router.push({path: '/login'})
+//            }
+//            return
+//          }
+//          this.$Message.success('新增成功')
+//          this.getList()
+//        }).catch(err => {
+//          this.$Message.error('新增折扣失败' + err)
+//        })
+//      },
       getVendorList() {
         getVendorList('').then(res => {
           if (res.code != 200) {
@@ -141,7 +178,7 @@
         let params = {
           page: this.page.index,
           pageSize: this.page.size,
-          keywords: this.keywords
+          vendorId: this.vendorId || localStorage.getItem('vendorId')
         }
         this.showLoading = true
         postDiscountList(params).then(res => {
@@ -153,8 +190,9 @@
             }
             return
           }
+          console.log('111111111', res)
           this.showLoading = false
-          this.data = res.data.list
+          this.list = res.data.list
           this.page = {
             index: res.data.page,
             size: res.data.pageSize,
