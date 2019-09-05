@@ -30,7 +30,7 @@
 </template>
 
 <script>
-  import { putModifyPassword } from '@/api/api'
+//  import { putModifyPassword } from '@/api/api'
   export default {
     name: 'AccountAdd',
     data() {
