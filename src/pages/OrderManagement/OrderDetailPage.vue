@@ -76,7 +76,9 @@
     <Row>
       <i-col span="24">
         <div class="tej-order-detail-box clearfix">
-          <div v-if="orderDetail.orderType == 6">原订单编号：{{orderDetail.orderId}} <Button type="primary" class="number">确认收到退货</Button></div>
+          <div v-if="orderDetail.orderType == 6">原订单编号：{{orderDetail.orderId}}
+            <Button type="primary" class="number" @click="returnOk(orderDetail.orderId)">确认收到退货</Button>
+          </div>
           <div v-else>
             <span v-if="showPayType(orderDetail.orderType)">支付方式：{{payType(orderDetail.payType)}}</span>
             <span class="number">总计：{{price | money}}元</span>
@@ -160,6 +162,10 @@
       this.getDetail()
     },
     methods: {
+      returnOk(id){
+        //确认收到退货
+        this.updateOrder(id,orderType.okReturn)
+      },
       formLogisticsCallback(){
         bus.$on('formLogistics-callback',(data)=>{
           this.formLogistics = {
