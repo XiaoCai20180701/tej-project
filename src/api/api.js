@@ -134,6 +134,8 @@ export const postRanklist = (params) => post(STATISTICS_URL + 'ranklist', params
 
 export const getRankAllList = () => get(STATISTICS_URL + 'rankdetails')   //排行榜详情
 
+export const postVendorProductStatistics = (params)=> post(STATISTICS_URL + 'vendorproductstatistics',params)   //获取厂家商品统计
+
 /**
  * 账户管理相关的接口
  */
@@ -153,7 +155,7 @@ export const postRolePermissions = (params) => post(USER_URL + 'rolepermissions'
 
 export const postAddRole = (params) => post(USER_URL + 'addrole', params)  //新增角色
 
-export const putModifyPassword = (params) => put(USER_URL + 'editpassword', params)  //修改密码
+export const putModifyPassword = (params) => put(USER_URL + 'password/edit', params)  //修改密码
 
 /**
  * 投诉管理相关的接口
@@ -182,4 +184,21 @@ export const postDiscountList = (params)=> post(MARKETING_URL + 'discountlist',p
 
 export const postCouponDetails = (params)=> post(MARKETING_URL + 'coupondetails',params)  //获取优惠券详情
 
+export const postProductList = (params)=> post(MARKETING_URL + 'coupon/productlist',params) //获取厂家商品列表
+
+export const postCouponProductList = (params) => post(MARKETING_URL + 'couponproductlist',params)  //获取优惠商品列表
+
+export const postAddCoupon = (params) => post(MARKETING_URL + 'coupon/add',params)   //新增优惠券
+
+export const postAddDiscount = (params)=> post(MARKETING_URL + 'discount/add',params)   //新增折扣
+
+export const deleteCoupon = (params)=> deleteAxios(MARKETING_URL + 'coupon/delete/' + params['couponId'],params)  //删除优惠券
+
+export const filterCouponProguctList = (params) => post(MARKETING_URL + 'coupon/details/productlist',params) //获取厂家商品列表（过滤已添加优惠券的商品）
+
+export const postCouponRelation = (params)=> post(MARKETING_URL +'coupon/relation',params)    //关联优惠券:用于优惠券详情继续添加商品的确认
+
+export const deleteDiscount = (params) => deleteAxios(MARKETING_URL + 'discount/delete/' + params['discountId'],params)  //删除折扣
+
+export const postDiscountInfo = (params)=> get(MARKETING_URL + 'discount/info/' + params['productId'],params)  //获取商品折扣信息
 
