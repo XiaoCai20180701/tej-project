@@ -34,6 +34,8 @@ import frontRoutes from '@/router/frontRoutes'
 // 是否有菜单数据
 let hasMenus = false
 router.beforeEach(async (to, from, next) => {
+  console.log('to 到哪里去',to)
+  console.log('from 从哪里来',from)
     if (localStorage.getItem('token')) {
       console.log('token')
       // next()
