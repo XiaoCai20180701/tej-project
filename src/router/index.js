@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import EditProductPage from '@/pages/ProductManagement/EditProductPage.vue'
 import AuditStatusPage from '@/components/vendorRetail/AuditStatusPage.vue'
+import CouponDetail from '@/pages/MarketingManagement/CouponDetail.vue'
 
 Vue.use(Router)
 
@@ -11,6 +12,11 @@ const commonRoutes = [
     name: 'login',
     component: () => import('../components/Login.vue')
   },
+  {
+    path: '/OrderPrintPage/:orderDetail',
+    name: 'OrderPrintPage',
+    component: () => import('@/pages/OrderManagement/OrderPrintPage.vue')
+  }
   // {
   //   path: '/',
   //   redirect: {
@@ -26,10 +32,10 @@ export const asyncRoutes = {
     name: 'ProductManagementPage',
     meta: {
       requireAuth: true,
-      breadcrumb:[
+      breadcrumb: [
         {
-          title:'商品管理',
-          to:'/ProductManagementPage'
+          title: '商品管理',
+          to: '/ProductManagementPage'
         },
       ]
     },
@@ -39,14 +45,14 @@ export const asyncRoutes = {
     path: '/AddClassificationPage',
     name: 'AddClassificationPage',
     meta: {
-      breadcrumb:[
+      breadcrumb: [
         {
-          title:'商品管理',
-          to:'/ProductManagementPage'
+          title: '商品管理',
+          to: '/ProductManagementPage'
         },
         {
-          title:'新增分类',
-          to:'/AddClassificationPage'
+          title: '新增分类',
+          to: '/AddClassificationPage'
         }
       ]
     },
@@ -56,14 +62,14 @@ export const asyncRoutes = {
     path: '/AddProductPage',
     name: 'AddProductPage',
     meta: {
-      breadcrumb:[
+      breadcrumb: [
         {
-          title:'商品管理',
-          to:'/ProductManagementPage'
+          title: '商品管理',
+          to: '/ProductManagementPage'
         },
         {
-          title:'新增商品',
-          to:'/AddProductPage'
+          title: '新增商品',
+          to: '/AddProductPage'
         }
       ],
     },
@@ -73,14 +79,14 @@ export const asyncRoutes = {
     path: '/EditProductPage/:productId/:isEdit',
     name: 'EditProductPage',
     meta: {
-      breadcrumb:[
+      breadcrumb: [
         {
-          title:'商品管理',
-          to:'/ProductManagementPage'
+          title: '商品管理',
+          to: '/ProductManagementPage'
         },
         {
-          title:'编辑商品信息',
-          to:'/EditProductPage'
+          title: '编辑商品信息',
+          to: '/EditProductPage'
         }
       ]
     },
@@ -90,14 +96,14 @@ export const asyncRoutes = {
     path: '/OrderDetailPage/:orderId/:page/:pageSize',
     name: 'OrderDetailPage',
     meta: {
-      breadcrumb:[
+      breadcrumb: [
         {
-          title:'订单管理',
-          to:'/...'
+          title: '订单管理',
+          to: '/...'
         },
         {
-          title:'订单详情',
-          to:'/OrderDetailPage'
+          title: '订单详情',
+          to: '/OrderDetailPage'
         }
       ]
     },
@@ -107,14 +113,14 @@ export const asyncRoutes = {
     path: '/NonPayment',
     name: 'NonPayment',
     meta: {
-      breadcrumb:[
+      breadcrumb: [
         {
-          title:'订单管理',
-          to:'/NonPayment'
+          title: '订单管理',
+          to: '/NonPayment'
         },
         {
-          title:'未付款',
-          to:'/NonPayment'
+          title: '待付款',
+          to: '/NonPayment'
         }
       ]
     },
@@ -124,14 +130,14 @@ export const asyncRoutes = {
     path: '/Unshipped',
     name: 'Unshipped',
     meta: {
-      breadcrumb:[
+      breadcrumb: [
         {
-          title:'订单管理',
-          to:'/Unshipped'
+          title: '订单管理',
+          to: '/Unshipped'
         },
         {
-          title:'未发货',
-          to:'/Unshipped'
+          title: '待发货',
+          to: '/Unshipped'
         }
       ],
     },
@@ -141,53 +147,116 @@ export const asyncRoutes = {
     path: '/Shipped',
     name: 'Shipped',
     meta: {
-      breadcrumb:[
+      breadcrumb: [
         {
-          title:'订单管理',
-          to:'/Shipped'
+          title: '订单管理',
+          to: '/Shipped'
         },
         {
-          title:'已发货',
-          to:'/Shipped'
+          title: '已发货',
+          to: '/Shipped'
         }
       ]
     },
     component: () => import('@/pages/OrderManagement/Shipped.vue')
   },
+  'EvaluatedPage': {
+    path: '/EvaluatedPage',
+    name: 'EvaluatedPage',
+    meta: {
+      breadcrumb: [
+        {
+          title: '订单管理',
+          to: '/EvaluatedPage'
+        },
+        {
+          title: '待评价',
+          to: '/EvaluatedPage'
+        }
+      ]
+    },
+    component: () => import('@/pages/OrderManagement/EvaluatedPage.vue')
+  },
+  'WaittingPage': {
+    path: '/WaittingPage',
+    name: 'WaittingPage',
+    meta: {
+      breadcrumb: [
+        {
+          title: '订单管理',
+          to: '/WaittingPage'
+        },
+        {
+          title: '待收货',
+          to: '/WaittingPage'
+        }
+      ]
+    },
+    component: () => import('@/pages/OrderManagement/WaittingPage.vue')
+  },
   'AfterProcessing': {
     path: '/AfterProcessing',
     name: 'AfterProcessing',
     meta: {
-      breadcrumb:[
+      breadcrumb: [
         {
-          title:'订单管理',
-          to:'/AfterProcessing'
+          title: '订单管理',
+          to: '/AfterProcessing'
         },
         {
-          title:'售后处理',
-          to:'/AfterProcessing'
+          title: '售后处理',
+          to: '/AfterProcessing'
         }
       ]
     },
     component: () => import('@/pages/OrderManagement/AfterProcessing.vue')
   },
+  'ChangingRefundingPage': {
+    path: '/ChangingRefundingPage',
+    name: 'ChangingRefundingPage',
+    meta: {
+      breadcrumb: [
+        {
+          title: '订单管理',
+          to: '/ChangingRefundingPage'
+        },
+        {
+          title: '退换货',
+          to: '/ChangingRefundingPage'
+        }
+      ]
+    },
+    component: () => import('@/pages/OrderManagement/ChangingRefundingPage.vue')
+  },
   'AllOrder': {
-  path: '/AllOrder',
+    path: '/AllOrder',
     name: 'AllOrder',
+    meta: {
+      breadcrumb: [
+        {
+          title: '订单管理',
+          to: '/AllOrder'
+        },
+        {
+          title: '全部订单',
+          to: '/AllOrder'
+        }
+      ]
+    },
     component: () => import('@/pages/OrderManagement/AllOrder.vue')
-},
+  },
   'UnCheckedVendorPage': {
     path: '/UnCheckedVendorPage',
     name: 'UnCheckedVendorPage',
     meta: {
-      breadcrumb:[
+      breadcrumb: [
         {
-          title:'厂家管理',
-          to:'/UnCheckedVendorPage'
+          title: '厂家管理',
+          to: '/UnCheckedVendorPage'
         },
         {
-          title:'待审核',
-          to:'/UnCheckedVendorPage'
+          title: '待审核',
+          to: '/UnCheckedVendorPage'
         }
       ]
     },
@@ -197,14 +266,14 @@ export const asyncRoutes = {
     path: '/NotPassVendorPage',
     name: 'NotPassVendorPage',
     meta: {
-      breadcrumb:[
+      breadcrumb: [
         {
-          title:'厂家管理',
-          to:'/NotPassVendorPage'
+          title: '厂家管理',
+          to: '/NotPassVendorPage'
         },
         {
-          title:'未通过',
-          to:'/NotPassVendorPage'
+          title: '待通过',
+          to: '/NotPassVendorPage'
         }
       ]
     },
@@ -214,14 +283,14 @@ export const asyncRoutes = {
     path: '/CheckedVendorPage',
     name: 'CheckedVendorPage',
     meta: {
-      breadcrumb:[
+      breadcrumb: [
         {
-          title:'厂家管理',
-          to:'/CheckedVendorPage'
+          title: '厂家管理',
+          to: '/CheckedVendorPage'
         },
         {
-          title:'已通过',
-          to:'/CheckedVendorPage'
+          title: '已通过',
+          to: '/CheckedVendorPage'
         }
       ]
     },
@@ -231,18 +300,18 @@ export const asyncRoutes = {
     path: '/CheckedVendorDetailPage/:vendorId',
     name: 'CheckedVendorDetailPage',
     meta: {
-      breadcrumb:[
+      breadcrumb: [
         {
-          title:'厂家管理',
-          to:'/CheckedVendorPage'
+          title: '厂家管理',
+          to: '/CheckedVendorPage'
         },
         {
-          title:'已通过',
-          to:'/CheckedVendorPage'
+          title: '已通过',
+          to: '/CheckedVendorPage'
         },
         {
-          title:'厂家详情',
-          to:'/CheckedVendorDetailPage'
+          title: '厂家详情',
+          to: '/CheckedVendorDetailPage'
         }
       ]
     },
@@ -252,23 +321,23 @@ export const asyncRoutes = {
     path: '/DataManagementPage',
     name: 'DataManagementPage',
     meta: {
-     breadcrumb:[
-       {
-         title:'数据管理',
-         to:'/DataManagementPage'
-       }
-     ]
-   },
+      breadcrumb: [
+        {
+          title: '数据管理',
+          to: '/DataManagementPage'
+        }
+      ]
+    },
     component: () => import('@/pages/DataManagement/DataManagementPage.vue')
   },
   'AccountManagementPage': {
     path: '/AccountManagementPage',
     name: 'AccountManagementPage',
     meta: {
-      breadcrumb:[
+      breadcrumb: [
         {
-          title:'账户管理',
-          to:'/AccountManagementPage'
+          title: '账户管理',
+          to: '/AccountManagementPage'
         }
       ]
     },
@@ -278,14 +347,14 @@ export const asyncRoutes = {
     path: '/AccountDetailPage/:userId/:isDetail',
     name: 'AccountDetailPage',
     meta: {
-      breadcrumb:[
+      breadcrumb: [
         {
-          title:'账户管理',
-          to:'/AccountManagementPage'
+          title: '账户管理',
+          to: '/AccountManagementPage'
         },
         {
-          title:'账户详情',
-          to:'/AccountDetailPage'
+          title: '账户详情',
+          to: '/AccountDetailPage'
         }
       ],
     },
@@ -295,14 +364,14 @@ export const asyncRoutes = {
     path: '/AccountAddPage',
     name: 'AccountAddPage',
     meta: {
-      breadcrumb:[
+      breadcrumb: [
         {
-          title:'账户管理',
-          to:'/AccountManagementPage'
+          title: '账户管理',
+          to: '/AccountManagementPage'
         },
         {
-          title:'添加账户',
-          to:'/AccountAddPage'
+          title: '添加账户',
+          to: '/AccountAddPage'
         }
       ],
     },
@@ -312,14 +381,14 @@ export const asyncRoutes = {
     path: '/AccountCenterPage/:userId/:isDetail',
     name: 'AccountCenterPage',
     meta: {
-      breadcrumb:[
+      breadcrumb: [
         // {
         //   title:'账户管理',
         //   to:'/AccountManagementPage'
         // },
         {
-          title:'个人中心',
-          to:'/AccountCenterPage'
+          title: '个人中心',
+          to: '/AccountCenterPage'
         }
       ],
     },
@@ -329,14 +398,14 @@ export const asyncRoutes = {
     path: '/CheckedPage',
     name: 'CheckedPage',
     meta: {
-      breadcrumb:[
+      breadcrumb: [
         {
-          title:'商家管理',
-          to:'/CheckedVendorPage'
+          title: '商家管理',
+          to: '/CheckedVendorPage'
         },
         {
-          title:'已通过',
-          to:'/CheckedVendorPage'
+          title: '已通过',
+          to: '/CheckedVendorPage'
         }
       ]
     },
@@ -346,18 +415,18 @@ export const asyncRoutes = {
     path: '/CheckedDetailPage/:retailId',
     name: 'CheckedDetailPage',
     meta: {
-      breadcrumb:[
+      breadcrumb: [
         {
-          title:'商家管理',
-          to:'/CheckedVendorPage'
+          title: '商家管理',
+          to: '/CheckedVendorPage'
         },
         {
-          title:'已通过',
-          to:'/CheckedVendorPage'
+          title: '已通过',
+          to: '/CheckedVendorPage'
         },
         {
-          title:'商家详情',
-          to:'/CheckedVendorDetailPage'
+          title: '商家详情',
+          to: '/CheckedVendorDetailPage'
         }
       ]
     },
@@ -367,14 +436,14 @@ export const asyncRoutes = {
     path: '/UnCheckedPage',
     name: 'UnCheckedPage',
     meta: {
-      breadcrumb:[
+      breadcrumb: [
         {
-          title:'商家管理',
-          to:'/UnCheckedPage'
+          title: '商家管理',
+          to: '/UnCheckedPage'
         },
         {
-          title:'待审核',
-          to:'/UnCheckedPage'
+          title: '待审核',
+          to: '/UnCheckedPage'
         },
       ]
     },
@@ -384,14 +453,14 @@ export const asyncRoutes = {
     path: '/NotPassPage',
     name: 'NotPassPage',
     meta: {
-      breadcrumb:[
+      breadcrumb: [
         {
-          title:'商家管理',
-          to:'/NotPassPage'
+          title: '商家管理',
+          to: '/NotPassPage'
         },
         {
-          title:'未通过',
-          to:'/NotPassPage'
+          title: '待通过',
+          to: '/NotPassPage'
         },
       ]
     },
@@ -401,18 +470,18 @@ export const asyncRoutes = {
     path: '/AuditStatusPage/:id/:isVendor/:isAudit',
     name: 'AuditStatusPage',
     meta: {
-      breadcrumb:[
+      breadcrumb: [
         {
-          title:'商家管理',
-          to:'/UnCheckedPage.'
+          title: '商家管理',
+          to: '/UnCheckedPage.'
         },
         {
-          title:'待审核',
-          to:'/UnCheckedPage'
+          title: '待审核',
+          to: '/UnCheckedPage'
         },
         {
-          title:'审核页面',
-          to:'/AuditStatusPage'
+          title: '审核页面',
+          to: '/AuditStatusPage'
         },
       ]
     },
@@ -422,14 +491,14 @@ export const asyncRoutes = {
     path: '/PlatformPage',
     name: 'PlatformPage',
     meta: {
-      breadcrumb:[
+      breadcrumb: [
         {
-          title:'投诉管理',
-          to:'/PlatformPage'
+          title: '投诉管理',
+          to: '/PlatformPage'
         },
         {
-          title:'平台问题',
-          to:'/PlatformPage'
+          title: '平台问题',
+          to: '/PlatformPage'
         },
       ]
     },
@@ -439,14 +508,14 @@ export const asyncRoutes = {
     path: '/ProductPage',
     name: 'ProductPage',
     meta: {
-      breadcrumb:[
+      breadcrumb: [
         {
-          title:'投诉管理',
-          to:'/ProductPage'
+          title: '投诉管理',
+          to: '/ProductPage'
         },
         {
-          title:'商品问题',
-          to:'/ProductPage'
+          title: '商品问题',
+          to: '/ProductPage'
         }
       ]
     },
@@ -456,14 +525,14 @@ export const asyncRoutes = {
     path: '/ServicePage',
     name: 'ServicePage',
     meta: {
-      breadcrumb:[
+      breadcrumb: [
         {
-          title:'投诉管理',
-          to:'/ServicePage'
+          title: '投诉管理',
+          to: '/ServicePage'
         },
         {
-          title:'服务投诉',
-          to:'/ServicePage'
+          title: '服务投诉',
+          to: '/ServicePage'
         }
       ]
     },
@@ -473,19 +542,116 @@ export const asyncRoutes = {
     path: '/FrontManagementPage',
     name: 'FrontManagementPage',
     meta: {
-      breadcrumb:[
+      breadcrumb: [
         {
-          title:'前台管理',
-          to:'/FrontManagementPage'
+          title: '前台管理',
+          to: '/FrontManagementPage'
         }
       ]
     },
     component: () => import('@/pages/FrontManagement/FrontManagementPage.vue')
   },
+  'MarketingCouponPage': {
+    path: '/MarketingCouponPage',
+    name: 'MarketingCouponPage',
+    meta: {
+      breadcrumb: [
+        {
+          title: '营销管理',
+          to: '/MarketingCouponPage'
+        },
+        {
+          title: '优惠券',
+          to: '/MarketingCouponPage'
+        }
+      ]
+    },
+    component: () => import('@/pages/MarketingManagement/MarketingCouponPage.vue')
+  },
+  'AddCoupon': {
+    path: '/AddCoupon',
+    name: 'AddCoupon',
+    meta: {
+      breadcrumb: [
+        {
+          title: '营销管理',
+          to: '/MarketingCouponPage'
+        },
+        {
+          title: '优惠券',
+          to: '/MarketingCouponPage'
+        },
+        {
+          title: '新增优惠券',
+          to: '/AddCoupon'
+        }
+      ]
+    },
+    component: () => import('@/pages/MarketingManagement/AddCoupon.vue')
+  },
+  'AddDiscount': {
+    path: '/AddDiscount',
+    name: 'AddDiscount',
+    meta: {
+      breadcrumb: [
+        {
+          title: '营销管理',
+          to: '/MarketingDiscountPage'
+        },
+        {
+          title: '折扣',
+          to: '/MarketingDiscountPage'
+        },
+        {
+          title: '新增折扣',
+          to: '/AddDiscount'
+        }
+      ]
+    },
+    component: () => import('@/pages/MarketingManagement/AddDiscount.vue')
+  },
+  'CouponDetail': {
+    path: '/CouponDetail/:couponId',
+    name: 'CouponDetail',
+    meta: {
+      breadcrumb: [
+        {
+          title: '营销管理',
+          to: '/MarketingCouponPage'
+        },
+        {
+          title: '优惠券',
+          to: '/MarketingCouponPage'
+        },
+        {
+          title: '优惠详情',
+          to: '/CouponDetail'
+        }
+      ]
+    },
+    component: CouponDetail
+  },
+  'MarketingDiscountPage': {
+    path: '/MarketingDiscountPage',
+    name: 'MarketingDiscountPage',
+    meta: {
+      breadcrumb: [
+        {
+          title: '营销管理',
+          to: '/MarketingDiscountPage'
+        },
+        {
+          title: '厂家折扣',
+          to: '/MarketingDiscountPage'
+        }
+      ]
+    },
+    component: () => import('@/pages/MarketingManagement/MarketingDiscountPage.vue')
+  },
   'password': {
-    path: 'password',
+    path: '/password',
     name: 'password',
-    component: () => import('../pages/Password.vue')
+    component: () => import('@/pages/Password.vue')
   }
 }
 

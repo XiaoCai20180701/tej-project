@@ -53,17 +53,17 @@ const frontRoutes = [
         text: '待审核'
       },
       {
-      type: '',
-      name: 'CheckedPage',
-      text: '已通过'
-    },
-     
+        type: '',
+        name: 'CheckedPage',
+        text: '已通过'
+      },
+      
       {
         type: '',
         name: 'NotPassPage',
         text: '未通过'
       },
-      
+    
     ]
   },
   {
@@ -95,10 +95,10 @@ const frontRoutes = [
         text: '待审核'
       },
       {
-      type: '',
-      name: 'CheckedVendorPage',
-      text: '已通过'
-    },
+        type: '',
+        name: 'CheckedVendorPage',
+        text: '已通过'
+      },
       {
         type: '',
         name: 'NotPassVendorPage',
@@ -124,10 +124,10 @@ const frontRoutes = [
       {
         type: '',
         name: 'NonPayment',
-        text: '未付款'
+        text: '待付款'
       },
       {
-        text: '未发货',
+        text: '待发货',
         type: '',
         name: 'Unshipped'
       },
@@ -135,6 +135,21 @@ const frontRoutes = [
         text: '已发货',
         type: '',
         name: 'Shipped'
+      },
+      {
+        text: '待收货',
+        type: '',
+        name: 'WaittingPage'
+      },
+      {
+        text: '待评价',
+        type: '',
+        name: 'EvaluatedPage'
+      },
+      {
+        text: '退换货',
+        type: '',
+        name: 'ChangingRefundingPage'
       },
       {
         text: '售后处理',
@@ -217,12 +232,7 @@ const frontRoutes = [
         name: 'ServicePage',
         type: '',
         text: '服务投诉',
-      },
-      // {
-      //   name: 'AllComplaintPage',
-      //   type: '',
-      //   text: '全部投诉',
-      // },
+      }
     ]
   },
   {
@@ -233,6 +243,50 @@ const frontRoutes = [
       requireAuth: true
     }
   },
+  {
+    text: '营销管理',
+    type: 'icon-youhui',
+    meta: {
+      requireAuth: false
+    },
+    children: [
+      {
+        name: 'MarketingCouponPage',
+        type: '',
+        text: '优惠劵',
+      },
+      {
+        name: 'MarketingDiscountPage',
+        type: '',
+        text: '折扣',
+      }
+    ]
+  },
+  {
+    name: 'AddCoupon',
+    type: '',
+    text: '添加优惠劵',
+    meta: {
+      refreshShow: false
+    }
+  },
+  {
+    name: 'AddDiscount',
+    type: '',
+    text: '添加折扣',
+    meta: {
+      refreshShow: false
+    }
+  },
+  {
+    name: 'CouponDetail',
+    type: '',
+    text: '优惠劵详情',
+    meta: {
+      refreshShow: false
+    }
+  },
+
 ]
 
 export default frontRoutes
