@@ -1,11 +1,17 @@
 <template>
   <div>
-    <Select v-model="model7">
-      <OptionGroup label="Hot Cities">
-        <Option v-for="item in cityList1" :value="item.value" :key="item.value">{{ item.label }}</Option>
-      </OptionGroup>
-      <OptionGroup label="Other Cities">
-        <Option v-for="item in cityList2" :value="item.value" :key="item.value">{{ item.label }}</Option>
+    <Select v-model="model"
+            filterable
+            clearable
+            @on-open-change="openChange"
+            @on-change="valueChange"
+            ref="selectRef"
+    >
+      <OptionGroup
+        v-for="(item, index) in list"
+        :key="index"
+        :label="item.title">
+        <Option v-for="(child, c) in item.items" :value="child.char" :key="c">{{ child.text}}</Option>
       </OptionGroup>
     </Select>
   </div>
@@ -17,63 +23,8 @@
     name: 'Delivery',
     data(){
       return {
-        cityList: [
-          {
-            value: 'New York',
-            label: 'New York'
-          },
-          {
-            value: 'London',
-            label: 'London'
-          },
-          {
-            value: 'Sydney',
-            label: 'Sydney'
-          },
-          {
-            value: 'Ottawa',
-            label: 'Ottawa'
-          },
-          {
-            value: 'Paris',
-            label: 'Paris'
-          },
-          {
-            value: 'Canberra',
-            label: 'Canberra'
-          }
-        ],
-        cityList1: [
-          {
-            value: 'New York',
-            label: 'New York'
-          },
-          {
-            value: 'London',
-            label: 'London'
-          },
-          {
-            value: 'Sydney',
-            label: 'Sydney'
-          }
-        ],
-        cityList2: [
-          {
-            value: 'Ottawa',
-            label: 'Ottawa'
-          },
-          {
-            value: 'Paris',
-            label: 'Paris'
-          },
-          {
-            value: 'Canberra',
-            label: 'Canberra'
-          }
-        ],
-        model7: '',
+        model: '',
         deliveryObj: {},
-        AList: [],
         deliveryArray: [],
         list:[]
       }
@@ -84,6 +35,17 @@
       this.getList()
     },
     methods: {
+      valueChange(val){
+        console.log('val',val)
+        this.$emit('logistics-name-callback',val)
+      },
+      openChange(){
+        //解决 下拉框 设置filterable功能，第二次进入后只有第一次选择的值
+        let query = this.$refs['selectRef'].$data.query
+        if (query) {
+          this.$refs['selectRef'].$data.query = ''
+        }
+      },
       getData(){
         this.objKeySort(this.deliveryObj)
         console.log('!!!!!!!!!!!',this.objKeySort(this.deliveryObj))
