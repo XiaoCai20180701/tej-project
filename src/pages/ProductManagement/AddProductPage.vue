@@ -35,6 +35,7 @@
   import Price from './components/addProduct/Price'
   import {getClassificationlist, postAddProduct, getProductDetail} from '@/api/api'
   import {AddProductParams} from '@/api/tableData'
+  import bus from '@/utils/bus'
 
   export default {
     name: 'AddProductPage',
@@ -51,6 +52,7 @@
         price: null,
         feature: null,
         classification: null,
+        specifications: {},
         productShow: '0'
       }
     },
@@ -59,6 +61,7 @@
     },
     mounted() {
       this.getClassificationlist()
+      this.specificationsCallback()
     },
     methods: {
       cancel() {
@@ -66,6 +69,12 @@
       },
       review() {
         this.$Message.info('跳转到 前台页面')
+      },
+      specificationsCallback(){
+        bus.$on('params-modal-callback',(data)=>{
+          console.log('params-modal-callback',data)
+          this.specifications = data
+        })
       },
       saveAddProduct() {
         let productShow = {productShow: Number(this.productShow)}
@@ -77,7 +86,10 @@
             this.$Message.error('请填写全部信息')
             return false
           }
-          postAddProduct(params).then(res => {
+          postAddProduct({
+            ...params,
+            ...this.specifications
+          }).then(res => {
             if (res.code != 200) {
               this.$Message.warning(res.msg)
               if(res.code === 9998){

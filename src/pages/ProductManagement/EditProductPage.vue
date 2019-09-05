@@ -60,7 +60,9 @@
   import Photograph from './components/addProduct/Photograph'
   import Feature from './components/addProduct/Feature'
   import Price from './components/addProduct/Price'
-  import { getClassificationlist, putProductDetail, getProductDetail } from '@/api/api'
+  import { getClassificationlist, putProductDetail, getProductDetail, postSpecificationByProductId } from '@/api/api'
+  import bus from '@/utils/bus'
+
   export default {
     name: 'EditProductPage',
     components: {
@@ -88,7 +90,8 @@
           productShow: '0'
         },
         isEdit: false,
-        disabled: false
+        disabled: false,
+        specificationDetail: {}
       }
     },
     computed:{
@@ -101,8 +104,8 @@
     },
     mounted(){
       this.getClassificationlist()
-      console.log('params!!!!!!!!!!!!!',this.$route.params)
-      console.log('route!!!!!!!!!!!!!',this.$route)
+      console.log('编辑商品页 params!!!!!!!!!!!!!',this.$route.params)
+      console.log('编辑商品页 route!!!!!!!!!!!!!',this.$route)
       if(this.$route.params.isEdit){
         this.isEdit = true
         this.getProductDetail()
@@ -166,6 +169,26 @@
       productShowChange(i){
         console.log('使用状态 ',Number(i))
       },
+      getSpecificationDetail(){
+        //获取商品规格参数
+        let productId = this.$route.params.productId
+        postSpecificationByProductId({productId: productId}).then(res => {
+          if(res.code != 200){
+            this.$Message.warning(res.msg)
+            if(res.code === 9998){
+              localStorage.clear()
+              this.$router.push({path: '/login'})
+            }
+            return
+          }
+          let data = res.data
+          console.log('商品规格参数', data)
+          this.specificationDetail = data.productSpecification
+          console.log('specificationDetail!!!',this.specificationDetail)
+        }).catch(err => {
+          this.$Message.error('获取商品规格参数失败' + err)
+        })
+      },
       getProductDetail(){
         //获取商品详情
         let productId = this.$route.params.productId
@@ -179,7 +202,9 @@
             }
             return
           }
+          this.getSpecificationDetail()
           let data = res.data
+          console.log('specificationDetail  hklsldjajiijidsJK!!!',this.specificationDetail)
           this.productDetail.classification = {
             typeParentId: data.typeParentId,
             typeParentName: data.typeParentName,
@@ -187,8 +212,11 @@
             typeChildName: data.typeChildName,
             vendorId: data.vendorId,
             vendorName: data.vendorName,
-            productName: data.productName
+            productName: data.productName,
+            productNo: data.productNo,
+            specification: this.specificationDetail
           }
+
           this.productDetail.feature = {
             colorList: data.colorList,
             sizeList: data.sizeList,

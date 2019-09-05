@@ -2,94 +2,94 @@
   <div class="tej-addproduct-params clearfix">
     <Form :model="formRight" label-position="right" :label-width="148" inline>
       <!--通用模板专有参数-->
-      <FormItem label="品牌：">
-        <Input v-model="formRight.brand"></Input>
+      <FormItem :label="paramsObj.brand">
+        <Input v-model="formRight.brand" @on-change="brandChange"/>
       </FormItem>
-      <FormItem label="货源类别：">
+      <FormItem :label="paramsObj.productType">
         <div class="select">
-          <Select v-model="formRight.productType">
+          <Select v-model="formRight.productType" @on-change="productTypeChange">
             <Option value="0">预售</Option>
             <Option value="1">现货</Option>
           </Select>
         </div>
       </FormItem>
-      <!--<FormItem label="适用年龄：">-->
-      <!--<Input v-model="formRight.suitableAgeArray[0]" />- -->
-      <!--<Input v-model="formRight.suitableAgeArray[1]" />-->
-      <!--</FormItem>-->
-      <FormItem label="适合季节：">
+      <FormItem label="适用年龄：">
+        <Input v-model="formRight.suitableAgeArray[0]" style="width:76px"/>-
+        <Input v-model="formRight.suitableAgeArray[1]" style="width:76px"/>
+      </FormItem>
+      <FormItem :label="paramsObj.applyToSeason">
         <div class="select">
-          <Select v-model="formRight.applyToSeason">
+          <Select v-model="formRight.applyToSeason" @on-change="applyToSeasonChange">
             <Option value="春秋">春秋</Option>
             <Option value="夏">夏</Option>
             <Option value="冬">冬</Option>
           </Select>
         </div>
       </FormItem>
-      <FormItem label="款式：">
-        <Input v-model="formRight.style"></Input>
+      <FormItem :label="paramsObj.style">
+        <Input v-model="formRight.style" @on-change="styleChange"/>
       </FormItem>
-      <FormItem label="面料工艺：">
-        <Input v-model="formRight.fabricCraft"></Input>
+      <FormItem :label="paramsObj.fabricCraft">
+        <Input v-model="formRight.fabricCraft" @on-change="fabricCraftChange"/>
       </FormItem>
-      <FormItem label="图案：">
-        <Input v-model="formRight.pattern"></Input>
+      <FormItem :label="paramsObj.pattern">
+        <Input v-model="formRight.pattern" @on-change="patternChange"/>
       </FormItem>
-      <FormItem label="图片实拍：">
-        <div class="select">
+      <FormItem :label="paramsObj.image">
+        <div class="select" @on-change="imageChange">
           <Select v-model="formRight.image">
             <Option value="0">无</Option>
             <Option value="1">有</Option>
           </Select>
         </div>
       </FormItem>
-      <FormItem label="是否库存：">
+      <FormItem :label="paramsObj.isInventory">
         <div class="select">
-          <Select v-model="formRight.isInventory">
+          <Select v-model="formRight.isInventory" @on-change="isInventoryChange">
             <Option value="0">无</Option>
             <Option value="1">有</Option>
           </Select>
         </div>
       </FormItem>
-      <FormItem label="上市年份季节：">
-        <Input v-model="formRight.input1"></Input>
+      <FormItem :label="paramsObj.listedYear">
+        <Input v-model="formRight.listedYear" @on-change="listedYearChange"/>
       </FormItem>
-      <FormItem label="元素：">
-        <Input v-model="formRight.element"></Input>
+      <FormItem :label="paramsObj.element">
+        <Input v-model="formRight.element" @on-change="elementChange"/>
       </FormItem>
-      <FormItem label="AQL抽检标准：">
+      <FormItem :label="paramsObj.aql">
         <div class="select">
-          <Select v-model="formRight.aql">
+          <Select v-model="formRight.aql" @on-change="aqlChange">
             <Option value="0">无</Option>
             <Option value="1">有</Option>
           </Select>
         </div>
       </FormItem>
-      <FormItem label="平车针距12-14：">
+      <FormItem :label="paramsObj.stitchLength">
         <div class="select">
-          <Select v-model="formRight.stitchLength">
+          <Select v-model="formRight.stitchLength" @on-change="stitchLengthChange">
             <Option value="0">否</Option>
             <Option value="1">是</Option>
           </Select>
         </div>
       </FormItem>
-      <FormItem label="毛头/杂余线头是否修剪：">
+      <FormItem :label="paramsObj.isClip">
         <div class="select">
-          <Select v-model="formRight.isClip">
+          <Select v-model="formRight.isClip" @on-change="isClipChange">
             <Option value="0">否</Option>
             <Option value="1">是</Option>
           </Select>
         </div>
       </FormItem>
-      <FormItem label="面料名称：">
-        <Input v-model="formRight.fabricName"></Input>
+      <FormItem :label="paramsObj.fabricName">
+        <Input v-model="formRight.fabricName" @on-change="fabricNameChange"/>
       </FormItem>
-      <FormItem label="主要面料成分：">
-        <Input v-model="formRight.fabricComposition"></Input>
+      <FormItem :label="paramsObj.fabricComposition">
+        <Input v-model="formRight.fabricComposition" @on-change="fabricCompositionChange"/>
       </FormItem>
-      <FormItem label="主要面料成分含量：">
+      <FormItem :label="paramsObj.fabricCompositionContent">
         <div class="select">
-          <Select v-model="formRight.fabricCompositionContent">
+          <Select v-model="formRight.fabricCompositionContent" @on-change="fabricCompositionContentChange">
             <Option value="0">0</Option>
             <Option value="20%">20%</Option>
             <Option value="40%">40%</Option>
@@ -99,97 +99,96 @@
           </Select>
         </div>
       </FormItem>
-      <FormItem label="安全等级：">
+      <FormItem :label="paramsObj.safeLevel">
         <div class="select">
-          <Select v-model="formRight.safeLevel">
+          <Select v-model="formRight.safeLevel" @on-change="safeLevelChange">
             <Option value="A类">A类</Option>
             <Option value="B类">B类</Option>
             <Option value="C类">C类</Option>
           </Select>
         </div>
       </FormItem>
-      <FormItem label="身高：">
-        <Input v-model="formRight.suitableHeight"/>
+      <FormItem :label="paramsObj.suitableHeight">
+        <Input v-model="formRight.suitableHeight" @on-change="suitableHeightChange"/>
       </FormItem>
-      <FormItem label="是否跨域货源：">
+      <FormItem :label="paramsObj.crossDomain">
         <div class="select">
-          <Select v-model="formRight.crossDomain">
+          <Select v-model="formRight.crossDomain" @on-change="crossDomainChange">
             <Option value="0">否</Option>
             <Option value="1">是</Option>
           </Select>
         </div>
       </FormItem>
-      <!--裤子专有参数-->
-      <div v-if="isTrousers">
-        <FormItem label="裤长：">
-          <Input v-model="formRight.pantsLength"/>
-        </FormItem>
-        <FormItem label="是否开档：">
-          <div class="select">
-            <Select v-model="formRight.openFiles">
-              <Option value="0">否</Option>
-              <Option value="1">是</Option>
-            </Select>
-          </div>
-        </FormItem>
-        <FormItem label="裤腰：">
-          <Input v-model="formRight.pantsWaist"/>
-        </FormItem>
-        <FormItem label="裤门襟：">
-          <Input v-model="formRight.pantsPlacket"/>
-        </FormItem>
-      </div>
-      <!--上衣专有参数-->
-      <div v-if="isCoat">
-        <FormItem label="领型：">
-          <Input v-model="formRight.collarType"/>
-        </FormItem>
-        <FormItem label="袖长：">
-          <Input v-model="formRight.sleeveLength"/>
-        </FormItem>
-        <FormItem label="衣长：">
-          <Input v-model="formRight.clothingLength"/>
-        </FormItem>
-      </div>
       <!--套装专有参数-->
-      <div v-if="isSuit">
-        <FormItem label="套装类型：">
-          <div class="select">
-            <Select v-model="formRight.suitType">
-              <Option value="0">裙套装</Option>
-              <Option value="1">裤套装</Option>
-            </Select>
-          </div>
-        </FormItem>
-        <FormItem label="套装件数：">
-          <div class="select">
-            <Select v-model="formRight.suitNumber">
-              <Option value="0">两件套</Option>
-              <Option value="1">三件套</Option>
-              <Option value="2">多件套</Option>
-            </Select>
-          </div>
-        </FormItem>
-        <FormItem label="是否连帽：">
-          <div class="select">
-            <Select v-model="formRight.isHooded">
-              <Option value="0">否</Option>
-              <Option value="1">是</Option>
-            </Select>
-          </div>
-        </FormItem>
-      </div>
+      <FormItem :label="paramsObj.suitType" v-if="paramsObj.suitType">
+        <div class="select">
+          <Select v-model="formRight.suitType" @on-change="suitTypeChange">
+            <Option value="0">裙套装</Option>
+            <Option value="1">裤套装</Option>
+          </Select>
+        </div>
+      </FormItem>
+      <FormItem :label="paramsObj.suitNumber" v-if="paramsObj.suitNumber">
+        <div class="select">
+          <Select v-model="formRight.suitNumber" @on-change="suitNumberChange">
+            <Option value="0">两件套</Option>
+            <Option value="1">三件套</Option>
+            <Option value="2">多件套</Option>
+          </Select>
+        </div>
+      </FormItem>
+      <FormItem :label="paramsObj.isHooded" v-if="paramsObj.isHooded">
+        <div class="select">
+          <Select v-model="formRight.isHooded" @on-change="isHoodedChange">
+            <Option value="0">否</Option>
+            <Option value="1">是</Option>
+          </Select>
+        </div>
+      </FormItem>
+      <!--上衣专有参数-->
+      <FormItem :label="paramsObj.collarType" v-if="paramsObj.collarType">
+        <Input v-model="formRight.collarType" @on-change="collarTypeChange"/>
+      </FormItem>
+      <FormItem :label="paramsObj.sleeveLength" v-if="paramsObj.sleeveLength">
+        <Input v-model="formRight.sleeveLength" @on-change="sleeveLengthChange"/>
+      </FormItem>
+      <FormItem :label="paramsObj.clothingLength" v-if="paramsObj.clothingLength">
+        <Input v-model="formRight.clothingLength" @on-change="clothingLengthChange"/>
+      </FormItem>
+      <!--裤子专有参数-->
+      <FormItem :label="paramsObj.pantsLength" v-if="paramsObj.pantsLength">
+        <Input v-model="formRight.pantsLength" @on-change="pantsLengthChange"/>
+      </FormItem>
+      <FormItem :label="paramsObj.openFiles" v-if="paramsObj.openFiles">
+        <div class="select">
+          <Select v-model="formRight.openFiles" @on-change="openFilesChange">
+            <Option value="0">否</Option>
+            <Option value="1">是</Option>
+          </Select>
+        </div>
+      </FormItem>
+      <FormItem :label="paramsObj.pantsWaist" v-if="paramsObj.pantsWaist">
+        <Input v-model="formRight.pantsWaist" @on-change="pantsWaistChange"/>
+      </FormItem>
+      <FormItem :label="paramsObj.pantsPlacket" v-if="paramsObj.pantsPlacket">
+        <Input v-model="formRight.pantsPlacket" @on-change="pantsPlacketChange"/>
+      </FormItem>
     </Form>
   </div>
 </template>
 
 <script>
-  import {isTrousersType, isCoatType, isSuitType} from '@/api/tableData'
+  import bus from '@/utils/bus'
 
   export default {
-    name: 'error',
+    name: 'ParamsModal',
     props: {
-      paramsObj: Object
+      paramsObj: Object,
+      typeId: Number,
+      specification: {
+        type: Object,
+        required: false
+      }
     },
     data() {
       return {
@@ -224,49 +223,200 @@
           clothingLength: '',           //袖长
           suitType: '1',                //套装类型：'0'=裙套装 '1'=裤套装
           suitNumber: '0',              //套装件数：'0'=两件套 '1'=三件套 '2'
-        },
-        isShow: false,                 //是否显示该字段
-        isTrousers: false,             //是否显示裤子参数
-        isCoat: false,                 //是否显示上衣参数
-        isSuit: false                  //是否显示套装参数
-      }
-    },
-    watch: {
-      paramsObj(val) {
-        this.getTemplate(val)
+          style: ''                     //款式
+        }
       }
     },
     mounted() {
+      this.initData()
 
     },
     methods: {
-      getTemplate(paramsObj) {
-        let paramsProps = Object.getOwnPropertyNames(paramsObj)
-        let referenceProps = Object.getOwnPropertyNames(this.formRight)
-        console.log('paramsProps!!!!!!!!', paramsProps)
-        console.log('referenceProps!!!!!!!!', referenceProps)
-        paramsProps.map(item => {
-          console.log('item', item)
-          isTrousersType.map(t => {
-            if (item === t) {
-              this.isTrousers = true
-              return
-            }
-          })
-          isCoatType.map(c => {
-            if (item === c) {
-              this.isCoat = true
-              return
-            }
-          })
-//          isSuitType.map(s => {
-//            if (item === s) {
-//              this.isSuit = true
-//              return
-//            }
-//          })
+      initData(){
+       console.log('specification props',this.specification)
+        this.formRight.brand = this.specification.brand
+        this.formRight.style = this.specification.style,
+          this.formRight.fabricCraft = this.specification.fabricCraft,
+          this.formRight.pattern = this.specification.pattern,
+          this.formRight.listedYear = this.specification.listedYear,
+          this.formRight.productType = this.specification.productType,
+          this.formRight.applyToSeason = this.specification.applyToSeason,
+          this.formRight.image = this.specification.image,
+          this.formRight.isInventory = this.specification.isInventory,
+          this.formRight.element = this.specification.element,
+          this.formRight.aql = this.specification.aql,
+          this.formRight.stitchLength = this.specification.stitchLength,
+          this.formRight.isClip = this.specification.isClip,
+          this.formRight.fabricName = this.specification.fabricName,
+          this.formRight.fabricComposition = this.specification.fabricComposition,
+          this.formRight.suitableHeight = this.specification.suitableHeight,
+          this.formRight.collarType = this.specification.collarType,
+          this.formRight.sleeveLength = this.specification.sleeveLength,
+          this.formRight.clothingLength = this.specification.clothingLength,
+          this.formRight.pantsLength = this.specification.pantsLength,
+          this.formRight.fabricCompositionContent = this.specification.fabricCompositionContent,
+          this.formRight.crossDomain = this.specification.crossDomain,
+          this.formRight.safeLevel = this.specification.safeLevel,
+          this.formRight.suitTyp = this.specification.suitTyp,
+          this.formRight.suitNumber = this.specification.suitNumber,
+          this.formRight.isHooded = this.specification.isHooded,
+          this.formRight.openFiles = this.specification.openFiles,
+          this.formRight.pantsWaist = this.specification.pantsWaist,
+          this.formRight.pantsPlacket = this.specification.pantsPlacket
+      },
+      callback() {
+        bus.$emit('params-modal-callback', {
+          specifications: {
+            typeId: this.typeId,
+            brand: this.formRight.brand,
+            style: this.formRight.style,
+            fabricCraft: this.formRight.fabricCraft,
+            pattern: this.formRight.pattern,
+            listedYear: this.formRight.listedYear,
+            productType: this.formRight.productType,
+            applyToSeason: this.formRight.applyToSeason,
+            image: this.formRight.image,
+            isInventory: this.formRight.isInventory,
+            element: this.formRight.element,
+            aql: this.formRight.aql,
+            stitchLength: this.formRight.stitchLength,
+            isClip:  this.formRight.isClip,
+            fabricName: this.formRight.fabricName,
+            fabricComposition: this.formRight.fabricComposition,
+            suitableHeight: this.formRight.suitableHeight,
+            collarType: this.formRight.collarType,
+            sleeveLength: this.formRight.sleeveLength,
+            clothingLength: this.formRight.clothingLength,
+            pantsLength: this.formRight.pantsLength,
+            fabricCompositionContent: this.formRight.fabricCompositionContent,
+            crossDomain: this.formRight.crossDomain,
+            safeLevel: this.formRight.safeLevel,
+            suitTyp: this.formRight.suitTyp,
+            suitNumber: this.formRight.suitNumber,
+            isHooded: this.formRight.isHooded,
+            openFiles: this.formRight.openFiles,
+            pantsWaist: this.formRight.pantsWaist,
+            pantsPlacket: this.formRight.pantsPlacket
+          }
         })
+      },
+      pantsPlacketChange(e){
+        this.formRight.pantsPlacket = e.target.value
+        this.callback()
+      },
+      pantsWaistChange(e){
+        this.formRight.pantsWaist = e.target.value
+        this.callback()
+      },
+      fabricCompositionContentChange(val){
+        this.formRight.fabricCompositionContent = val
+        this.callback()
+      },
+      crossDomainChange(val){
+        this.formRight.crossDomain = val
+        this.callback()
+      },
+      safeLevelChange(val){
+        this.formRight.safeLevel = val
+        this.callback()
+      },
+      suitTypeChange(val){
+        this.formRight.suitTyp = val
+        this.callback()
+      },
+      suitNumberChange(val){
+        this.formRight.suitNumber = val
+        this.callback()
+      },
+      isHoodedChange(val) {
+        this.formRight.isHooded = val
+        this.callback()
+      },
+      openFilesChange(val){
+        this.formRight.openFiles = val
+        this.callback()
+      },
+      suitableHeightChange(e){
+        this.formRight.suitableHeight = e.target.value
+        this.callback()
+      },
+      collarTypeChange(e){
+        this.formRight.collarType = e.target.value
+        this.callback()
+      },
+      sleeveLengthChange(e){
+        this.formRight.sleeveLength = e.target.value
+        this.callback()
+      },
+      clothingLengthChange(e){
+        this.formRight.clothingLength = e.target.value
+        this.callback()
+      },
+      pantsLengthChange(e){
+        this.formRight.pantsLength = e.target.value
+        this.callback()
+      },
+      fabricNameChange(e){
+        this.formRight.fabricName = e.target.value
+        this.callback()
+      },
+      fabricCompositionChange(e){
+        this.formRight.fabricComposition = e.target.value
+        this.callback()
+      },
+      isClipChange(val){
+        this.formRight.isClip = val
+        this.callback()
+      },
+      stitchLengthChange(val){
+        this.formRight.stitchLength = val
+        this.callback()
+      },
+      aqlChange(val){
+        this.formRight.aql = val
+        this.callback()
+      },
+      elementChange(e){
+        this.formRight.element = e.target.value
+        this.callback()
+      },
+      isInventoryChange(val){
+        this.formRight.isInventory = val
+        this.callback()
+      },
+      brandChange(e) {
+        this.formRight.brand = e.target.value
+        this.callback()
+      },
+      styleChange(e) {
+        this.formRight.style = e.target.value
+        this.callback()
+      },
+      fabricCraftChange(e) {
+        this.formRight.fabricCraft = e.target.value
+        this.callback()
+      },
+      patternChange(e) {
+        this.formRight.pattern = e.target.value
+        this.callback()
+      },
+      listedYearChange(e) {
+        this.formRight.listedYear = e.target.value
+        this.callback()
+      },
+      productTypeChange(val) {
+        this.formRight.productType = val
+        this.callback()
+      },
+      applyToSeasonChange(val) {
+        this.formRight.applyToSeason = val
+        this.callback()
+      },
+      imageChange() {
+        this.formRight.image = val
+        this.callback()
       }
+
     }
   }
 </script>

@@ -13,7 +13,13 @@
     </div>
     <div class="tej-product-box">
       <p><span class="symbol">*</span>商品名称</p>
-      <Input v-model="productName" placeholder="请输入商品名称" clearable :disabled="disabled" required/>
+      <Input v-model="productName"
+             placeholder="请输入商品名称"
+             clearable
+             :disabled="disabled"
+             required
+             @on-change="productNameChange"
+      />
     </div>
     <div class="tej-product-box">
       <p><span class="symbol">*</span>所属厂家</p>
@@ -33,17 +39,28 @@
     </div>
     <div class="tej-product-box">
       <p><span class="symbol">*</span>商品货号</p>
-      <Input v-model="productNo" placeholder="请输入商品货号" clearable :disabled="disabled" required/>
+      <Input v-model="productNo"
+             placeholder="请输入商品货号"
+             clearable
+             :disabled="disabled"
+             required
+             @on-change="productNoChange"
+      />
     </div>
     <div class="tej-product-box">
       <Button type="primary" @click="openModal">商品参数填写</Button>
       <Modal
         v-model="showModal"
-        title="Common Modal dialog box title"
+        title="商品规格参数填写"
         width="1000"
         @on-ok="ok"
         @on-cancel="cancel">
-        <ParamsModal :params-obj="paramsObj"></ParamsModal>
+        <div v-if="showModal">
+          <ParamsModal :params-obj="paramsObj"
+                       :type-id="typeId"
+                       :specification="specification"
+          ></ParamsModal>
+        </div>
       </Modal>
     </div>
   </Card>
@@ -82,7 +99,7 @@
         productVendorId: null,
         openNum: 1,
         showModal: false,
-        paramsObj: {}
+        paramsObj: {},
       }
     },
     mounted() {
@@ -94,31 +111,53 @@
       }
     },
     methods: {
-      getParams() {
-        postSpecByTypeId({
-          typeId: this.typeId
-        }).then(res => {
-          console.log('res!!!!!!!!!', res)
-          this.paramsObj = res.data
-          console.log('data!!!!!!!!!!!!!!!!!!!!!', this.paramsObj)
-        }).catch(res => {
-          this.$Message.error('获取商品规格参数模板失败')
-        })
-      },
-      openModal() {
-        this.showModal = true
-        this.getParams()
-      },
       ok() {
         this.showModal = false
       },
       cancel() {
         this.showModal = false
       },
+      getParams() {
+        postSpecByTypeId({
+          typeId: this.typeId || this.classification.typeParentId
+        }).then(res => {
+          this.paramsObj = res.data
+        }).catch(res => {
+          this.$Message.error('获取商品规格参数模板失败')
+        })
+      },
+      openModal() {
+        if (this.cascader.length == 0) {
+          this.$Message.error('请先选择商品分类')
+          return
+        }
+        this.showModal = true
+        this.getParams()
+      },
       editInitData() {
         this.productName = this.classification.productName
         this.vendor = this.classification.vendorId
         this.cascader = [this.classification.typeParentId, this.classification.typeChildId]
+        this.productNo = this.classification.productNo
+        this.specification = this.classification.specification
+      },
+      productNoChange(e) {
+        this.productNo = e.target.value
+        this.$emit('classification-callback', {
+          productVendorId: this.productVendorId,
+          typeChildId: this.typeChildId,
+          productName: this.productName,
+          productNo: this.productNo
+        })
+      },
+      productNameChange(e) {
+        this.productName = e.target.value
+        this.$emit('classification-callback', {
+          productVendorId: this.productVendorId,
+          typeChildId: this.typeChildId,
+          productName: e.target.value,
+          productNo: this.productNo
+        })
       },
       vendorChange(value) {
 //        console.log('选择的厂家 productVendorId', value)
@@ -127,7 +166,8 @@
         this.$emit('classification-callback', {
           productVendorId: value,
           typeChildId: this.typeChildId,
-          productName: this.productName
+          productName: this.productName,
+          productNo: this.productNo
         })
       },
       classificationChange(value) {
@@ -138,7 +178,8 @@
         this.$emit('classification-callback', {
           productVendorId: this.productVendorId,
           typeChildId: value[1],
-          productName: this.productName
+          productName: this.productName,
+          productNo: this.productNo
         })
         //将typeChildId传递给兄弟组件(feature)，尺码新增需要typeChildId
         bus.$emit('classification-brother-callback', value[1])
