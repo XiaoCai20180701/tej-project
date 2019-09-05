@@ -85,7 +85,7 @@
         </template>
       </Table>
       <slot name="page">
-        <div class="tej-page-box">
+        <div class="tej-page-box" v-if="tableData.length != 0">
           <Page
             :total="page.total"
             show-sizer
