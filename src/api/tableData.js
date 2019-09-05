@@ -514,6 +514,8 @@ export const orderType = {
   'shipped': 3,
   'evaluate': 3,   //待评价页面
   'afterProcessing': 5,
+  'agreeReturn': 6,
+  'okReturn': 7,
   'Waitting': 2
 }
 /**
@@ -567,15 +569,92 @@ export const stationStatus = [
 
 /**
  * 数据管理 => 排行榜统一
- * 1:商品销量 2:商品访问量 3.厂家销量 4.厂家、商家合作排行 5.厂家访问量
+ * 平台版：1:商品销量前10 2:商品访问量前10 3.厂家销量前10 4.厂家、商家合作排行前10 5.厂家访问量前10
+ * 厂家版：
  * */
 export const dataStatus = {
   'commoditySales': 1,
   'commodityTraffic': 2,
   'vendorSales': 3,
   'cooperation': 4,
-  'vendorTraffic': 5
+  'vendorTraffic': 5,
+  'vendorProductSale': 6,
+  'vendorProductTraffic': 7,
+  'vendorUnShipped': 8
 }
+
+/**
+ * 数据管理 => 商品销量
+ * */
+export const vendorProductSaleColumns = [
+  {
+    'title': '商品编号',
+    'key': 'productId'
+  },
+  {
+    'title': '商品名称',
+    'key': 'productName'
+  },
+  {
+    'title': '销量(件)',
+    'key': 'number'
+  },
+  {
+    'title': '销售额(元)',
+    'key': 'salePrice'
+  },
+  {
+    'title': '活动情况',
+    'slot': 'action'
+  },
+]
+
+
+export const vendorProductTrafficColumns = [
+  {
+    'title': '商品编号',
+    'key': 'productId'
+  },
+  {
+    'title': '商品名称',
+    'key': 'productName'
+  },
+  {
+    'title': '访问量(次)',
+    'key': 'number'
+  },
+  {
+    'title': '销售额(元)',
+    'key': 'salePrice'
+  },
+  {
+    'title': '活动情况',
+    'slot': 'action'
+  },
+]
+
+export const vendorUnShippedColumns = [
+  {
+    'title': '商品编号',
+    'key': 'productId'
+  },
+  {
+    'title': '商品名称',
+    'key': 'productName'
+  },
+  {
+    'title': '待发货总量',
+    'key': 'number'
+  },
+  {
+    'title': '销售额(元)',
+    'key': 'salePrice'
+  },
+  {
+    'title': '活动情况',
+    'slot': 'action'
+  },
+]
 
 /**
  * 账单状态
@@ -837,6 +916,11 @@ export const addStatus = {
  * */
 export const CouponTable = [
   {
+    type: 'selection',
+    width: 60,
+    align: 'center'
+  },
+  {
     title: '优惠劵名称',
     key: 'couponName'
   },
@@ -903,6 +987,11 @@ export const CouponDetailTable = [
  * */
 export const DiscountTable = [
   {
+    type: 'selection',
+    width: 60,
+    align: 'center'
+  },
+  {
     title: '商品编号',
     key: 'productId'
   },
@@ -931,28 +1020,163 @@ export const DiscountTable = [
   },
   {
     title: '激活状态',
-    key: 'activationStatus',
-    render: (h, params) => {
-      let checked =  params.row.activationStatus === '已激活'
-      return h('div', [
-        h('span', {
-          style: {
-            color: checked ? '#00818C': '#FF7903'
-          }
-        },params.row.activationStatus)
-      ])
-    }
+    slot: 'action',
+    // render: (h, params) => {
+    //   let checked =  params.row.activationStatus === '已激活'
+    //   return h('div', [
+    //     h('span', {
+    //       style: {
+    //         color: checked ? '#00818C': '#FF7903'
+    //       }
+    //     },params.row.activationStatus)
+    //   ])
+    // }
   }
 ]
 
-export const StytemRole = {
-  'vendor': 0,   //厂家操作系统
-  'back': 1    //童e家操作系统
-}
-
+/**
+ * 平台版本 vendor：厂家操作版   platform：平台操作版
+ * */
 export const userType = {
-  'vendor': 1,   //厂家操作系统
-  'platform': 2    //童e家操作系统
+  'vendor': 1,
+  'platform': 2
 }
 
+/**
+ * 订单支付方式
+ * */
 export const payType = ['支付宝','微信','银联']
+
+/**
+ * 营销管理 => 可用优惠券列表
+ * */
+export const  UsableCouponTable = [
+  {
+    title: '编号',
+    key: 'productId'
+  },
+  {
+    title: '商品名称',
+    key: 'productName'
+  },
+  {
+    title: '商品库存',
+    key: 'inventory'
+  },
+  {
+    title: '活动期间销量(件)',
+    key: 'saleNum'
+  },
+  {
+    title: '使用次数(次)',
+    key: 'useNum'
+  }
+]
+
+/**
+ * 营销管理 => 新增优惠券(商品列表)
+ * */
+export const  UsableCouponProductTable = [
+  {
+    title: '编号',
+    key: 'productId'
+  },
+  {
+    title: '商品类别',
+    key: 'productType'
+  },
+  {
+    title: '商品名称',
+    key: 'productName'
+  },
+  {
+    title: '零售价',
+    key: 'salePrice'
+  },
+  {
+    title: '库存',
+    key: 'inventory'
+  },
+  {
+    title: '访问量',
+    key: 'trafficNum'
+  },
+  {
+    title: '销量',
+    key: 'saleNum'
+  },
+  {
+    title: '最低批发价',
+    key: 'min'
+  },
+  {
+    title: '最高批发价',
+    key: 'max'
+  },
+  {
+    title: '优惠券情况',
+    slot: 'action'
+  }
+]
+
+/**
+ * 营销管理 => 新增折扣(商品列表)
+ * */
+export const  UsableDiscountProductTable = [
+  {
+    title: '编号',
+    key: 'productId'
+  },
+  {
+    title: '商品类别',
+    key: 'productType'
+  },
+  {
+    title: '商品名称',
+    key: 'productName'
+  },
+  {
+    title: '零售价',
+    key: 'salePrice'
+  },
+  {
+    title: '库存',
+    key: 'inventory'
+  },
+  {
+    title: '访问量',
+    key: 'trafficNum'
+  },
+  {
+    title: '销量',
+    key: 'saleNum'
+  },
+  {
+    title: '最低批发价',
+    key: 'min'
+  },
+  {
+    title: '最高批发价',
+    key: 'max'
+  },
+  {
+    title: '折扣情况',
+    slot: 'action'
+  }
+]
+
+/**
+ * 营销管理 => 1.优惠券 2.折扣
+ * */
+export const activityType = {
+  'coupon': 1,
+  'discount': 2
+}
+
+/**
+ * 营销管理 => 是否与优惠券共用  0：不共用  1：共用
+ * */
+export const shareType = {
+  'notShare': 0,
+  'share': 1
+}
