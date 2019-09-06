@@ -239,8 +239,15 @@
         console.log('路由 from', from)
         localStorage.setItem('crumbsList', JSON.stringify(this.crumbsList))
 
+        //营销管理菜单显示
+        if(localStorage.getItem('userType') == userType.vendor && name == 'MarketingDiscountPage'){
+          this.menuItems[2].children[1].text = '商家折扣'
+        }else {
+          this.menuItems[2].children[1].text = '厂家折扣'
+        }
         this.currentPage = name
         console.log('this.currentPage', name)
+
         if (name == 'error') {
           this.crumbs = '404'
           return
