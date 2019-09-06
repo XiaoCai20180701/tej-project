@@ -317,6 +317,23 @@ export const asyncRoutes = {
     },
     component: () => import('@/pages/VendorManagement/CheckedVendorDetailPage.vue')
   },
+  'EditVendorPage': {
+    path: '/EditVendorPage/:vendorId/:isEdit',
+    name: 'EditVendorPage',
+    meta: {
+      breadcrumb: [
+        {
+          title: '厂家管理',
+          to: '/EditVendorPage'
+        },
+        {
+          title: '修改厂家信息',
+          to: '/EditVendorPage'
+        }
+      ]
+    },
+    component: () => import('@/pages/VendorManagement/EditVendorPage.vue')
+  },
   'DataManagementPage': {
     path: '/DataManagementPage',
     name: 'DataManagementPage',

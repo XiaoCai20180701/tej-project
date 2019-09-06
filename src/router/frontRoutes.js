@@ -115,6 +115,14 @@ const frontRoutes = [
     }
   },
   {
+    type: '',
+    name: 'EditVendorPage',
+    text: '修改厂家信息',
+    meta: {
+      refreshShow: false
+    }
+  },
+  {
     text: '订单管理',
     type: 'icon-shiyongwendang',
     meta: {
