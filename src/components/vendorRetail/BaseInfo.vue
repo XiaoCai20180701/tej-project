@@ -16,11 +16,11 @@
       </div>
     </div>
     <div class="tej-bill-box">
-      <div class="item">
+      <div class="item" v-if="isVendor">
         <p><span class="label">收款账号：</span><span>{{detailData.shroffAccount}}</span></p>
         <p><span class="label">账户余额：</span><span>{{detailData.balance}}元</span></p>
       </div>
-      <p class="item" v-if="!isVendor">
+      <p class="item" v-else>
         <span class="label">积分余额：</span><span>{{detailData.balanceIntegration}}点</span>
       </p>
       <div class="btn">
@@ -43,6 +43,10 @@
         <div slot="footer">
         </div>
       </Modal>
+    </div>
+
+    <div v-if="isVendor" class="tej-edit-vendor-info-btn">
+      <a @click="editVendorInfoClick">修改厂家信息</a>
     </div>
   </div>
 </template>
@@ -79,6 +83,15 @@
 
     },
     methods: {
+      editVendorInfoClick(){
+        this.$router.push({
+          name: 'EditVendorPage',
+          params: {
+            vendorId: this.detailData.vendorId,
+            isEdit: true
+          }
+        })
+      },
       back() {
         this.modal = false
       },
@@ -144,6 +157,12 @@
   .tej-bill-box .btn {
     margin-top: 20px;
     text-align: center;
+  }
+
+  .tej-edit-vendor-info-btn {
+    margin-top: 10px;
+    text-align: center;
+    font-size: 14px;
   }
 </style>
 

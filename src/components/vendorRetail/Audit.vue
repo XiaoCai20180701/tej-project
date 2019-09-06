@@ -17,8 +17,7 @@
           </p>
           <p class="p-text">
             <span class="s-text">法人身份证号：</span>
-            <!--<span>{{retailInfo.IdCard}}</span>-->
-            <span>331002199312151205</span>
+            <span>{{retailInfo.IdCard}}</span>
           </p>
           <p class="p-text">
             <span class="s-text">联系人及电话：</span>
