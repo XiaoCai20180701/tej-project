@@ -20,7 +20,7 @@ const MARKETING_URL = '/marketingResource/'
  */
 export const login = (userName, passWord) => post(LOGIN_URL + 'login', userName, passWord)  //平台用户登录
 
-export const vendorLogin = (userName, passWord) => post(LOGIN_URL + 'login-vendor', userName, passWord)  //厂家用户登录
+export const vendorLogin = (userName, passWord) => post(LOGIN_URL + 'login_vendor', userName, passWord)  //厂家用户登录
 
 export const postLogout = (userId) => post(LOGIN_URL + 'logout', userId)  //退出登录
 
@@ -112,6 +112,8 @@ export const postVendorInfo = (id) => post(VENDOR_URL + 'auditDetail', id) //获
 export const putAuditIsUsed = (params) => put(VENDOR_URL + 'auditIsUsed', params) //厂家审核是否通过
 
 export const postVendorBillList = (params) => post(VENDOR_URL + 'vendorBillList', params) //厂家账单
+
+export const putUpdateVendor = (params)=> put(VENDOR_URL + 'updateVendor',params)  //修改厂家信息
 
 
 /**
