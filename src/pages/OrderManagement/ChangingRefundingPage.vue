@@ -112,7 +112,7 @@
           retailName: this.retailName,
           startTime: this.startTime,
           endTime: this.endTime,
-          vendorId: localStorage.getItem('vendorId')
+          vendorId: sessionStorage.getItem('vendorId')
         }
         console.log('params!!!!!!!!',params)
         this.showLoading = true
@@ -122,7 +122,7 @@
           if (res.code != 200) {
             this.$Message.warning(res.msg)
             if (res.code === 9998) {
-              localStorage.clear()
+              sessionStorage.clear()
               this.$router.push({path: '/login'})
             }
             return

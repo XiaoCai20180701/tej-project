@@ -135,20 +135,19 @@
             return
           }
           // 登陆成功 设置用户信息
-          localStorage.setItem('userImg', this.$IMG_URL + data.avatar)
-          localStorage.setItem('userName', data.userName)
-          localStorage.setItem('token', data.token)
-          localStorage.setItem('userId', data.userId)
-          localStorage.setItem('roleId', data.roleId)
-          localStorage.setItem('userType', data.userType)
+          sessionStorage.setItem('userImg', this.$IMG_URL + data.avatar)
+          sessionStorage.setItem('userName', data.userName)
+          sessionStorage.setItem('token', data.token)
+          sessionStorage.setItem('userId', data.userId)
+          sessionStorage.setItem('roleId', data.roleId)
+          sessionStorage.setItem('userType', data.userType)
           this.$store.dispatch('getRole',data.roleId)
           //this.$store.dispatch('getUserType',data.getUserType)
           //获取菜单
           this.$store.dispatch('getAnyscMenu', this.$store.state.role)
           console.log('luyou', this.$route)
+        //  this.addRouterFun()
           this.$router.push({path: '/ProductManagementPage'})
-          console.log('luyou 2222', this.$route)
-          //  this.addRouterFun()
           this.$Message.success("登录成功")
         }).catch(err => {
           this.loading = false
@@ -169,10 +168,10 @@
             return
           }
           // 登陆成功 设置用户信息
-          localStorage.setItem('userName', data.userName)
-          localStorage.setItem('token', data.token)
-          localStorage.setItem('vendorId', data.vendorId)
-          localStorage.setItem('userType', data.userType)
+          sessionStorage.setItem('userName', data.userName)
+          sessionStorage.setItem('token', data.token)
+          sessionStorage.setItem('vendorId', data.vendorId)
+          sessionStorage.setItem('userType', data.userType)
          // this.$store.dispatch('getUserType',data.userType)
           //获取菜单
           this.$store.dispatch('getAnyscMenu', 0) //厂家登录，roleId传0
@@ -185,9 +184,10 @@
         })
       },
       addRouterFun() {
-        const r = localStorage.getItem('menuItems')
+        const r = sessionStorage.getItem('menuItems')
         const routes = menusToRoutes(r)
         // 动态添加路由
+        console.log('yu2')
         this.$router.addRoutes(routes)
       }
     }

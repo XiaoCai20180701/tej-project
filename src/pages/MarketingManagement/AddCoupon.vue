@@ -77,7 +77,7 @@
           if(res.code != 200){
             this.$Message.error(res.msg)
             if(res.code === 9998){
-              localStorage.clear()
+              sessionStorage.clear()
               this.$router.push({path: '/login'})
             }
             return
@@ -94,7 +94,7 @@
       },
       addCoupon(){
         let params = {
-          vendorId: localStorage.getItem('vendorId'),
+          vendorId: sessionStorage.getItem('vendorId'),
           ...this.info,
           productIds: this.ids
         }
@@ -102,7 +102,7 @@
           if(res.code != 200){
             this.$Message.error(res.msg)
             if(res.code === 9998){
-              localStorage.clear()
+              sessionStorage.clear()
               this.$router.push({path: '/login'})
             }
             return

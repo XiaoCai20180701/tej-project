@@ -67,7 +67,7 @@
       return {
         actionUrl: this.$axios.defaults.baseURL + '/fileResource/uploadimg',
         fileHeaders: {
-          'token': localStorage.getItem('token'),
+          'token': sessionStorage.getItem('token'),
           'Access-Control-Allow-Origin': '*'
         },
         defaultList: [],

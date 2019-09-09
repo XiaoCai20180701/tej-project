@@ -84,11 +84,11 @@
     },
     computed: {
       showSerach() {
-        let checked = localStorage.getItem('userType') == userType.platform
+        let checked = sessionStorage.getItem('userType') == userType.platform
         return checked ? true : false
       },
       columnsData(){
-        let checked = localStorage.getItem('userType') == userType.platform
+        let checked = sessionStorage.getItem('userType') == userType.platform
         return checked ? vendorPlatformTable : vendorTable
       }
     },
@@ -123,7 +123,7 @@
           if (res.code != 200) {
             this.$Message.warning(res.msg)
             if (res.code === 9998) {
-              localStorage.clear()
+              sessionStorage.clear()
               this.$router.push({path: '/login'})
             }
             return

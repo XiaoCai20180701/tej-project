@@ -26,7 +26,7 @@
         this.catchData(this.editorContent)  // 把这个html通过catchData的方法传入父组件
       }
       this.editor.customConfig.uploadImgHeaders = {
-        'token': localStorage.getItem('token')
+        'token': sessionStorage.getItem('token')
       }
       this.editor.customConfig.zIndex = 2
       this.editor.customConfig.uploadImgServer = this.$axios.defaults.baseURL + '/fileResource/uploadimg'

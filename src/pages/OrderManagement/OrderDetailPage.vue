@@ -124,11 +124,11 @@
         }
       },
       showCard(){
-        let checked = localStorage.getItem('userType') == userType.vendor && this.orderDetail.orderType == orderType.afterProcessing || this.orderDetail.orderType == orderType.agreeReturn
+        let checked = sessionStorage.getItem('userType') == userType.vendor && this.orderDetail.orderType == orderType.afterProcessing || this.orderDetail.orderType == orderType.agreeReturn
         return checked ? true : false
       },
       showDelivery(){
-        let checked = localStorage.getItem('userType') == userType.vendor && this.orderDetail.orderType == orderType.unshipped
+        let checked = sessionStorage.getItem('userType') == userType.vendor && this.orderDetail.orderType == orderType.unshipped
         return checked ? true : false
       }
     },
@@ -206,7 +206,7 @@
           if (res.code != 200) {
             this.$Message.warning(res.msg)
             if (res.code === 9998) {
-              localStorage.clear()
+              sessionStorage.clear()
               this.$router.push({path: '/login'})
             }
             return
@@ -241,7 +241,7 @@
           if (res.code != 200) {
             this.$Message.warning(res.msg)
             if (res.code === 9998) {
-              localStorage.clear()
+              sessionStorage.clear()
               this.$router.push({path: '/login'})
             }
             return

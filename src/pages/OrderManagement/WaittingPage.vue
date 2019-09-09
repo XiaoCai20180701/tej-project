@@ -109,7 +109,7 @@
           retailName: this.retailName,
           startTime: this.startTime,
           endTime: this.endTime,
-          vendorId: localStorage.getItem('vendorId')
+          vendorId: sessionStorage.getItem('vendorId')
         }
         postOrderList(params).then(res => {
           console.log('待收货订单列表', res.data)
@@ -117,7 +117,7 @@
           if(res.code != 200){
             this.$Message.warning(res.msg)
             if(res.code === 9998){
-              localStorage.clear()
+              sessionStorage.clear()
               this.$router.push({path: '/login'})
             }
             return

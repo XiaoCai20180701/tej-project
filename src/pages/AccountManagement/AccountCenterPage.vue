@@ -48,7 +48,7 @@
     },
     computed:{
       show(){
-        return localStorage.getItem('userType') == userType.platform ? true : false
+        return sessionStorage.getItem('userType') == userType.platform ? true : false
       }
     },
     mounted() {
@@ -65,8 +65,8 @@
       },
       editPassword(){
         let params = {
-          userId: localStorage.getItem('userId'),
-          userType: localStorage.getItem('userType'),
+          userId: sessionStorage.getItem('userId'),
+          userType: sessionStorage.getItem('userType'),
           ...this.forgotPasswordInfo
         }
         putModifyPassword(params).then(()=> {
@@ -87,7 +87,7 @@
           if (res.code != 200) {
             this.$Message.warning(res.msg)
             if (res.code === 9998) {
-              localStorage.clear()
+              sessionStorage.clear()
               this.$router.push({path: '/login'})
             }
             return

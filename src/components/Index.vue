@@ -97,7 +97,7 @@
 
 <script>
   import {resetRouter} from '../router'
-  import {postLogout} from '@/api/api'
+  import {postLogout, getRes} from '@/api/api'
   import {
     NonPaymentCrumb,
     UnshippedCrumb,
@@ -124,7 +124,7 @@
         // 当前显示页面
         currentPage: '',
         // openMenus: [], // 要打开的菜单名字 name属性
-        openMenus: JSON.parse(localStorage.getItem('openMenus'))?JSON.parse(localStorage.getItem('openMenus')):[],
+        openMenus: JSON.parse(sessionStorage.getItem('openMenus'))?JSON.parse(sessionStorage.getItem('openMenus')):[],
         menuCache: [], // 缓存已经打开的菜单
         showLoading: false, // 是否显示loading
         isShowRouter: true,
@@ -137,11 +137,12 @@
         asideArrowIcons: [], // 缓存侧边栏箭头图标 收缩时用
         // 面包屑
         crumbs: '商品管理',
-        crumbsList: JSON.parse(localStorage.getItem('crumbsList')),
+        crumbsList: JSON.parse(sessionStorage.getItem('crumbsList')),
         userName: '',
         userImg: '',
         iconClass: 'iconfont ',
-        iconSize: 22
+        iconSize: 22,
+        menuItemsInit: []
       }
     },
     created() {
@@ -171,14 +172,11 @@
       // 第一个标签
       const name = this.$route.name
       this.currentPage = name
-      this.tagsArry.push({
-        text: this.nameToTitle[name],
-        name: name
-      })
+
 
       // 设置用户信息
-      this.userName = localStorage.getItem('userName')
-      this.userImg = localStorage.getItem('userImg')
+      this.userName = sessionStorage.getItem('userName')
+      this.userImg = sessionStorage.getItem('userImg')
 
       this.main = document.querySelector('.sec-right')
       this.asideArrowIcons = document.querySelectorAll('aside .ivu-icon-ios-arrow-down')
@@ -237,10 +235,10 @@
         }
         console.log('路由 to', to)
         console.log('路由 from', from)
-        localStorage.setItem('crumbsList', JSON.stringify(this.crumbsList))
+        sessionStorage.setItem('crumbsList', JSON.stringify(this.crumbsList))
 
         //营销管理菜单显示
-        if(localStorage.getItem('userType') == userType.vendor && name == 'MarketingDiscountPage'){
+        if(sessionStorage.getItem('userType') == userType.vendor && name == 'MarketingDiscountPage'){
           this.menuItems[2].children[1].text = '商家折扣'
         }else {
           this.menuItems[2].children[1].text = '厂家折扣'
@@ -270,15 +268,22 @@
       // 菜单栏
       menuItems() {
         let list = []
-        // let menu = JSON.parse(localStorage.getItem('menuItems'))  //字符串转换为对象
-        let menu = this.$store.state.menuItems
+        let menu = JSON.parse(sessionStorage.getItem('menuItems'))  //字符串转换为对象
         this.currentPage = this.$route.name
-        menu.map(item => {
-          if (!item.meta.hasOwnProperty('refreshShow')) {
-            list.push(item)
-          }
-        })
-        return list
+        //首次进入页面， menu 为空，直接显示后端返回的菜单路由；
+        //当 menu 有值后，显示 sessionStorage 保存的菜单路由，防止页面刷新菜单消失
+        if(menu != null){
+          menu.map(item => {
+            if (!item.meta.hasOwnProperty('refreshShow')) {
+              list.push(item)
+            }
+          })
+          return list
+        }else {
+          this.getRouterFun()
+          return this.menuItemsInit
+        }
+
       },
       // 需要缓存的路由
       keepAliveData() {
@@ -287,15 +292,20 @@
       // 由于iView的导航菜单比较坑 只能设定一个name参数
       // 所以需要在这定义组件名称和标签栏标题的映射表 有多少个页面就有多少个映射条数
       nameToTitle() {
-        const obj = {}
-        this.menuItems.forEach(e => {
-          this.processNameToTitle(obj, e)
-        })
 
-        return obj
       },
     },
     methods: {
+      getRouterFun(){
+        getRes({roleId: sessionStorage.getItem('roleId')}).then(res => {
+          let menuItems = res.data.menuItems
+          console.log('menu',menuItems)
+          this.menuItemsInit = menuItems
+
+        }).catch(err => {
+          console.log('get res fail',err)
+        })
+      },
       getIcon(type) {
         return this.iconClass + type
       },
@@ -309,8 +319,8 @@
       },
       // 用户操作
       userOperate(name) {
-        let checked = localStorage.getItem('userType') == userType.platform
-        let userId = checked ? localStorage.getItem('userId'): localStorage.getItem('vendorId')
+        let checked = sessionStorage.getItem('userType') == userType.platform
+        let userId = checked ? sessionStorage.getItem('userId'): sessionStorage.getItem('vendorId')
         switch (name) {
           case '1':
             // 个人中心
@@ -369,7 +379,7 @@
       // 菜单栏改变事件
       menuChange(data) {
         console.log('菜单栏改变事件', data)
-        localStorage.setItem('openMenus', JSON.stringify(data))
+        sessionStorage.setItem('openMenus', JSON.stringify(data))
       },
       processNameToTitle(obj, data, text) {
         if (data.name) {
@@ -384,11 +394,11 @@
 
       },
       logout(id) {
-        let checked = localStorage.getItem('userType') == userType.platform
+        let checked = sessionStorage.getItem('userType') == userType.platform
         let params = checked ? {userId: id} : {vendorId: id}
         postLogout(params).then(res => {
           // 退出登陆 清除用户资料
-          localStorage.clear()
+          sessionStorage.clear()
           this.$router.replace({name: 'login'})
         }).catch(err => {
           this.$Message.error({

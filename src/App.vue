@@ -8,9 +8,9 @@
   export default {
     name: 'App',
     mounted(){
-      if(this.$route.path == '/login'){
-        localStorage.clear()
-      }
+
+    },
+    methods: {
     }
   }
 </script>

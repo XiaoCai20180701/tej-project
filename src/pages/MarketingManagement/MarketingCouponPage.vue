@@ -72,7 +72,7 @@
     },
     computed: {
       show(){
-        let checked = localStorage.getItem('userType') == userType.platform
+        let checked = sessionStorage.getItem('userType') == userType.platform
         return checked ? true : false
       }
     },
@@ -142,7 +142,7 @@
           if (res.code != 200) {
             this.$Message.warning(res.msg)
             if (res.code === 9998) {
-              localStorage.clear()
+              sessionStorage.clear()
               this.$router.push({path: '/login'})
             }
             return
@@ -157,14 +157,14 @@
         let params = {
           page: this.page.index,
           pageSize: this.page.size,
-          vendorId: this.vendorId || localStorage.getItem('vendorId')
+          vendorId: this.vendorId || sessionStorage.getItem('vendorId')
         }
         this.showLoading = true
         postCouponList(params).then(res => {
           if (res.code != 200) {
             this.$Message.warning(res.msg)
             if (res.code === 9998) {
-              localStorage.clear()
+              sessionStorage.clear()
               this.$router.push({path: '/login'})
             }
             return
