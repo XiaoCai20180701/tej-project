@@ -3,164 +3,115 @@
     <!-- PC端海报 -->
     <div class="tej-front-management-item">
       <h3 class="title">PC端</h3>
-      <Form :model="pcForm" label-position="right" :label-width="100">
-        <FormItem label="轮播海报01">
-          <Row>
-            <i-col :xs="24" :sm="24" :md="10" :lg="10">
-              <Input v-model="pcForm.poster1" placeholder="轮播图链接" clearable/>
-            </i-col>
-            <i-col :xs="24" :sm="24" :md="2" :lg="2">
-              <Upload :action="actionUrl"
-                      :show-upload-list="false"
-                      :headers="fileHeaders"
-                      :on-success="handlePosterOneSuccess"
-                      style="display: inline-block;cursor: pointer"
-              >
-                <a class="btn-txt">上传</a>
-              </Upload>
-              <a :href="pcForm.poster1" target="_blank">预览</a>
-              <span class="line">—</span>
-            </i-col>
-            <i-col :xs="24" :sm="24" :md="10" :lg="10">
-              <Input v-model="pcForm.product1" placeholder="商品链接" clearable/>
-            </i-col>
-            <i-col :xs="24" :sm="24" :md="2" :lg="2">
-              <a class="btn-txt" @click="openProduct(pcForm.id1,pcForm.poster1)">添加</a>
-            </i-col>
-          </Row>
-        </FormItem>
-        <FormItem label="轮播海报02">
-          <Row>
-            <i-col :xs="24" :sm="24" :md="10" :lg="10">
-              <Input v-model="pcForm.poster2" placeholder="轮播图链接" clearable/>
-            </i-col>
-            <i-col :xs="24" :sm="24" :md="2" :lg="2">
-              <Upload :action="actionUrl"
-                      :show-upload-list="false"
-                      :headers="fileHeaders"
-                      :on-success="handlePosterTwoSuccess"
-                      style="display: inline-block;cursor: pointer"
-              >
-                <a class="btn-txt">上传</a>
-              </Upload>
-              <a :href="pcForm.poster2" target="_blank">预览</a>
-              <span class="line">—</span>
-            </i-col>
-            <i-col :xs="24" :sm="24" :md="10" :lg="10">
-              <Input v-model="pcForm.product2" placeholder="商品链接" clearable/>
-            </i-col>
-            <i-col :xs="24" :sm="24" :md="2" :lg="2">
-              <a class="btn-txt" @click="openProduct(pcForm.id2,pcForm.poster2)">添加</a>
-            </i-col>
-          </Row>
-        </FormItem>
-        <FormItem label="轮播海报03">
-          <Row>
-            <i-col :xs="24" :sm="24" :md="10" :lg="10">
-              <Input v-model="pcForm.poster3" placeholder="轮播图链接" clearable/>
-            </i-col>
-            <i-col :xs="24" :sm="24" :md="2" :lg="2">
-              <Upload :action="actionUrl"
-                      :show-upload-list="false"
-                      :headers="fileHeaders"
-                      :on-success="handlePosterThreeSuccess"
-                      style="display: inline-block;cursor: pointer"
-              >
-                <a class="btn-txt">上传</a>
-              </Upload>
-              <a :href="pcForm.poster3" target="_blank">预览</a>
-              <span class="line">—</span>
-            </i-col>
-            <i-col :xs="24" :sm="24" :md="10" :lg="10">
-              <Input v-model="pcForm.product3" placeholder="商品链接" clearable/>
-            </i-col>
-            <i-col :xs="24" :sm="24" :md="2" :lg="2">
-              <a class="btn-txt" @click="openProduct(pcForm.id3,pcForm.poster3)">添加</a>
-            </i-col>
-          </Row>
-        </FormItem>
-      </Form>
+      <div>
+        <p class="subtitle">轮播海报(注：尺寸 1920px * 380px)</p>
+        <Form label-position="right" :label-width="100">
+          <div v-for="(item, index) in formList">
+            <FormItem :label="getTitle(item.id)">
+              <Row>
+                <i-col :xs="24" :sm="24" :md="10" :lg="10">
+                  <Input v-model="item.poster == '' ? item.poster : $IMG_URL + item.poster" placeholder="轮播图链接"
+                         clearable/>
+                </i-col>
+                <i-col :xs="24" :sm="24" :md="2" :lg="2">
+                  <Upload :action="actionUrl"
+                          :show-upload-list="false"
+                          :headers="fileHeaders"
+                          :on-success="(value) => handleSuccess(item,index, value) "
+                          :before-upload="(value) => handleBeforeUpload('pc',value)"
+                          style="display: inline-block;cursor: pointer"
+                  >
+                    <a class="btn-txt">上传</a>
+                  </Upload>
+                  <a :href="$IMG_URL + item.poster" target="_blank">预览</a>
+                  <span class="line">—</span>
+                </i-col>
+                <i-col :xs="24" :sm="24" :md="10" :lg="10">
+                  <Input v-model="item.link" placeholder="商品链接" clearable/>
+                </i-col>
+                <i-col :xs="24" :sm="24" :md="2" :lg="2">
+                  <a class="btn-txt" @click="openProductModal(item)">{{getAddText(item.link)}}</a>
+                </i-col>
+              </Row>
+            </FormItem>
+          </div>
+        </Form>
+      </div>
+      <div>
+        <p class="subtitle">小海报(注：尺寸 970px * 380px)</p>
+        <Form label-position="right" :label-width="100">
+          <div v-for="(item, index) in smallFormList">
+            <FormItem :label="getSmallTitle(item.id)">
+              <Row>
+                <i-col :xs="24" :sm="24" :md="10" :lg="10">
+                  <Input v-model="item.poster == '' ? item.poster : $IMG_URL + item.poster" placeholder="小海报链接"
+                         clearable/>
+                </i-col>
+                <i-col :xs="24" :sm="24" :md="2" :lg="2">
+                  <Upload :action="actionUrl"
+                          :show-upload-list="false"
+                          :headers="fileHeaders"
+                          :on-success="(value) => handleSuccess(item,index, value) "
+                          :before-upload="(value) => handleBeforeUpload('small',value)"
+                          style="display: inline-block;cursor: pointer"
+                  >
+                    <a class="btn-txt">上传</a>
+                  </Upload>
+                  <a :href="$IMG_URL + item.poster" target="_blank">预览</a>
+                  <span class="line">—</span>
+                </i-col>
+                <i-col :xs="24" :sm="24" :md="10" :lg="10">
+                  <Input v-model="item.link" placeholder="商品链接" clearable/>
+                </i-col>
+                <i-col :xs="24" :sm="24" :md="2" :lg="2">
+                  <a class="btn-txt" @click="openProductModal(item)">{{getAddText(item.link)}}</a>
+                </i-col>
+              </Row>
+            </FormItem>
+          </div>
+          <FormItem>
+            <Button type="primary" icon="ios-add" @click="handleAdd">新增</Button>
+          </FormItem>
+        </Form>
+      </div>
     </div>
     <!-- 移动端海报 -->
     <div class="tej-front-management-item">
       <h3 class="title">移动端</h3>
-      <Form :model="mobileForm" label-position="right" :label-width="100">
-        <FormItem label="轮播海报01">
-          <Row>
-            <i-col :xs="24" :sm="24" :md="10" :lg="10">
-              <Input v-model="mobileForm.poster1" placeholder="轮播图链接" clearable/>
-            </i-col>
-            <i-col :xs="24" :sm="24" :md="2" :lg="2">
-              <Upload :action="actionUrl"
-                      :show-upload-list="false"
-                      :headers="fileHeaders"
-                      :on-success="handleMPosterOneSuccess"
-                      style="display: inline-block;cursor: pointer"
-              >
-                <a class="btn-txt">上传</a>
-              </Upload>
-              <a :href="mobileForm.poster1" target="_blank">预览</a>
-              <span class="line">—</span>
-            </i-col>
-            <i-col :xs="24" :sm="24" :md="10" :lg="10">
-              <Input v-model="mobileForm.product1" placeholder="商品链接" clearable/>
-            </i-col>
-            <i-col :xs="24" :sm="24" :md="2" :lg="2">
-              <a class="btn-txt" @click="openProduct(mobileForm.id1,mobileForm.poster1)">添加</a>
-            </i-col>
-          </Row>
-        </FormItem>
-        <FormItem label="轮播海报02">
-          <Row>
-            <i-col :xs="24" :sm="24" :md="10" :lg="10">
-              <Input v-model="mobileForm.poster2" placeholder="轮播图链接" clearable/>
-            </i-col>
-            <i-col :xs="24" :sm="24" :md="2" :lg="2">
-              <Upload :action="actionUrl"
-                      :show-upload-list="false"
-                      :headers="fileHeaders"
-                      :on-success="handleMPosterTwoSuccess"
-                      style="display: inline-block;cursor: pointer"
-              >
-                <a class="btn-txt">上传</a>
-              </Upload>
-              <a :href="mobileForm.poster2" target="_blank">预览</a>
-              <span class="line">—</span>
-            </i-col>
-            <i-col :xs="24" :sm="24" :md="10" :lg="10">
-              <Input v-model="mobileForm.product2" placeholder="商品链接" clearable/>
-            </i-col>
-            <i-col :xs="24" :sm="24" :md="2" :lg="2">
-              <a class="btn-txt" @click="openProduct(mobileForm.id2,mobileForm.poster2)">添加</a>
-            </i-col>
-          </Row>
-        </FormItem>
-        <FormItem label="轮播海报03">
-          <Row>
-            <i-col :xs="24" :sm="24" :md="10" :lg="10">
-              <Input v-model="mobileForm.poster3" placeholder="轮播图链接" clearable/>
-            </i-col>
-            <i-col :xs="24" :sm="24" :md="2" :lg="2">
-              <Upload :action="actionUrl"
-                      :show-upload-list="false"
-                      :headers="fileHeaders"
-                      :on-success="handleMPosterThreeSuccess"
-                      style="display: inline-block;cursor: pointer"
-              >
-                <a class="btn-txt">上传</a>
-              </Upload>
-              <a :href="mobileForm.poster3" target="_blank">预览</a>
-              <span class="line">—</span>
-            </i-col>
-            <i-col :xs="24" :sm="24" :md="10" :lg="10">
-              <Input v-model="mobileForm.product3" placeholder="商品链接" clearable/>
-            </i-col>
-            <i-col :xs="24" :sm="24" :md="2" :lg="2">
-              <a class="btn-txt" @click="openProduct(mobileForm.id3,mobileForm.poster3)">添加</a>
-            </i-col>
-          </Row>
-        </FormItem>
-      </Form>
+      <div>
+        <p class="subtitle">轮播海报(注：尺寸 375px * 180px)</p>
+        <Form label-position="right" :label-width="100">
+          <div v-for="(item, index) in mobileFormList">
+            <FormItem :label="getTitle(index+1)">
+              <Row>
+                <i-col :xs="24" :sm="24" :md="10" :lg="10">
+                  <Input v-model="item.poster == '' ? item.poster : $IMG_URL + item.poster" placeholder="轮播图链接"
+                         clearable/>
+                </i-col>
+                <i-col :xs="24" :sm="24" :md="2" :lg="2">
+                  <Upload :action="actionUrl"
+                          :show-upload-list="false"
+                          :headers="fileHeaders"
+                          :on-success="(value) => handleSuccess(item,index, value) "
+                          :before-upload="(value) => handleBeforeUpload('mobile',value)"
+                          style="display: inline-block;cursor: pointer"
+                  >
+                    <a class="btn-txt">上传</a>
+                  </Upload>
+                  <a :href="$IMG_URL +  item.poster" target="_blank">预览</a>
+                  <span class="line">—</span>
+                </i-col>
+                <i-col :xs="24" :sm="24" :md="10" :lg="10">
+                  <Input v-model="item.link" placeholder="商品链接" clearable/>
+                </i-col>
+                <i-col :xs="24" :sm="24" :md="2" :lg="2">
+                  <a class="btn-txt" @click="openProductModal(item)">{{getAddText(item.link)}}</a>
+                </i-col>
+              </Row>
+            </FormItem>
+          </div>
+        </Form>
+      </div>
     </div>
     <!-- 添加商品弹窗 -->
     <Modal
@@ -168,13 +119,14 @@
       title="商品列表"
       :width="modalWidth"
       :footer-hide="true"
-     >
+    >
       <div v-if="showModal">
         <FrontModal :show-loading="showLoading"
                     :columns-data="columnsData"
                     :table-data="tableData"
                     :page="page"
                     :id="posterId"
+                    :item="formItem"
                     @front-page-callback="frontPageCallback"
                     @front-pageSize-callback="frontPageSizeCallback"
                     @front-keywords-callback="frontKeywordsCallback"
@@ -187,13 +139,14 @@
 </template>
 
 <script>
-  import { getFrontList, postFrontProductList, putUpdateFront } from '@/api/api'
+  import {getFrontList, postFrontProductList, putUpdateFront} from '@/api/api'
   import FrontModal from './FrontModal'
-  import { frontProductTable } from '@/api/tableData'
+  import {frontProductTable} from '@/api/tableData'
+  import {checkImageWH} from '@/utils/utils'
 
   export default {
     name: 'FrontManagementPage',
-    components: { FrontModal },
+    components: {FrontModal},
     data() {
       return {
         actionUrl: this.$axios.defaults.baseURL + '/fileResource/uploadimg',
@@ -201,28 +154,7 @@
           'token': sessionStorage.getItem('token'),
           'Access-Control-Allow-Origin': '*'
         },
-        pcForm: {
-          poster1: '',
-          poster2: '',
-          poster3: '',
-          product1: '',
-          product2: '',
-          product3: '',
-          id1: null,
-          id2: null,
-          id3: null
-        },
-        mobileForm: {
-          poster1: '',
-          poster2: '',
-          poster3: '',
-          product1: '',
-          product2: '',
-          product3: '',
-          id1: null,
-          id2: null,
-          id3: null
-        },
+        formItem: {},
         showModal: false,
         modalWidth: 60,
         page: {
@@ -236,99 +168,107 @@
         keywords: '',
         posterId: null,
         productId: null,
-        posterLink: ''
+        formList: [],    //pc端轮播海报
+        smallFormList: [
+          {
+            id: '1',
+            poster: '',
+            link: '',
+          },
+        ],  //小海报
+        mobileFormList: [],  //移动端轮播海报
+        smallIndex: 1,  //小海报默认添加的个数
+        type: {
+          'pc': 0,
+          'mobile': 1,
+          'small': 2
+        }
       }
     },
-    mounted(){
+    computed: {
+      getTitle() {
+        return function (id) {
+          return '轮播海报 ' + id
+        }
+      },
+      getSmallTitle() {
+        return function (id) {
+          return '小海报 ' + id
+        }
+      },
+      getAddText() {
+        return function (link) {
+          return link == '' ? '添加' : '替换'
+        }
+      }
+    },
+    mounted() {
       this.getList()
     },
     methods: {
-      addProductCallback(productId){
-        this.productId = productId
-        this.updateFront(this.posterLink,this.$IMG_URL + productId,productId)
-        this.showModal = false
-        this.getProductLink(productId)
-      },
-      getProductLink(productId){
-        switch (this.posterId){
-          case 1:
-            this.pcForm.product1 = this.$IMG_URL + productId
+      handleBeforeUpload(type, file) {
+        console.log('type!!!!!', type)
+        let width, height
+        switch (type) {
+          case 'small':
+            width = 970
+            height = 380
             break
-          case 2:
-            this.pcForm.product2 = this.$IMG_URL + productId
+          case 'pc':
+            width = 1920
+            height = 380
             break
-          case 3:
-            this.pcForm.product3 = this.$IMG_URL + productId
-            break
-          case 4:
-            this.mobileForm.product1 = this.$IMG_URL + productId
-            break
-          case 5:
-            this.mobileForm.product2 = this.$IMG_URL + productId
-            break
-          case 6:
-            this.mobileForm.product3 = this.$IMG_URL + productId
-            break
+          default:
+            width = 375
+            height = 180
         }
+        return checkImageWH(file, width, height)
       },
-      frontPageCallback(page){
+      handleAdd() {
+        this.smallIndex++
+        console.log('smallIndex', this.smallIndex)
+        this.smallFormList.push({
+          id: this.smallIndex,
+          poster: '',
+          link: ''
+        })
+      },
+      handleSuccess(item, index, value) {
+        console.log('新方法', item, index, value)
+        item.poster = value.data[0].url
+        this.posterId = item.id
+        //保存 每一个formItem，以便于选择商品之后，每一个商品链接input的赋值
+        this.formItem = item
+      },
+      addProductCallback(item, productId) {
+        console.log('item 回调', item, productId)
+        this.productId = productId
+        this.updateFront(this.posterLink, this.$IMG_URL + productId, productId)
+        this.showModal = false
+        item.link = this.$IMG_URL + productId
+      },
+      frontPageCallback(page) {
         this.page = page
         this.getModalList()
       },
-      frontPageSizeCallback(page){
+      frontPageSizeCallback(page) {
         this.page = page
         this.getModalList()
       },
-      frontKeywordsCallback(keywords){
+      frontKeywordsCallback(keywords) {
         this.keywords = keywords
         this.getModalList()
       },
-      openProduct(id,posterLink){
-        this.posterId = id
+      openProductModal(item) {
+        this.posterId = item.id
         //截取字符串，只需要file/之后的文件路径 http://47.92.209.177/file/20190815/20190815143500040.jpg
-        this.posterLink = posterLink.split("file/")[1]
+        this.posterLink = item.poster.split("file/")[1]
         this.showModal = true
         this.columnsData = frontProductTable
         this.getModalList()
       },
-      handlePosterOneSuccess(res, file) {
-        let url = file.response.data[0].url
-        this.pcForm.poster1 = this.$IMG_URL + url
-        this.posterId = this.pcForm.id1
-        this.updateFront(this.$IMG_URL + url,this.$IMG_URL + this.productId,this.productId)
-      },
-      handlePosterTwoSuccess(res, file) {
-        let url = file.response.data[0].url
-        this.pcForm.poster2 = this.$IMG_URL + url
-        this.posterId = this.pcForm.id2
-        this.updateFront(this.$IMG_URL + url,this.$IMG_URL + this.productId,this.productId)
-      },
-      handlePosterThreeSuccess(res, file) {
-        let url = file.response.data[0].url
-        this.pcForm.poster3 = this.$IMG_URL + url
-        this.posterId = this.pcForm.id3
-        this.updateFront(this.$IMG_URL + url,this.$IMG_URL + this.productId,this.productId)
-      },
-      handleMPosterOneSuccess(res, file) {
-        let url = file.response.data[0].url
-        this.mobileForm.poster1 = this.$IMG_URL + url
-        this.posterId = this.mobileForm.id1
-        this.updateFront(this.$IMG_URL + url,this.$IMG_URL + this.productId,this.productId)
-      },
-      handleMPosterTwoSuccess(res, file) {
-        let url = file.response.data[0].url
-        this.mobileForm.poster2 = this.$IMG_URL + url
-        this.posterId = this.mobileForm.id2
-        this.updateFront(this.$IMG_URL + url,this.$IMG_URL + this.productId,this.productId)
-      },
-      handleMPosterThreeSuccess(res, file) {
-        let url = file.response.data[0].url
-        this.mobileForm.poster3 = this.$IMG_URL + url
-        this.posterId = this.mobileForm.id3
-        this.updateFront(this.$IMG_URL + url,this.$IMG_URL + this.productId,this.productId)
-      },
       //TODO productLink 前台商城写完之后需要改路径
-      updateFront(poster,productLink, productId){
+      updateFront(poster, productLink, productId) {
         let params = {
           id: this.posterId,
           poster: poster,
@@ -338,7 +278,7 @@
         putUpdateFront(params).then(res => {
           if (res.code != 200) {
             this.$Message.warning(res.msg)
-            if(res.code === 9998){
+            if (res.code === 9998) {
               sessionStorage.clear()
               this.$router.push({path: '/login'})
             }
@@ -349,7 +289,7 @@
           this.$Message.error('修改前台管理信息失败' + err)
         })
       },
-      getModalList(){
+      getModalList() {
         let params = {
           id: this.posterId,
           product: {
@@ -363,7 +303,7 @@
           this.showLoading = false
           if (res.code != 200) {
             this.$Message.warning(res.msg)
-            if(res.code === 9998){
+            if (res.code === 9998) {
               sessionStorage.clear()
               this.$router.push({path: '/login'})
             }
@@ -381,40 +321,21 @@
           this.$Message.error('获取前台管理商品列表失败' + err)
         })
       },
-      getList(){
+      getList() {
         getFrontList().then(res => {
           if (res.code != 200) {
             this.$Message.warning(res.msg)
-            if(res.code === 9998){
+            if (res.code === 9998) {
               sessionStorage.clear()
               this.$router.push({path: '/login'})
             }
             return
           }
-          console.log('获取前台管理',res.data)
+          console.log('获取前台管理', res.data)
           let data = res.data.list
-          this.pcForm ={
-            poster1: this.$IMG_URL + data[0].poster,
-            poster2: this.$IMG_URL + data[1].poster,
-            poster3: this.$IMG_URL + data[2].poster,
-            product1: data[0].link,
-            product2: data[1].link,
-            product3: data[2].link,
-            id1: data[0].id,
-            id2: data[1].id,
-            id3: data[2].id
-          }
-          this.mobileForm= {
-            poster1: this.$IMG_URL + data[3].poster,
-            poster2: this.$IMG_URL + data[4].poster,
-            poster3: this.$IMG_URL + data[5].poster,
-            product1: data[3].link,
-            product2: data[4].link,
-            product3: data[5].link,
-            id1: data[3].id,
-            id2: data[4].id,
-            id3: data[5].id
-          }
+          this.formList = data.filter((i, v) => i.type == this.type.pc)
+          this.smallFormList = this.smallFormList || data.filter((i, v) => i.type == this.type.small)
+          this.mobileFormList = data.filter((i, v) => i.type == this.type.mobile)
         }).catch(err => {
           this.$Message.error('获取前台管理列表失败')
         })
@@ -444,6 +365,11 @@
     display: inline-block;
     margin-left: 10px;
     color: #dcdee2;
+  }
+
+  .tej-front-management-item .subtitle {
+    padding-left: 15px;
+    margin-bottom: 20px;
   }
 </style>
 

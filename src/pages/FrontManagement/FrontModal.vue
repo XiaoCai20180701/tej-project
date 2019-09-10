@@ -10,7 +10,7 @@
     >
       <div slot="filter"></div>
       <template slot-scope="{ row, index }" slot="action-btn">
-        <a v-if="row.addStatus === status.notAdded"@click="add(row.id)">点击添加</a>
+        <a v-if="row.addStatus === status.notAdded"@click="add(item,row.id)">点击添加</a>
         <span class="cancel-txt" v-else>点击取消</span>
       </template>
     </TejTable>
@@ -27,7 +27,8 @@
       page: Object,
       tableData: Array,
       columnsData: Array,
-      showLoading: Boolean
+      showLoading: Boolean,
+      item: Object
     },
     data() {
       return {
@@ -38,9 +39,9 @@
 
     },
     methods: {
-      add(productId){
-        console.log('productId', productId)
-        this.$emit('add-product-callback',productId)
+      add(item,productId){
+        console.log('productId', item,productId)
+        this.$emit('add-product-callback',item,productId)
       },
       pageChange(page){
         this.$emit('front-page-callback',page)
