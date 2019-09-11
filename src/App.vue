@@ -101,4 +101,8 @@
   .ivu-tree-title {
     cursor: default !important;
   }
+
+  .ivu-table td {
+    line-height: 48px;
+  }
 </style>
