@@ -11,7 +11,7 @@
               <DataInfo :data="vendorDetail.trafficAndSales" :is-vendor="isVendor"></DataInfo>
             </i-col>
             <i-col span="12">
-              <EnvironmentImg :img-list="vendorDetail.vendorEnvironmentImg"></EnvironmentImg>
+              <EnvironmentImg :img-list="vendorDetail.environmentList"></EnvironmentImg>
             </i-col>
           </Row>
           <!-- 厂家版，显示搜索区域-->
