@@ -1,6 +1,8 @@
 <template>
   <!--<div id="tej-login">-->
   <div class="tej-login">
+
+    <Area />
     <div class="tej-login-bigbtngroup" v-if="!isLoginForm">
       <a class="btn" @click="vendorClick">厂家管理</a>
       <a class="btn" @click="platformClick">平台管理</a>
@@ -41,11 +43,13 @@
   import {menusToRoutes} from '@/utils/index'
   import {userType} from '@/api/tableData'
   import ForgetPassword from './ForgetPassword'
+  import Area from '@/components/area'
 
   export default {
     name: 'login',
     components: {
-      ForgetPassword
+      ForgetPassword,
+      Area
     },
     data() {
       const validatePhone = (rule, value, callback) => {

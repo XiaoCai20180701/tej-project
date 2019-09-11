@@ -238,11 +238,11 @@
         sessionStorage.setItem('crumbsList', JSON.stringify(this.crumbsList))
 
         //营销管理菜单显示
-        if(sessionStorage.getItem('userType') == userType.vendor && name == 'MarketingDiscountPage'){
-          this.menuItems[2].children[1].text = '商家折扣'
-        }else {
-          this.menuItems[2].children[1].text = '厂家折扣'
-        }
+//        if(sessionStorage.getItem('userType') == userType.vendor && name == 'MarketingDiscountPage'){
+//          this.menuItems[2].children[1].text = '商家折扣'
+//        }else {
+//          this.menuItems[2].children[1].text = '厂家折扣'
+//        }
         this.currentPage = name
         console.log('this.currentPage', name)
 
@@ -251,17 +251,17 @@
           return
         }
 
-        if (!this.keepAliveData.includes(name)) {
-          // 如果标签超过8个 则将第一个标签删除
-          if (this.tagsArry.length == 8) {
-            this.tagsArry.shift()
-          }
-          this.tagsArry.push({name, text: this.nameToTitle[name]})
-        }
-
-        setTimeout(() => {
-          this.crumbs = this.paths[name]
-        }, 0)
+//        if (!this.keepAliveData.includes(name)) {
+//          // 如果标签超过8个 则将第一个标签删除
+//          if (this.tagsArry.length == 8) {
+//            this.tagsArry.shift()
+//          }
+//          this.tagsArry.push({name, text: this.nameToTitle[name]})
+//        }
+//
+//        setTimeout(() => {
+//          this.crumbs = this.paths[name]
+//        }, 0)
       }
     },
     computed: {

@@ -277,9 +277,9 @@ export const notPassVendorTable = [
 ]
 
 /**
- * 厂家管理 => 厂家详情表格(平台)
+ * 厂家管理 => 厂家详情表格(厂家版)
  * */
-export const vendorPlatformTable = [
+export const vendorTable = [
   {
     'title': '编号',
     'key': 'productId'
@@ -290,28 +290,49 @@ export const vendorPlatformTable = [
   },
   {
     'title': '商品名称',
-    'key': 'name'
+    'key': 'name',
+    render: (h, params) => {
+      return  h('Tooltip', {
+          props: { placement: 'top-start', transfer: true },
+          style:{
+            width:'100%'
+          }
+        },[params.row.name,h('p',{
+          slot: 'content',
+          style: {
+            whiteSpace: 'normal'
+          }
+        },'访问量：' + params.row.access),
+          h('p',{
+            slot: 'content',
+            style: {
+              whiteSpace: 'normal'
+            }
+          },'销量：' + params.row.numberSale)
+        ]
+      )
+    }
   },
   {
     'title': '商品货号',
     'key': 'productNo'
   },
   {
-    'title': '零售价',
-    'key': 'priceSale'
+    'title': '零售价2222',
+    'key': 'priceSale',
   },
   {
     'title': '库存',
     'key': 'inventory'
   },
-  {
-    'title': '访问量',
-    'key': 'access'
-  },
-  {
-    'title': '销量',
-    'key': 'numberSale'
-  },
+  // {
+  //   'title': '访问量',
+  //   'key': 'access'
+  // },
+  // {
+  //   'title': '销量',
+  //   'key': 'numberSale'
+  // },
   {
     title: '操作',
     slot: 'action',
@@ -319,9 +340,9 @@ export const vendorPlatformTable = [
 ]
 
 /**
- * 厂家管理 => 厂家详情表格(厂家操作版)
+ * 厂家管理 => 厂家详情表格(平台)
  * */
-export const vendorTable = [
+export const vendorPlatformTable = [
   {
     'title': '商品货号',
     'key': 'productNo'
