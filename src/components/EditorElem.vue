@@ -29,8 +29,8 @@
         'token': sessionStorage.getItem('token')
       }
       this.editor.customConfig.zIndex = 2
-      this.editor.customConfig.uploadImgServer = this.$axios.defaults.baseURL + '/fileResource/uploadimg'
-      this.editor.customConfig.uploadFileName = 'file'
+      this.editor.customConfig.uploadImgServer = this.$axios.defaults.baseURL + '/fileResource/uploadImgMutil'
+      this.editor.customConfig.uploadFileName = 'files'
      this.editor.customConfig.uploadImgParams = {
        isEditor: 1 //1表示是编辑器，0表示普通的图片上传
       }
@@ -58,6 +58,7 @@
       // 下面是最重要的的方法
       this.editor.customConfig.uploadImgHooks = {
         before: function (xhr, editor, files) {
+          console.log('图片上传之前',xhr, editor, files)
           // 图片上传之前触发
           // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象，files 是选择的图片文件
 
@@ -99,10 +100,19 @@
 
           // 举例：假如上传图片成功后，服务器端返回的是 {url:'....'} 这种格式，即可这样插入图片：
         //  let url = Object.values(this.baseUrl + result.data)      // result.data就是服务器返回的图片名字和链接
-          let url = this.$IMG_URL + result.data
-          console.log('图片 customInsert url!!!!!',url)
+          console.log('result.data!!!!!!!!!!!!!!!!!!!!!!!!!!',result)
+        //  let url = this.$IMG_URL + result.data
+        //  console.log('图片 customInsert url!!!!!',url)
        //   JSON.stringify(url)    // 在这里转成JSON格式
-          insertImg(url)
+//          result.data.map(item => {
+//            console.log('item 图片', item)
+//            insertImg(this.$IMG_URL + item)
+//          })
+          for(let j=0;j<result.data.length;j++){
+            console.log('item 图片！！！！！！！！！',result.data[j])
+            insertImg(result.data[j])
+          }
+        //  insertImg(url)
           // result 必须是一个 JSON 格式字符串！！！否则报错
           console.log('图片 customInsert',result)
         }

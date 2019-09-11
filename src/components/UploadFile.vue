@@ -27,6 +27,7 @@
     multiple
     :action="actionUrl"
     :data = "uploadData"
+    :name = "uploadName"
     style="display: inline-block"
   >
     <div class="tej-upload-txt" ref="uploadTxt" v-if="!disabled">
@@ -65,7 +66,8 @@
     },
     data () {
       return {
-        actionUrl: this.$axios.defaults.baseURL + '/fileResource/uploadimg',
+      //  actionUrl: this.$axios.defaults.baseURL + '/fileResource/uploadimg',
+        actionUrl: this.$axios.defaults.baseURL + '/fileResource/uploadImgMutil',
         fileHeaders: {
           'token': sessionStorage.getItem('token'),
           'Access-Control-Allow-Origin': '*'
@@ -77,7 +79,8 @@
         list: [],
         uploadData: {
           isEditor: 0
-        }
+        },
+        uploadName: 'files'
       }
     },
     methods: {
