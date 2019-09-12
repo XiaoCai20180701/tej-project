@@ -159,6 +159,8 @@ export const postAddRole = (params) => post(USER_URL + 'addrole', params)  //新
 
 export const putModifyPassword = (params) => put(USER_URL + 'password/edit', params)  //修改密码
 
+export const putForget = (params) => put(USER_URL + 'password/forget', params)  //登录界面的忘记密码
+
 /**
  * 投诉管理相关的接口
  */
@@ -176,6 +178,8 @@ export const postFrontProductList = (params) => post(FRONT_URL + 'frontProductLi
 export const getFrontList = () => get(FRONT_URL + 'frontList')  //获取前台管理列表
 
 export const putUpdateFront = (params)=> put( FRONT_URL+ 'updateFront', params) //修改前台管理信息
+
+export const postAddSmall = (params) => post(FRONT_URL+ 'addPost', params)   //添加pc端小海报
 
 /**
  * 营销管理相关的接口
