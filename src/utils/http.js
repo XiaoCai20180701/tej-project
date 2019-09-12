@@ -4,7 +4,7 @@ import router from 'vue-router'
 import QS from 'qs'
 
 if (process.env.NODE_ENV == 'development') {
-  axios.defaults.baseURL = '/prod'
+  axios.defaults.baseURL = '/yz'
 } else if (process.env.NODE_ENV == 'production') {
   axios.defaults.baseURL = '/prod'
 }
@@ -18,7 +18,7 @@ axios.defaults.headers.post['Content-Type'] = 'application/json'
  */
 axios.interceptors.request.use(
   config => {
-    let token = localStorage.getItem('token')
+    let token = sessionStorage.getItem('token')
     if(token){
       config.headers.token = token
     }
@@ -44,12 +44,12 @@ axios.interceptors.response.use(
     if (err.response.status) {
       switch (err.response.data.code) {
         case 401:
-          localStorage.removeItem('token')
+          sessionStorage.removeItem('token')
           this.$router.push('/login')
           break
         case 403:
           Message({content: '登录过期，请重新登录', duration: 1000});
-          localStorage.removeItem('token');
+          sessionStorage.removeItem('token');
           setTimeout(() => {
             router.replace({
               path: '/login',

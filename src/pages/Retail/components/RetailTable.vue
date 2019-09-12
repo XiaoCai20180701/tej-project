@@ -7,18 +7,10 @@
       v-if="tableData.length >= 0"
     >
       <template slot-scope="{ row, index }" slot="action">
-        <a @click="showDetail(row.id)"
-           v-if="row.show == enable"
-        >查看详情</a>
-        <a @click="edit(row.id)"
-           v-else
-        >编辑商品</a>
-        <a style="margin-right: 5px" @click="setProductShow(row)">
-          {{row.show == enable ? '已启用': '未启用'}}
-        </a>
+        <a @click="showDetail(row.orderId)">查看订单详情</a>
       </template>
     </Table>
-    <div class="tej-page-box">
+    <div class="tej-page-box" v-if="tableData.length != 0">
       <Page
         :total="page.total"
         show-sizer
@@ -31,7 +23,6 @@
 </template>
 
 <script>
-  import { putProductDetail } from '@/api/api'
   export default {
     props: {
       columnsData: {
@@ -60,27 +51,9 @@
     },
     methods: {
       showDetail(id) {
-        this.$Message.info('跳转到前台页面', id)
-      },
-      edit(id){
         this.$router.push({
-          name: 'EditProductPage',
-          params: { productId: id,isEdit: true }
-        })
-      },
-      setProductShow(row){
-          row.show = !row.show
-        this.modifyProduct(row.id,row.show)
-      },
-      modifyProduct(id, show){
-        let params = {
-          productId: id,
-          productShow: show == true ? 1:0
-        }
-        putProductDetail(params).then(res => {
-          this.$Message.success('修改成功')
-        }).catch(err => {
-          this.$Message.error('修改商品状态失败! ' + err)
+          name: 'OrderDetailPage',
+          params: {orderId: id,page: 1,pageSize: 10}
         })
       },
       pageChange(i) {
@@ -143,6 +116,8 @@
     text-align: right;
   }
 </style>
+
+
 
 
 

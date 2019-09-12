@@ -64,8 +64,9 @@
         this.editPassword()
       },
       editPassword(){
+        let id = this.show ? { userId:sessionStorage.getItem('userId') } : {vendorId: sessionStorage.getItem('vendorId')}
         let params = {
-          userId: sessionStorage.getItem('userId'),
+          ...id,
           userType: sessionStorage.getItem('userType'),
           ...this.forgotPasswordInfo
         }

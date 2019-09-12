@@ -36,7 +36,7 @@
   import BaseInfo from '@/components/vendorRetail/BaseInfo'
   import DataInfo from '@/components/vendorRetail/DataInfo'
   import EnvironmentImg from '@/components/vendorRetail/EnvironmentImg'
-  import expandRow from '@/pages/OrderManagement/components/OrderItemExpand'
+  import expandRow from '@/pages/Order/components/OrderItemExpand'
 
   export default {
     name: 'CheckedDetailPage',

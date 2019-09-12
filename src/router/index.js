@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import EditProductPage from '@/pages/ProductManagement/EditProductPage.vue'
+import EditProductPage from '@/pages/Product/EditProductPage.vue'
 import AuditStatusPage from '@/components/vendorRetail/AuditStatusPage.vue'
-import CouponDetail from '@/pages/MarketingManagement/CouponDetail.vue'
+import CouponDetail from '@/pages/Marketing/CouponDetail.vue'
 
 Vue.use(Router)
 
@@ -15,7 +15,7 @@ const commonRoutes = [
   {
     path: '/OrderPrintPage/:orderDetail',
     name: 'OrderPrintPage',
-    component: () => import('@/pages/OrderManagement/OrderPrintPage.vue')
+    component: () => import('@/pages/Order/OrderPrintPage.vue')
   }
   // {
   //   path: '/',
@@ -39,7 +39,7 @@ export const asyncRoutes = {
         },
       ]
     },
-    component: () => import('@/pages/ProductManagement/ProductManagementPage.vue')
+    component: () => import('@/pages/Product/ProductManagementPage.vue')
   },
   'AddClassificationPage': {
     path: '/AddClassificationPage',
@@ -56,7 +56,7 @@ export const asyncRoutes = {
         }
       ]
     },
-    component: () => import('@/pages/ProductManagement/AddClassificationPage.vue')
+    component: () => import('@/pages/Product/AddClassificationPage.vue')
   },
   'AddProductPage': {
     path: '/AddProductPage',
@@ -73,7 +73,7 @@ export const asyncRoutes = {
         }
       ],
     },
-    component: () => import('@/pages/ProductManagement/AddProductPage.vue')
+    component: () => import('@/pages/Product/AddProductPage.vue')
   },
   'EditProductPage': {
     path: '/EditProductPage/:productId/:isEdit',
@@ -107,7 +107,7 @@ export const asyncRoutes = {
         }
       ]
     },
-    component: () => import('@/pages/OrderManagement/OrderDetailPage.vue')
+    component: () => import('@/pages/Order/OrderDetailPage.vue')
   },
   'NonPayment': {
     path: '/NonPayment',
@@ -124,7 +124,7 @@ export const asyncRoutes = {
         }
       ]
     },
-    component: () => import('@/pages/OrderManagement/NonPayment.vue')
+    component: () => import('@/pages/Order/NonPayment.vue')
   },
   'Unshipped': {
     path: '/Unshipped',
@@ -141,7 +141,7 @@ export const asyncRoutes = {
         }
       ],
     },
-    component: () => import('@/pages/OrderManagement/Unshipped.vue')
+    component: () => import('@/pages/Order/Unshipped.vue')
   },
   'Shipped': {
     path: '/Shipped',
@@ -158,7 +158,7 @@ export const asyncRoutes = {
         }
       ]
     },
-    component: () => import('@/pages/OrderManagement/Shipped.vue')
+    component: () => import('@/pages/Order/Shipped.vue')
   },
   'EvaluatedPage': {
     path: '/EvaluatedPage',
@@ -175,7 +175,7 @@ export const asyncRoutes = {
         }
       ]
     },
-    component: () => import('@/pages/OrderManagement/EvaluatedPage.vue')
+    component: () => import('@/pages/Order/EvaluatedPage.vue')
   },
   'WaittingPage': {
     path: '/WaittingPage',
@@ -192,7 +192,7 @@ export const asyncRoutes = {
         }
       ]
     },
-    component: () => import('@/pages/OrderManagement/WaittingPage.vue')
+    component: () => import('@/pages/Order/WaittingPage.vue')
   },
   'AfterProcessing': {
     path: '/AfterProcessing',
@@ -209,7 +209,7 @@ export const asyncRoutes = {
         }
       ]
     },
-    component: () => import('@/pages/OrderManagement/AfterProcessing.vue')
+    component: () => import('@/pages/Order/AfterProcessing.vue')
   },
   'ChangingRefundingPage': {
     path: '/ChangingRefundingPage',
@@ -226,7 +226,7 @@ export const asyncRoutes = {
         }
       ]
     },
-    component: () => import('@/pages/OrderManagement/ChangingRefundingPage.vue')
+    component: () => import('@/pages/Order/ChangingRefundingPage.vue')
   },
   'AllOrder': {
     path: '/AllOrder',
@@ -243,7 +243,7 @@ export const asyncRoutes = {
         }
       ]
     },
-    component: () => import('@/pages/OrderManagement/AllOrder.vue')
+    component: () => import('@/pages/Order/AllOrder.vue')
   },
   'UnCheckedVendorPage': {
     path: '/UnCheckedVendorPage',
@@ -260,7 +260,7 @@ export const asyncRoutes = {
         }
       ]
     },
-    component: () => import('@/pages/VendorManagement/UnCheckedVendorPage.vue')
+    component: () => import('@/pages/Vendor/UnCheckedVendorPage.vue')
   },
   'NotPassVendorPage': {
     path: '/NotPassVendorPage',
@@ -277,7 +277,7 @@ export const asyncRoutes = {
         }
       ]
     },
-    component: () => import('@/pages/VendorManagement/NotPassVendorPage.vue')
+    component: () => import('@/pages/Vendor/NotPassVendorPage.vue')
   },
   'CheckedVendorPage': {
     path: '/CheckedVendorPage',
@@ -294,7 +294,7 @@ export const asyncRoutes = {
         }
       ]
     },
-    component: () => import('@/pages/VendorManagement/CheckedVendorPage.vue')
+    component: () => import('@/pages/Vendor/CheckedVendorPage.vue')
   },
   'CheckedVendorDetailPage': {
     path: '/CheckedVendorDetailPage/:vendorId',
@@ -315,7 +315,7 @@ export const asyncRoutes = {
         }
       ]
     },
-    component: () => import('@/pages/VendorManagement/CheckedVendorDetailPage.vue')
+    component: () => import('@/pages/Vendor/CheckedVendorDetailPage.vue')
   },
   'EditVendorPage': {
     path: '/EditVendorPage/:vendorId/:isEdit',
@@ -332,7 +332,7 @@ export const asyncRoutes = {
         }
       ]
     },
-    component: () => import('@/pages/VendorManagement/EditVendorPage.vue')
+    component: () => import('@/pages/Vendor/EditVendorPage.vue')
   },
   'DataManagementPage': {
     path: '/DataManagementPage',
@@ -358,7 +358,7 @@ export const asyncRoutes = {
         }
       ]
     },
-    component: () => import('@/pages/AccountManagement/AccountManagementPage.vue')
+    component: () => import('@/pages/Account/AccountManagementPage.vue')
   },
   'AccountDetailPage': {
     path: '/AccountDetailPage/:userId/:isDetail',
@@ -375,7 +375,7 @@ export const asyncRoutes = {
         }
       ],
     },
-    component: () => import('@/pages/AccountManagement/AccountDetailPage.vue')
+    component: () => import('@/pages/Account/AccountDetailPage.vue')
   },
   'AccountAddPage': {
     path: '/AccountAddPage',
@@ -392,7 +392,7 @@ export const asyncRoutes = {
         }
       ],
     },
-    component: () => import('@/pages/AccountManagement/AccountAddPage.vue')
+    component: () => import('@/pages/Account/AccountAddPage.vue')
   },
   'AccountCenterPage': {
     path: '/AccountCenterPage/:userId/:isDetail',
@@ -409,7 +409,7 @@ export const asyncRoutes = {
         }
       ],
     },
-    component: () => import('@/pages/AccountManagement/AccountCenterPage.vue')
+    component: () => import('@/pages/Account/AccountCenterPage.vue')
   },
   'CheckedPage': {
     path: '/CheckedPage',
@@ -426,7 +426,7 @@ export const asyncRoutes = {
         }
       ]
     },
-    component: () => import('@/pages/RetailManagement/CheckedPage.vue')
+    component: () => import('@/pages/Retail/CheckedPage.vue')
   },
   'CheckedDetailPage': {
     path: '/CheckedDetailPage/:retailId',
@@ -447,7 +447,7 @@ export const asyncRoutes = {
         }
       ]
     },
-    component: () => import('@/pages/RetailManagement/CheckedDetailPage.vue')
+    component: () => import('@/pages/Retail/CheckedDetailPage.vue')
   },
   'UnCheckedPage': {
     path: '/UnCheckedPage',
@@ -464,7 +464,7 @@ export const asyncRoutes = {
         },
       ]
     },
-    component: () => import('@/pages/RetailManagement/UnCheckedPage.vue')
+    component: () => import('@/pages/Retail/UnCheckedPage.vue')
   },
   'NotPassPage': {
     path: '/NotPassPage',
@@ -481,7 +481,7 @@ export const asyncRoutes = {
         },
       ]
     },
-    component: () => import('@/pages/RetailManagement/NotPassPage.vue')
+    component: () => import('@/pages/Retail/NotPassPage.vue')
   },
   'AuditStatusPage': {
     path: '/AuditStatusPage/:id/:isVendor/:isAudit',
@@ -519,7 +519,7 @@ export const asyncRoutes = {
         },
       ]
     },
-    component: () => import('@/pages/ComplaintManagement/PlatformPage.vue')
+    component: () => import('@/pages/Complaint/PlatformPage.vue')
   },
   'ProductPage': {
     path: '/ProductPage',
@@ -536,7 +536,7 @@ export const asyncRoutes = {
         }
       ]
     },
-    component: () => import('@/pages/ComplaintManagement/ProductPage.vue')
+    component: () => import('@/pages/Complaint/ProductPage.vue')
   },
   'ServicePage': {
     path: '/ServicePage',
@@ -553,7 +553,7 @@ export const asyncRoutes = {
         }
       ]
     },
-    component: () => import('@/pages/ComplaintManagement/ServicePage.vue')
+    component: () => import('@/pages/Complaint/ServicePage.vue')
   },
   'FrontManagementPage': {
     path: '/FrontManagementPage',
@@ -566,7 +566,7 @@ export const asyncRoutes = {
         }
       ]
     },
-    component: () => import('@/pages/FrontManagement/FrontManagementPage.vue')
+    component: () => import('@/pages/Front/FrontManagementPage.vue')
   },
   'MarketingCouponPage': {
     path: '/MarketingCouponPage',
@@ -583,7 +583,7 @@ export const asyncRoutes = {
         }
       ]
     },
-    component: () => import('@/pages/MarketingManagement/MarketingCouponPage.vue')
+    component: () => import('@/pages/Marketing/MarketingCouponPage.vue')
   },
   'AddCoupon': {
     path: '/AddCoupon',
@@ -604,7 +604,7 @@ export const asyncRoutes = {
         }
       ]
     },
-    component: () => import('@/pages/MarketingManagement/AddCoupon.vue')
+    component: () => import('@/pages/Marketing/AddCoupon.vue')
   },
   'AddDiscount': {
     path: '/AddDiscount',
@@ -625,7 +625,7 @@ export const asyncRoutes = {
         }
       ]
     },
-    component: () => import('@/pages/MarketingManagement/AddDiscount.vue')
+    component: () => import('@/pages/Marketing/AddDiscount.vue')
   },
   'CouponDetail': {
     path: '/CouponDetail/:couponId',
@@ -663,7 +663,7 @@ export const asyncRoutes = {
         }
       ]
     },
-    component: () => import('@/pages/MarketingManagement/MarketingDiscountPage.vue')
+    component: () => import('@/pages/Marketing/MarketingDiscountPage.vue')
   },
   'password': {
     path: '/password',

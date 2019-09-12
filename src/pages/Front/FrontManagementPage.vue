@@ -17,7 +17,7 @@
                   <Upload :action="actionUrl"
                           :show-upload-list="false"
                           :headers="fileHeaders"
-                          :on-success="(value) => handleSuccess(item,index, value) "
+                          :on-success="(value) => handleSuccess('pc',item,index, value) "
                           :before-upload="(value) => handleBeforeUpload('pc',value)"
                           style="display: inline-block;cursor: pointer"
                   >
@@ -27,10 +27,10 @@
                   <span class="line">—</span>
                 </i-col>
                 <i-col :xs="24" :sm="24" :md="10" :lg="10">
-                  <Input v-model="item.link" placeholder="商品链接" clearable/>
+                  <Input v-model="item.productLink == '' ? item.productLink : $IMG_URL + item.productLink" placeholder="商品链接" clearable/>
                 </i-col>
                 <i-col :xs="24" :sm="24" :md="2" :lg="2">
-                  <a class="btn-txt" @click="openProductModal(item)">{{getAddText(item.link)}}</a>
+                  <a class="btn-txt" @click="openProductModal(item)">{{getAddText(item.productLink)}}</a>
                 </i-col>
               </Row>
             </FormItem>
@@ -41,7 +41,7 @@
         <p class="subtitle">小海报(注：尺寸 970px * 380px)</p>
         <Form label-position="right" :label-width="100">
           <div v-for="(item, index) in smallFormList">
-            <FormItem :label="getSmallTitle(item.id)">
+            <FormItem :label="getSmallTitle(item.sequenceNumber)">
               <Row>
                 <i-col :xs="24" :sm="24" :md="10" :lg="10">
                   <Input v-model="item.poster == '' ? item.poster : $IMG_URL + item.poster" placeholder="小海报链接"
@@ -51,7 +51,7 @@
                   <Upload :action="actionUrl"
                           :show-upload-list="false"
                           :headers="fileHeaders"
-                          :on-success="(value) => handleSuccess(item,index, value) "
+                          :on-success="(value) => handleSuccess('small',item,index, value) "
                           :before-upload="(value) => handleBeforeUpload('small',value)"
                           style="display: inline-block;cursor: pointer"
                   >
@@ -61,10 +61,10 @@
                   <span class="line">—</span>
                 </i-col>
                 <i-col :xs="24" :sm="24" :md="10" :lg="10">
-                  <Input v-model="item.link" placeholder="商品链接" clearable/>
+                  <Input v-model="item.productLink == '' ? item.productLink : $IMG_URL + item.productLink" placeholder="商品链接" clearable/>
                 </i-col>
                 <i-col :xs="24" :sm="24" :md="2" :lg="2">
-                  <a class="btn-txt" @click="openProductModal(item)">{{getAddText(item.link)}}</a>
+                  <a class="btn-txt" @click="openProductModal(item)">{{getAddText(item.productLink)}}</a>
                 </i-col>
               </Row>
             </FormItem>
@@ -92,7 +92,7 @@
                   <Upload :action="actionUrl"
                           :show-upload-list="false"
                           :headers="fileHeaders"
-                          :on-success="(value) => handleSuccess(item,index, value) "
+                          :on-success="(value) => handleSuccess('mobile',item,index, value) "
                           :before-upload="(value) => handleBeforeUpload('mobile',value)"
                           style="display: inline-block;cursor: pointer"
                   >
@@ -102,10 +102,10 @@
                   <span class="line">—</span>
                 </i-col>
                 <i-col :xs="24" :sm="24" :md="10" :lg="10">
-                  <Input v-model="item.link" placeholder="商品链接" clearable/>
+                  <Input v-model="item.productLink == '' ? item.productLink : $IMG_URL + item.productLink" placeholder="商品链接" clearable/>
                 </i-col>
                 <i-col :xs="24" :sm="24" :md="2" :lg="2">
-                  <a class="btn-txt" @click="openProductModal(item)">{{getAddText(item.link)}}</a>
+                  <a class="btn-txt" @click="openProductModal(item)">{{getAddText(item.productLink)}}</a>
                 </i-col>
               </Row>
             </FormItem>
@@ -139,7 +139,7 @@
 </template>
 
 <script>
-  import {getFrontList, postFrontProductList, putUpdateFront} from '@/api/api'
+  import {getFrontList, postFrontProductList, putUpdateFront, postAddSmall} from '@/api/api'
   import FrontModal from './FrontModal'
   import {frontProductTable} from '@/api/tableData'
   import {checkImageWH} from '@/utils/utils'
@@ -170,19 +170,21 @@
         productId: null,
         formList: [],    //pc端轮播海报
         smallFormList: [
-          {
-            id: '1',
-            poster: '',
-            link: '',
-          },
+//          {
+//            sequenceNumber: 1,
+//            poster: '',
+//            productLink: '',
+//          }
         ],  //小海报
         mobileFormList: [],  //移动端轮播海报
         smallIndex: 1,  //小海报默认添加的个数
+        sequenceNumber: 1,
         type: {
           'pc': 0,
           'mobile': 1,
           'small': 2
-        }
+        },
+        addType: null
       }
     },
     computed: {
@@ -197,8 +199,8 @@
         }
       },
       getAddText() {
-        return function (link) {
-          return link == '' ? '添加' : '替换'
+        return function (productLink) {
+          return productLink == '' ? '添加' : '替换'
         }
       }
     },
@@ -208,6 +210,7 @@
     methods: {
       handleBeforeUpload(type, file) {
         console.log('type!!!!!', type)
+        this.addType = type
         let width, height
         switch (type) {
           case 'small':
@@ -225,16 +228,20 @@
         return checkImageWH(file, width, height)
       },
       handleAdd() {
-        this.smallIndex++
+//        this.smallIndex++
+        console.log('this.smallFormList.length',this.smallFormList.length)
+        this.smallIndex = this.smallFormList.length
+        this.smallIndex ++
         console.log('smallIndex', this.smallIndex)
         this.smallFormList.push({
-          id: this.smallIndex,
+          sequenceNumber:  this.smallIndex,
           poster: '',
-          link: ''
+          productLink: ''
         })
       },
-      handleSuccess(item, index, value) {
+      handleSuccess(type,item, index, value) {
         console.log('新方法', item, index, value)
+        this.addType = type
         item.poster = value.data[0].url
         this.posterId = item.id
         //保存 每一个formItem，以便于选择商品之后，每一个商品链接input的赋值
@@ -243,9 +250,19 @@
       addProductCallback(item, productId) {
         console.log('item 回调', item, productId)
         this.productId = productId
-        this.updateFront(this.posterLink, this.$IMG_URL + productId, productId)
+       // this.updateFront(this.posterLink, this.$IMG_URL + productId, productId)
+        this.update(item, productId)
         this.showModal = false
-        item.link = this.$IMG_URL + productId
+        item.productLink = this.$IMG_URL + productId
+      },
+      update(item, productId){
+        console.log('update',item, productId)
+        console.log('this.addType!!!!',this.addType)
+        if(this.addType === 'small'){
+          this.addPoster(item.poster, productId, productId)
+        }else {
+          this.updateFront(this.posterLink, productId, productId)
+        }
       },
       frontPageCallback(page) {
         this.page = page
@@ -260,15 +277,40 @@
         this.getModalList()
       },
       openProductModal(item) {
-        this.posterId = item.id
+        this.posterId = item.id || item.sequenceNumber
         //截取字符串，只需要file/之后的文件路径 http://47.92.209.177/file/20190815/20190815143500040.jpg
         this.posterLink = item.poster.split("file/")[1]
         this.showModal = true
         this.columnsData = frontProductTable
         this.getModalList()
       },
+      addPoster(poster, productLink, productId){
+        console.log('addPoster',poster, productLink, productId)
+        //添加小海报
+        let params = {
+          sequenceNumber: this.posterId,
+          poster: poster,
+          productLink: productLink,
+          productId: productId,
+          type: this.type.small
+        }
+        postAddSmall(params).then(res => {
+          if (res.code != 200) {
+            this.$Message.warning(res.msg)
+            if (res.code === 9998) {
+              sessionStorage.clear()
+              this.$router.push({path: '/login'})
+            }
+            return
+          }
+          this.$Message.success('添加小海报成功')
+        }).catch(err => {
+          this.$Message.error('添加小海报失败' + err)
+        })
+      },
       //TODO productLink 前台商城写完之后需要改路径
       updateFront(poster, productLink, productId) {
+        console.log('updateFront',poster, productLink, productId)
         let params = {
           id: this.posterId,
           poster: poster,
@@ -334,7 +376,21 @@
           console.log('获取前台管理', res.data)
           let data = res.data.list
           this.formList = data.filter((i, v) => i.type == this.type.pc)
-          this.smallFormList = this.smallFormList || data.filter((i, v) => i.type == this.type.small)
+          let smallList = data.filter((i, v) => i.type == this.type.small)
+          if(smallList.length == 0){
+            console.log('初始')
+            this.smallFormList = [
+              {
+                sequenceNumber: 1,
+                poster: '',
+                productLink: '',
+              }
+            ]
+          }else {
+            console.log('有值')
+            this.smallFormList = data.filter((i, v) => i.type == this.type.small)
+          }
+          console.log('this.smallFormList',this.smallFormList.length)
           this.mobileFormList = data.filter((i, v) => i.type == this.type.mobile)
         }).catch(err => {
           this.$Message.error('获取前台管理列表失败')
