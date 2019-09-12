@@ -114,8 +114,8 @@ export const unCheckedRetailTable = [
   },
   {
     'title': '店铺商标',
-    'key': 'brandImg',
-    'slot': 'brandImg'
+    'key': 'trademarkImgList',
+    'slot': 'trademarkImgList'
   },
   {
     title: '操作',
@@ -237,8 +237,8 @@ export const unCheckedVendorTable = [
   },
   {
     'title': '品牌商标',
-    'key': 'brandImg',
-    'slot': 'brandImg'
+    'key': 'trademarkImgList',
+    'slot': 'trademarkImgList'
   },
   {
     title: '操作',
