@@ -75,8 +75,8 @@
         <template slot-scope="{ row }" slot="environmentImgList">
           <span>已上传</span><a class="tej-look-txt" @click="viewImgList(row.environmentImgList)">查看</a>
         </template>
-        <template slot-scope="{ row }" slot="brandImg">
-          <span>已上传</span><a class="tej-look-txt" @click="viewImg(row.brandImg)">查看</a>
+        <template slot-scope="{ row }" slot="trademarkImgList">
+          <span>已上传</span><a class="tej-look-txt" @click="viewImgList(row.trademarkImgList)">查看</a>
         </template>
         <template slot-scope="{ row, index }" slot="action">
           <!--<a style="margin-right: 5px" @click="showDetail(row)">查看详情</a>-->
@@ -208,7 +208,7 @@
               return h('div',imgList.map(item => {
                 return h('img',{
                   domProps: {
-                    src: this.$IMG_URL + item,
+                    src: this.$IMG_URL + item.url,
                     width: 200,
                     height: 200
                   }
