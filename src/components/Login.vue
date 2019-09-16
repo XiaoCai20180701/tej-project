@@ -2,7 +2,6 @@
   <!--<div id="tej-login">-->
   <div class="tej-login">
 
-    <Area />
     <div class="tej-login-bigbtngroup" v-if="!isLoginForm">
       <a class="btn" @click="vendorClick">厂家管理</a>
       <a class="btn" @click="platformClick">平台管理</a>
@@ -26,7 +25,7 @@
                  class="tej-modfiy-modal"
                  @on-ok="forgetOkFun"
           >
-            <ForgetPassword></ForgetPassword>
+            <ForgetPassword @forgot-password-callback="forgotPasswordCallback"></ForgetPassword>
           </Modal>
         </FormItem>
         <FormItem class="tej-login-btn">
@@ -39,7 +38,7 @@
 </template>
 
 <script>
-  import {login, vendorLogin} from '@/api/api'
+  import {login, vendorLogin, putForget} from '@/api/api'
   import {menusToRoutes} from '@/utils/index'
   import {userType} from '@/api/tableData'
   import ForgetPassword from './ForgetPassword'
@@ -82,7 +81,8 @@
             {type: 'string', min: 6, message: '密码长度不能小于6位', trigger: 'change'}
           ]
         },
-        forgetModal: false
+        forgetModal: false,
+        forgotPasswordInfo: {}
       }
     },
     created() {
@@ -104,8 +104,11 @@
       console.log('mmmmmmmmmmmm')
     },
     methods: {
+      forgotPasswordCallback(data){
+        this.forgotPasswordInfo = data
+      },
       forgetOkFun(){
-
+        this.handleForget()
       },
       returnClick(){
         this.isLoginForm = false
@@ -193,6 +196,19 @@
         // 动态添加路由
         console.log('yu2')
         this.$router.addRoutes(routes)
+      },
+      handleForget(){
+        let params = {
+          mobile: this.forgotPasswordInfo.phone,
+          passWord: this.$md5(this.forgotPasswordInfo.passWord),
+          userType: this.type,
+          code: this.forgotPasswordInfo.code
+        }
+        putForget(params).then(res => {
+          this.$Message.success('修改成功')
+        }).catch(err => {
+          this.$Message.error('修改密码失败')
+        })
       }
     }
   }
