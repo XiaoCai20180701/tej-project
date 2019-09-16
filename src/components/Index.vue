@@ -272,18 +272,17 @@
         this.currentPage = this.$route.name
         //首次进入页面， menu 为空，直接显示后端返回的菜单路由；
         //当 menu 有值后，显示 sessionStorage 保存的菜单路由，防止页面刷新菜单消失
-        if(menu != null){
+        if(menu == null){
+          this.getRouterFun()
+          return this.menuItemsInit
+        }else {
           menu.map(item => {
             if (!item.meta.hasOwnProperty('refreshShow')) {
               list.push(item)
             }
           })
           return list
-        }else {
-          this.getRouterFun()
-          return this.menuItemsInit
         }
-
       },
       // 需要缓存的路由
       keepAliveData() {
