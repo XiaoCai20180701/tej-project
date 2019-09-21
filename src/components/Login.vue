@@ -42,13 +42,11 @@
   import {menusToRoutes} from '@/utils/index'
   import {userType} from '@/api/tableData'
   import ForgetPassword from './ForgetPassword'
-  import Area from '@/components/area'
 
   export default {
     name: 'login',
     components: {
       ForgetPassword,
-      Area
     },
     data() {
       const validatePhone = (rule, value, callback) => {
