@@ -13,6 +13,8 @@ const STATISTICS_URL = '/statisticsResource/'
 const COMPLAINT_URL = '/complainResource/'
 const FRONT_URL = '/frontResource/'
 const MARKETING_URL = '/marketingResource/'
+const EXPRESSAGE_URL = '/expressageResource/'
+const ADMINISTRATIVE_URL = '/administrative/'
 
 
 /**
@@ -24,7 +26,7 @@ export const vendorLogin = (userName, passWord) => post(LOGIN_URL + 'login_vendo
 
 export const postLogout = (userId) => post(LOGIN_URL + 'logout', userId)  //退出登录
 
-export const postCode = (mobile) => post(LOGIN_URL + 'getcode',mobile) //获取忘记密码验证码
+export const postCode = (mobile) => post(LOGIN_URL + 'getcode/forget',mobile) //获取忘记密码验证码
 
 /**
  * 获取页面菜单权限接口
@@ -208,3 +210,20 @@ export const deleteDiscount = (params) => deleteAxios(MARKETING_URL + 'discount/
 
 export const postDiscountInfo = (params)=> get(MARKETING_URL + 'discount/info/' + params['productId'],params)  //获取商品折扣信息
 
+/**
+ * 物流管理相关的接口
+ */
+export const postExpressageList = (params) => post(EXPRESSAGE_URL + 'expressageList',params) //获取物流模板列表
+
+export const postAddExpressage = (params) => post(EXPRESSAGE_URL + 'addExpressage', params)  //添加物流模板
+
+export const deleteExpressage = (params) => deleteAxios(EXPRESSAGE_URL + 'deleteExpressage',params)  //删除物流模板
+
+export const putUpdateExpressage = (params) => put(EXPRESSAGE_URL + 'updateExpressage', params) //修改物流模板
+
+export const postExpressageDetail = (params) => post(EXPRESSAGE_URL+ 'expressageDetail',params)  //获取物流模板信息
+
+/**
+ * 行政管理相关的接口
+ */
+export const postAdministrativeList = (params) => post(ADMINISTRATIVE_URL + 'getAdministrativeList',params)   //获取市场部列表
