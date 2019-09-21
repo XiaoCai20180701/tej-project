@@ -1201,3 +1201,33 @@ export const shareType = {
   'notShare': 0,
   'share': 1
 }
+
+/**
+ * 行政管理
+ * */
+export const administrationTable = [
+  {
+    title: '手机号',
+    key: 'mobile'
+  },
+  {
+    title: '推广代表',
+    key: 'name'
+  },
+  {
+    title: '已邀请厂家数量',
+    key: 'vendorNum'
+  },
+  {
+    title: '已邀请商家数量',
+    key: 'ratailNum'
+  },
+  {
+    title: '团队排名',
+    key: 'ranking'
+  },
+  {
+    title: '操作',
+    slot: 'action'
+  }
+]
