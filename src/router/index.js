@@ -665,6 +665,66 @@ export const asyncRoutes = {
     },
     component: () => import('@/pages/Marketing/MarketingDiscountPage.vue')
   },
+  'LogisticsListPage': {
+    path: '/LogisticsListPage',
+    name: 'LogisticsListPage',
+    meta: {
+      breadcrumb: [
+        {
+          title: '物流管理',
+          to: '/LogisticsListPage'
+        },
+      ]
+    },
+    component: () => import('@/pages/Logistics/LogisticsListPage.vue')
+  },
+  'AddLogistics': {
+    path: '/AddLogistics',
+    name: 'AddLogistics',
+    meta: {
+      breadcrumb: [
+        {
+          title: '物流管理',
+          to: '/LogisticsListPage'
+        },
+        {
+          title: '新建物流模板',
+          to: '/AddLogistics'
+        },
+      ]
+    },
+    component: () => import('@/pages/Logistics/AddLogistics.vue')
+  },
+  'EditLogistics': {
+    path: '/EditLogistics',
+    name: 'EditLogistics',
+    meta: {
+      breadcrumb: [
+        {
+          title: '物流管理',
+          to: '/LogisticsListPage'
+        },
+        {
+          title: '修改物流模板',
+          to: '/EditLogistics'
+        },
+      ]
+    },
+    component: () => import('@/pages/Logistics/EditLogistics.vue')
+  },
+  'AdministrationPage': {
+    path: '/AdministrationPage',
+    name: 'AdministrationPage',
+    meta: {
+      breadcrumb: [
+        {
+          title: '行政管理',
+          to: '/AdministrationPage'
+        },
+      ]
+    },
+    component: () => import('@/pages/Administration/AdministrationPage.vue')
+  },
   'password': {
     path: '/password',
     name: 'password',

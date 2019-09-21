@@ -294,7 +294,38 @@ const frontRoutes = [
       refreshShow: false
     }
   },
-
+  {
+    name: 'LogisticsListPage',
+    type: 'icon-ditu',
+    text: '物流管理',
+    meta: {
+      requireAuth: false
+    },
+  },
+  {
+    name: 'AddLogistics',
+    type: 'icon-ditu',
+    text: '新增运费模板',
+    meta: {
+      refreshShow: false
+    }
+  },
+  {
+    name: 'EditLogistics',
+    type: 'icon-ditu',
+    text: '修改运费模板',
+    meta: {
+      refreshShow: false
+    }
+  },
+  {
+    name: 'AdministrationPage',
+    type: 'icon-zuzhiqunzu',
+    text: '行政管理',
+    meta: {
+      requireAuth: true
+    }
+  },
 ]
 
 export default frontRoutes
