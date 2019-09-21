@@ -135,7 +135,7 @@ export const areaData = {
       "text": "宁夏回族自治区"
     },
     {
-      "code": "640000",
+      "code": "650000",
       "text": "新疆维吾尔自治区"
     }
   ]
